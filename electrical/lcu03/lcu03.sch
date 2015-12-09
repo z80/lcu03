@@ -35,6 +35,7 @@ LIBS:stm32f103cbt6
 LIBS:my_comps
 LIBS:lb1930mc
 LIBS:a4985
+LIBS:ts881
 LIBS:lcu03-cache
 EELAYER 25 0
 EELAYER END
@@ -927,7 +928,7 @@ Text Label 3800 7200 0    60   ~ 0
 boot0
 Text Label 4200 7600 0    60   ~ 0
 boot1
-Text Label 3800 3500 0    60   ~ 0
+Text Label 3550 3500 0    60   ~ 0
 ~mcu-rst~
 Text Label 3300 4300 0    60   ~ 0
 clk-in
@@ -1897,8 +1898,6 @@ Wire Wire Line
 	21100 1500 20900 1500
 Wire Wire Line
 	20900 1500 20900 1300
-Text Label 20900 1400 1    60   ~ 0
-v+
 Wire Wire Line
 	21100 2300 20900 2300
 Wire Wire Line
@@ -1961,30 +1960,28 @@ $EndComp
 $Comp
 L CP C?
 U 1 1 5667DB4D
-P 20000 3900
-F 0 "C?" H 20025 4000 50  0000 L CNN
-F 1 "680u" H 20025 3800 50  0000 L CNN
-F 2 "Capacitors_ThroughHole:C_Radial_D10_L20_P5" H 20038 3750 30  0001 C CNN
-F 3 "" H 20000 3900 60  0000 C CNN
-	1    20000 3900
+P 18550 2800
+F 0 "C?" H 18575 2900 50  0000 L CNN
+F 1 "680u" H 18575 2700 50  0000 L CNN
+F 2 "Capacitors_ThroughHole:C_Radial_D10_L20_P5" H 18588 2650 30  0001 C CNN
+F 3 "" H 18550 2800 60  0000 C CNN
+	1    18550 2800
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	20000 3750 20000 3450
-Wire Wire Line
-	20000 4050 20000 4300
+	18550 2950 18550 3200
 $Comp
 L GND #PWR?
 U 1 1 5667E5F0
-P 20000 4300
-F 0 "#PWR?" H 20000 4050 50  0001 C CNN
-F 1 "GND" H 20000 4150 50  0000 C CNN
-F 2 "" H 20000 4300 50  0000 C CNN
-F 3 "" H 20000 4300 50  0000 C CNN
-	1    20000 4300
+P 18550 3200
+F 0 "#PWR?" H 18550 2950 50  0001 C CNN
+F 1 "GND" H 18550 3050 50  0000 C CNN
+F 2 "" H 18550 3200 50  0000 C CNN
+F 3 "" H 18550 3200 50  0000 C CNN
+	1    18550 3200
 	1    0    0    -1  
 $EndComp
-Text Label 20000 3550 1    60   ~ 0
+Text Label 18550 1850 1    60   ~ 0
 v+
 $Comp
 L R R?
@@ -2266,8 +2263,6 @@ Wire Wire Line
 	20950 4150 20750 4150
 Wire Wire Line
 	20750 4150 20750 3850
-Text Label 20750 3950 1    60   ~ 0
-v+
 Wire Wire Line
 	20950 4350 20550 4350
 Wire Wire Line
@@ -2335,8 +2330,6 @@ Wire Wire Line
 	23850 4150 23650 4150
 Wire Wire Line
 	23650 4150 23650 3850
-Text Label 23650 3950 1    60   ~ 0
-v+
 Wire Wire Line
 	23850 4350 23450 4350
 Wire Wire Line
@@ -2595,8 +2588,6 @@ F 3 "" H 20150 1900 50  0000 C CNN
 	1    20150 1900
 	1    0    0    -1  
 $EndComp
-Text Label 20150 1150 1    60   ~ 0
-v+
 $Comp
 L C C?
 U 1 1 5669B958
@@ -2608,4 +2599,236 @@ F 3 "" H 20150 1500 50  0000 C CNN
 	1    20150 1500
 	1    0    0    -1  
 $EndComp
+$Comp
+L ts881 U?
+U 1 1 566893D7
+P 15750 9450
+F 0 "U?" H 16000 9200 60  0000 C CNN
+F 1 "ts881" H 16050 9650 60  0000 C CNN
+F 2 "" H 15750 9450 60  0000 C CNN
+F 3 "" H 15750 9450 60  0000 C CNN
+	1    15750 9450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	15700 9000 15700 8800
+$Comp
+L VDD #PWR?
+U 1 1 5668CEC7
+P 15700 8800
+F 0 "#PWR?" H 15700 8650 50  0001 C CNN
+F 1 "VDD" H 15700 8950 50  0000 C CNN
+F 2 "" H 15700 8800 60  0000 C CNN
+F 3 "" H 15700 8800 60  0000 C CNN
+	1    15700 8800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	15700 9900 15700 10100
+$Comp
+L GND #PWR?
+U 1 1 5669179A
+P 15700 10100
+F 0 "#PWR?" H 15700 9850 50  0001 C CNN
+F 1 "GND" H 15700 9950 50  0000 C CNN
+F 2 "" H 15700 10100 50  0000 C CNN
+F 3 "" H 15700 10100 50  0000 C CNN
+	1    15700 10100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	16500 9450 17300 9450
+Text Label 16550 9450 0    60   ~ 0
+ext-power-flag
+Wire Wire Line
+	14200 9300 15250 9300
+Wire Wire Line
+	15250 9600 14950 9600
+$Comp
+L R R?
+U 1 1 56693C5F
+P 14200 9050
+F 0 "R?" V 14280 9050 50  0000 C CNN
+F 1 "47k 5%" V 14200 9050 50  0000 C CNN
+F 2 "" V 14130 9050 50  0000 C CNN
+F 3 "" H 14200 9050 50  0000 C CNN
+	1    14200 9050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	14200 9200 14200 9400
+Connection ~ 14200 9300
+$Comp
+L R R?
+U 1 1 56694212
+P 14200 9550
+F 0 "R?" V 14280 9550 50  0000 C CNN
+F 1 "33k 5%" V 14200 9550 50  0000 C CNN
+F 2 "" V 14130 9550 50  0000 C CNN
+F 3 "" H 14200 9550 50  0000 C CNN
+	1    14200 9550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	14200 9700 14200 9800
+$Comp
+L GND #PWR?
+U 1 1 566945BA
+P 14200 9800
+F 0 "#PWR?" H 14200 9550 50  0001 C CNN
+F 1 "GND" H 14200 9650 50  0000 C CNN
+F 2 "" H 14200 9800 50  0000 C CNN
+F 3 "" H 14200 9800 50  0000 C CNN
+	1    14200 9800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	14200 8650 14200 8900
+Text Label 14200 8850 1    60   ~ 0
+Vbus
+$Comp
+L R R?
+U 1 1 5669BB0A
+P 14950 9050
+F 0 "R?" V 15030 9050 50  0000 C CNN
+F 1 "33k 5%" V 14950 9050 50  0000 C CNN
+F 2 "" V 14880 9050 50  0000 C CNN
+F 3 "" H 14950 9050 50  0000 C CNN
+	1    14950 9050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	14950 9200 14950 9700
+$Comp
+L R R?
+U 1 1 5669BECD
+P 14950 9850
+F 0 "R?" V 15030 9850 50  0000 C CNN
+F 1 "33k 5%" V 14950 9850 50  0000 C CNN
+F 2 "" V 14880 9850 50  0000 C CNN
+F 3 "" H 14950 9850 50  0000 C CNN
+	1    14950 9850
+	1    0    0    -1  
+$EndComp
+Connection ~ 14950 9600
+Wire Wire Line
+	14950 10000 14950 10100
+$Comp
+L GND #PWR?
+U 1 1 5669C49C
+P 14950 10100
+F 0 "#PWR?" H 14950 9850 50  0001 C CNN
+F 1 "GND" H 14950 9950 50  0000 C CNN
+F 2 "" H 14950 10100 50  0000 C CNN
+F 3 "" H 14950 10100 50  0000 C CNN
+	1    14950 10100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	14950 8900 14950 8800
+$Comp
+L VDD #PWR?
+U 1 1 5669C834
+P 14950 8800
+F 0 "#PWR?" H 14950 8650 50  0001 C CNN
+F 1 "VDD" H 14950 8950 50  0000 C CNN
+F 2 "" H 14950 8800 60  0000 C CNN
+F 3 "" H 14950 8800 60  0000 C CNN
+	1    14950 8800
+	1    0    0    -1  
+$EndComp
+Wire Notes Line
+	15150 10150 15400 10750
+Text Notes 15000 10850 0    60   ~ 0
+Middle of 3.3V. E.i. 1.65V.
+Wire Notes Line
+	14050 9850 13700 10500
+Text Notes 13200 10700 0    60   ~ 0
+Voltage matches 1.65V \nwhen Vbus drops to 4V.
+$Comp
+L INDUCTOR L?
+U 1 1 566B3253
+P 18550 2250
+F 0 "L?" V 18500 2250 50  0000 C CNN
+F 1 "10uH" V 18650 2250 50  0000 C CNN
+F 2 "my-lib:my_inductance" H 18550 2250 60  0001 C CNN
+F 3 "" H 18550 2250 60  0000 C CNN
+	1    18550 2250
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	18550 1950 18550 1750
+Wire Wire Line
+	18550 2650 18550 2550
+Wire Wire Line
+	18550 2600 19150 2600
+Connection ~ 18550 2600
+Text Label 18750 2600 0    60   ~ 0
+Vmotors
+Text Label 20150 1250 1    60   ~ 0
+Vmotors
+Text Label 20900 1450 1    60   ~ 0
+Vmotors
+Text Label 20750 4100 1    60   ~ 0
+Vmotors
+Text Label 23650 4100 1    60   ~ 0
+Vmotors
+Text Notes 28300 4450 0    60   ~ 0
+Filtering capacitors are \nlocated on sensor PCBs.
+Wire Notes Line
+	28700 4600 27750 4850
+Wire Notes Line
+	28800 4550 29750 4850
+Text Label 9200 2600 0    60   ~ 0
+shutter-a
+Text Label 9200 2800 0    60   ~ 0
+shutter-b
+Text Label 9200 3400 0    60   ~ 0
+~enable~
+Text Label 9200 3600 0    60   ~ 0
+~reset~
+Text Label 9200 3800 0    60   ~ 0
+~sleep~
+Text Label 9200 4000 0    60   ~ 0
+~high-current~
+Text Label 9200 8300 0    60   ~ 0
+step1
+Text Label 9200 8500 0    60   ~ 0
+step2
+Text Label 9200 8700 0    60   ~ 0
+dir1
+Text Label 9200 8900 0    60   ~ 0
+dir2
+Text Label 9200 9100 0    60   ~ 0
+hall1
+Text Label 9200 9300 0    60   ~ 0
+hall2
+Text Label 9200 9500 0    60   ~ 0
+ext-power-flag
+Wire Wire Line
+	9150 2600 9650 2600
+Wire Wire Line
+	9150 2800 9650 2800
+Wire Wire Line
+	9150 3400 9500 3400
+Wire Wire Line
+	9150 3600 9500 3600
+Wire Wire Line
+	9150 3800 9500 3800
+Wire Wire Line
+	9150 4000 9800 4000
+Wire Wire Line
+	9150 8300 9450 8300
+Wire Wire Line
+	9150 8500 9450 8500
+Wire Wire Line
+	9150 8700 9450 8700
+Wire Wire Line
+	9150 8900 9450 8900
+Wire Wire Line
+	9150 9100 9450 9100
+Wire Wire Line
+	9150 9300 9450 9300
+Wire Wire Line
+	9150 9500 9950 9500
 $EndSCHEMATC

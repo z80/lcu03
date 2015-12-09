@@ -35,6 +35,7 @@ LIBS:stm32f103cbt6
 LIBS:my_comps
 LIBS:lb1930mc
 LIBS:a4985
+LIBS:ts881
 LIBS:lcu03-cache
 EELAYER 25 0
 EELAYER END
@@ -456,11 +457,11 @@ Text HLabel 3450 3550 0    60   Input ~ 0
 ~reset~
 Text HLabel 3600 3950 0    60   Input ~ 0
 ~sleep~
-Text HLabel 3600 4350 0    60   Input ~ 0
+Text HLabel 1000 4350 0    60   Input ~ 0
 step
 Text HLabel 3600 4550 0    60   Input ~ 0
 ref
-Text HLabel 5550 4350 2    60   Input ~ 0
+Text HLabel 1000 4600 0    60   Input ~ 0
 dir
 Text HLabel 5600 2550 2    60   Input ~ 0
 ~enable~
@@ -468,4 +469,46 @@ Wire Wire Line
 	3600 3950 4050 3950
 Wire Wire Line
 	5600 2550 5250 2550
+$Comp
+L R R?
+U 1 1 566C867B
+P 1350 4350
+F 0 "R?" V 1430 4350 50  0000 C CNN
+F 1 "100 5%" V 1350 4350 50  0000 C CNN
+F 2 "" V 1280 4350 50  0000 C CNN
+F 3 "" H 1350 4350 50  0000 C CNN
+	1    1350 4350
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	1500 4350 1800 4350
+Wire Wire Line
+	1200 4350 1000 4350
+Text Label 1600 4350 0    60   ~ 0
+step
+Text Label 3650 4350 0    60   ~ 0
+step
+$Comp
+L R R?
+U 1 1 566C8917
+P 1350 4600
+F 0 "R?" V 1430 4600 50  0000 C CNN
+F 1 "100 5%" V 1350 4600 50  0000 C CNN
+F 2 "" V 1280 4600 50  0000 C CNN
+F 3 "" H 1350 4600 50  0000 C CNN
+	1    1350 4600
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	1500 4600 1800 4600
+Wire Wire Line
+	1200 4600 1000 4600
+Text Label 1600 4600 0    60   ~ 0
+dir
+Text Label 5350 4350 0    60   ~ 0
+dir
+Wire Notes Line
+	1300 4050 1200 3150
+Text Notes 700  3100 0    60   ~ 0
+These two through resistors \nbecause these two are switched \nvery often and to resuce a chance \nof false triggering because of digital \nnoise.
 $EndSCHEMATC

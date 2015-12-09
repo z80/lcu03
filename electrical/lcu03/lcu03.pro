@@ -65,3 +65,4 @@ LibName33=stm32f103cbt6
 LibName34=my_comps
 LibName35=lb1930mc
 LibName36=a4985
+LibName37=ts881
