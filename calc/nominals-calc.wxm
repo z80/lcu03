@@ -1,0 +1,57 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+numer: true;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+i: 0.120;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+p: 0.1;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Rmax: p/i^2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+r: 1;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+eq: i = ref/(8*r);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+solve( [eq], [ref] );
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+refH: 0.96;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+refL: 0.3;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+rl: 10e3;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+eq1: refL = 3.3*(rl/(rh1 + rl));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+eq2: refH = 3.3*(rl/( 1/(1/rh1 + 1/rh2) + rl ));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+solve( [eq1, eq2], [rh1, rh2] );
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
