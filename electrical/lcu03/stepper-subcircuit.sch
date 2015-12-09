@@ -37,6 +37,7 @@ LIBS:lb1930mc
 LIBS:a4985
 LIBS:ts881
 LIBS:m24c02
+LIBS:stepper_conn
 LIBS:lcu03-cache
 EELAYER 25 0
 EELAYER END
@@ -414,19 +415,6 @@ Wire Wire Line
 	5250 4150 5600 4150
 Text Label 5350 4150 0    60   ~ 0
 out1b-1
-$Comp
-L CONN_01X04 P?
-U 1 1 5667C73C
-P 10050 3600
-AR Path="/5667C1E7/5667C73C" Ref="P?"  Part="1" 
-AR Path="/56687F5B/5667C73C" Ref="P?"  Part="1" 
-F 0 "P?" H 10050 3850 50  0000 C CNN
-F 1 "step" V 10150 3600 50  0000 C CNN
-F 2 "" H 10050 3600 50  0000 C CNN
-F 3 "" H 10050 3600 50  0000 C CNN
-	1    10050 3600
-	1    0    0    -1  
-$EndComp
 Text Label 9400 3650 0    60   ~ 0
 out2a-1
 Text Label 9400 3450 0    60   ~ 0
@@ -512,4 +500,45 @@ Wire Notes Line
 	1300 4050 1200 3150
 Text Notes 700  3100 0    60   ~ 0
 These two through resistors \nbecause these two are switched \nvery often and to resuce a chance \nof false triggering because of digital \nnoise.
+$Comp
+L stepper_conn P?
+U 1 1 5668FCA0
+P 10050 3600
+F 0 "P?" H 10100 3850 50  0000 C CNN
+F 1 "stepper_conn" V 10150 3500 50  0000 C CNN
+F 2 "" H 10050 3600 50  0000 C CNN
+F 3 "" H 10050 3600 50  0000 C CNN
+	1    10050 3600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10050 3200 10050 3100
+Wire Wire Line
+	10050 3100 10350 3100
+Wire Wire Line
+	10350 3100 10350 3200
+Wire Wire Line
+	10050 4000 10050 4100
+$Comp
+L GND #PWR?
+U 1 1 5668FCAB
+P 10050 4100
+F 0 "#PWR?" H 10050 3850 50  0001 C CNN
+F 1 "GND" H 10050 3950 50  0000 C CNN
+F 2 "" H 10050 4100 60  0000 C CNN
+F 3 "" H 10050 4100 60  0000 C CNN
+	1    10050 4100
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 5668FCB1
+P 10350 3200
+F 0 "#PWR?" H 10350 2950 50  0001 C CNN
+F 1 "GND" H 10350 3050 50  0000 C CNN
+F 2 "" H 10350 3200 60  0000 C CNN
+F 3 "" H 10350 3200 60  0000 C CNN
+	1    10350 3200
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC

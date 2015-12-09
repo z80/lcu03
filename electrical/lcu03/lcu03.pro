@@ -67,4 +67,5 @@ LibName35=lb1930mc
 LibName36=a4985
 LibName37=ts881
 LibName38=m24c02
+LibName39=stepper_conn
 
