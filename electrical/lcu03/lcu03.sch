@@ -1767,33 +1767,6 @@ Wire Notes Line
 Text Notes 11500 16350 0    59   ~ 0
 This diode prevents sucking \nvoltage back from here when \npower is off.
 $Comp
-L CP C17
-U 1 1 566AE216
-P 14300 17550
-F 0 "C17" H 14325 17650 50  0000 L CNN
-F 1 "680u" H 14325 17450 50  0000 L CNN
-F 2 "Capacitors_ThroughHole:C_Radial_D10_L20_P5" H 14338 17400 30  0001 C CNN
-F 3 "" H 14300 17550 60  0000 C CNN
-	1    14300 17550
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	14300 17400 14300 17200
-Connection ~ 14300 17200
-Wire Wire Line
-	14300 17700 14300 17800
-$Comp
-L GND #PWR049
-U 1 1 566AEB72
-P 14300 17800
-F 0 "#PWR049" H 14300 17550 50  0001 C CNN
-F 1 "GND" H 14300 17650 50  0000 C CNN
-F 2 "" H 14300 17800 60  0000 C CNN
-F 3 "" H 14300 17800 60  0000 C CNN
-	1    14300 17800
-	1    0    0    -1  
-$EndComp
-$Comp
 L R R15
 U 1 1 566B3D96
 P 13200 17400
