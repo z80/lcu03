@@ -291,7 +291,7 @@ F 3 "~" H 3950 20550 60  0000 C CNN
 $EndComp
 Text Notes 2600 18250 0    276  ~ 0
 USB scheme.
-Text Label 9650 4200 0    60   ~ 0
+Text Label 9650 7500 0    60   ~ 0
 suspend
 Text Label 9600 4600 0    60   ~ 0
 txd
@@ -821,9 +821,9 @@ Text Label 4150 6600 0    60   ~ 0
 gpio-0
 Text Label 9700 8100 0    60   ~ 0
 gpio-1
-Text Label 9700 7500 0    60   ~ 0
+Text Label 9700 4200 0    60   ~ 0
 gpio-2
-Text Label 9700 6950 0    60   ~ 0
+Text Label 9700 8900 0    60   ~ 0
 gpio-3
 Text Label 2700 12550 0    60   ~ 0
 tx-2
@@ -1138,7 +1138,7 @@ Wire Wire Line
 Wire Wire Line
 	2250 20850 1700 20850
 Wire Wire Line
-	2250 21050 1700 21050
+	1300 21050 2250 21050
 Wire Wire Line
 	2250 19450 1700 19450
 Wire Wire Line
@@ -1155,7 +1155,7 @@ Wire Wire Line
 Wire Wire Line
 	9150 4600 9750 4600
 Wire Wire Line
-	9150 4200 10050 4200
+	9150 7500 10050 7500
 Wire Wire Line
 	2250 21250 1700 21250
 Wire Wire Line
@@ -1234,9 +1234,9 @@ Wire Wire Line
 Wire Wire Line
 	9150 2300 10000 2300
 Wire Wire Line
-	9150 6950 10000 6950
+	9150 8900 10000 8900
 Wire Wire Line
-	9150 7500 10000 7500
+	9150 4200 10000 4200
 Wire Wire Line
 	9150 8100 10000 8100
 Wire Wire Line
@@ -2670,9 +2670,9 @@ Wire Notes Line
 	28800 4550 29750 4850
 Text Label 9200 2600 0    60   ~ 0
 shutter-a
-Text Label 9200 2800 0    60   ~ 0
+Text Label 9200 7150 0    60   ~ 0
 shutter-b
-Text Label 9200 3400 0    60   ~ 0
+Text Label 9200 8500 0    60   ~ 0
 ~enable~
 Text Label 9200 3600 0    60   ~ 0
 ~reset~
@@ -2680,13 +2680,13 @@ Text Label 9200 3800 0    60   ~ 0
 ~sleep~
 Text Label 9200 4000 0    60   ~ 0
 ~high-current~
-Text Label 9200 8300 0    60   ~ 0
+Text Label 9200 6950 0    60   ~ 0
 step1
-Text Label 9200 8500 0    60   ~ 0
+Text Label 9200 2800 0    60   ~ 0
 step2
 Text Label 9200 8700 0    60   ~ 0
 dir1
-Text Label 9200 8900 0    60   ~ 0
+Text Label 9200 3400 0    60   ~ 0
 dir2
 Text Label 9200 9100 0    60   ~ 0
 hall1
@@ -2697,9 +2697,9 @@ ext-power-flag
 Wire Wire Line
 	9150 2600 9650 2600
 Wire Wire Line
-	9150 2800 9650 2800
+	9150 7150 9650 7150
 Wire Wire Line
-	9150 3400 9500 3400
+	9150 8500 9500 8500
 Wire Wire Line
 	9150 3600 9500 3600
 Wire Wire Line
@@ -2707,13 +2707,13 @@ Wire Wire Line
 Wire Wire Line
 	9150 4000 9800 4000
 Wire Wire Line
-	9150 8300 9450 8300
+	9150 6950 9450 6950
 Wire Wire Line
-	9150 8500 9450 8500
+	9150 2800 9450 2800
 Wire Wire Line
 	9150 8700 9450 8700
 Wire Wire Line
-	9150 8900 9450 8900
+	9150 3400 9450 3400
 Wire Wire Line
 	9150 9100 9450 9100
 Wire Wire Line
@@ -2883,10 +2883,10 @@ F 3 "" H 6050 22250 60  0000 C CNN
 $EndComp
 Wire Notes Line
 	6500 22350 6250 22100
-Text Label 9200 7150 0    60   ~ 0
+Text Label 9200 8300 0    60   ~ 0
 ~wc~
 Wire Wire Line
-	9150 7150 9400 7150
+	9150 8300 9400 8300
 $Comp
 L stepper_conn P11
 U 1 1 5668ADE1
@@ -3177,4 +3177,78 @@ Text Label 5450 20750 0    60   ~ 0
 d-
 Text Label 5450 21050 0    60   ~ 0
 d+
+$Comp
+L TST P16
+U 1 1 5671C43A
+P 1900 14800
+F 0 "P16" H 1900 15100 50  0000 C BNN
+F 1 "screw" H 1900 15050 50  0000 C CNN
+F 2 "Mounting_Holes:MountingHole_3mm" H 1900 14800 60  0001 C CNN
+F 3 "" H 1900 14800 60  0000 C CNN
+	1    1900 14800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1900 14800 1900 15000
+$Comp
+L GND #PWR094
+U 1 1 5671C441
+P 1900 15000
+F 0 "#PWR094" H 1900 14750 50  0001 C CNN
+F 1 "GND" H 1900 14850 50  0000 C CNN
+F 2 "" H 1900 15000 60  0000 C CNN
+F 3 "" H 1900 15000 60  0000 C CNN
+	1    1900 15000
+	1    0    0    -1  
+$EndComp
+$Comp
+L TST P17
+U 1 1 5671C447
+P 2100 14800
+F 0 "P17" H 2100 15100 50  0000 C BNN
+F 1 "screw" H 2100 15050 50  0000 C CNN
+F 2 "Mounting_Holes:MountingHole_3mm" H 2100 14800 60  0001 C CNN
+F 3 "" H 2100 14800 60  0000 C CNN
+	1    2100 14800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2100 14800 2100 15000
+$Comp
+L GND #PWR095
+U 1 1 5671C44E
+P 2100 15000
+F 0 "#PWR095" H 2100 14750 50  0001 C CNN
+F 1 "GND" H 2100 14850 50  0000 C CNN
+F 2 "" H 2100 15000 60  0000 C CNN
+F 3 "" H 2100 15000 60  0000 C CNN
+	1    2100 15000
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R47
+U 1 1 5674CE23
+P 1300 20800
+F 0 "R47" V 1380 20800 50  0000 C CNN
+F 1 "10k 5%" V 1200 20800 50  0000 C CNN
+F 2 "Resistors_SMD:R_0805" V 1230 20800 30  0001 C CNN
+F 3 "" H 1300 20800 30  0000 C CNN
+	1    1300 20800
+	1    0    0    -1  
+$EndComp
+$Comp
+L VDD #PWR096
+U 1 1 5674E8E7
+P 1300 20550
+F 0 "#PWR096" H 1300 20400 50  0001 C CNN
+F 1 "VDD" H 1300 20700 50  0000 C CNN
+F 2 "" H 1300 20550 60  0000 C CNN
+F 3 "" H 1300 20550 60  0000 C CNN
+	1    1300 20550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1300 20550 1300 20650
+Wire Wire Line
+	1300 21050 1300 20950
 $EndSCHEMATC
