@@ -823,7 +823,7 @@ Text Label 9700 9500 0    60   ~ 0
 gpio-1
 Text Label 9700 4200 0    60   ~ 0
 gpio-2
-Text Label 9700 8900 0    60   ~ 0
+Text Label 9700 9300 0    60   ~ 0
 gpio-3
 Text Label 2700 13050 0    60   ~ 0
 tx-2
@@ -1234,7 +1234,7 @@ Wire Wire Line
 Wire Wire Line
 	9150 2300 10000 2300
 Wire Wire Line
-	9150 8900 10000 8900
+	9150 9300 10000 9300
 Wire Wire Line
 	9150 4200 10000 4200
 Wire Wire Line
@@ -2672,11 +2672,11 @@ Text Label 4100 6600 0    60   ~ 0
 shutter-b
 Text Label 9200 8500 0    60   ~ 0
 ~enable~
-Text Label 9200 9100 0    60   ~ 0
+Text Label 9200 4000 0    60   ~ 0
 ~reset~
 Text Label 9200 3800 0    60   ~ 0
 ~sleep~
-Text Label 9200 4000 0    60   ~ 0
+Text Label 9200 9100 0    60   ~ 0
 ~high-current~
 Text Label 9200 6950 0    60   ~ 0
 step1
@@ -2688,7 +2688,7 @@ Text Label 9200 3400 0    60   ~ 0
 dir2
 Text Label 9200 3600 0    60   ~ 0
 hall1
-Text Label 9200 9300 0    60   ~ 0
+Text Label 9200 8900 0    60   ~ 0
 hall2
 Text Label 9200 8100 0    60   ~ 0
 ext-power-flag
@@ -2699,11 +2699,11 @@ Wire Wire Line
 Wire Wire Line
 	9150 8500 9500 8500
 Wire Wire Line
-	9150 9100 9500 9100
+	9150 4000 9500 4000
 Wire Wire Line
 	9150 3800 9500 3800
 Wire Wire Line
-	9150 4000 9800 4000
+	9150 9100 9800 9100
 Wire Wire Line
 	9150 6950 9450 6950
 Wire Wire Line
@@ -2715,7 +2715,7 @@ Wire Wire Line
 Wire Wire Line
 	9150 3600 9450 3600
 Wire Wire Line
-	9150 9300 9450 9300
+	9150 8900 9450 8900
 Wire Wire Line
 	9150 8100 9950 8100
 $Comp
