@@ -1,0 +1,5690 @@
+## Module report - date 12/17/2015 2:39:06 PM
+## Created by Pcbnew version kicad 4.0.0-stable
+## Unit = inches, Angle = deg.
+##
+
+$BeginDESCRIPTION
+
+$BOARD
+unit INCH
+upper_left_corner  3.170276  2.446850
+lower_right_corner  8.070866  4.861270
+$EndBOARD
+
+$MODULE "P16"
+reference "P16"
+value "screw"
+footprint "Mounting_Holes:MountingHole_3mm"
+attribut none
+position  6.358268  2.933071
+orientation  0.00
+layer component
+$PAD "1"
+position  0.000000  0.000000
+size  0.196850  0.196850
+drill  0.133858
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  ???
+Layer  both
+$EndPAD
+$EndMODULE  P16
+
+$MODULE "P4"
+reference "P4"
+value "screw"
+footprint "Mounting_Holes:MountingHole_3mm"
+attribut none
+position  3.602362  2.933071
+orientation  0.00
+layer component
+$PAD "1"
+position  0.000000  0.000000
+size  0.196850  0.196850
+drill  0.133858
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  ???
+Layer  both
+$EndPAD
+$EndMODULE  P4
+
+$MODULE "P3"
+reference "P3"
+value "screw"
+footprint "Mounting_Holes:MountingHole_3mm"
+attribut none
+position  3.602362  4.625984
+orientation  0.00
+layer component
+$PAD "1"
+position  0.000000  0.000000
+size  0.196850  0.196850
+drill  0.133858
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  ???
+Layer  both
+$EndPAD
+$EndMODULE  P3
+
+$MODULE "P17"
+reference "P17"
+value "screw"
+footprint "Mounting_Holes:MountingHole_3mm"
+attribut none
+position  6.358268  4.625984
+orientation  0.00
+layer component
+$PAD "1"
+position  0.000000  0.000000
+size  0.196850  0.196850
+drill  0.133858
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  ???
+Layer  both
+$EndPAD
+$EndMODULE  P17
+
+$MODULE "P2"
+reference "P2"
+value "screw"
+footprint "Mounting_Holes:MountingHole_3mm"
+attribut none
+position  7.244094  4.625984
+orientation  0.00
+layer component
+$PAD "1"
+position  0.000000  0.000000
+size  0.196850  0.196850
+drill  0.133858
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  ???
+Layer  both
+$EndPAD
+$EndMODULE  P2
+
+$MODULE "P1"
+reference "P1"
+value "screw"
+footprint "Mounting_Holes:MountingHole_3mm"
+attribut none
+position  7.244094  2.933071
+orientation  0.00
+layer component
+$PAD "1"
+position  0.000000  0.000000
+size  0.196850  0.196850
+drill  0.133858
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  ???
+Layer  both
+$EndPAD
+$EndMODULE  P1
+
+$MODULE "C1"
+reference "C1"
+value "100n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  4.145669  3.704724
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C1
+
+$MODULE "C2"
+reference "C2"
+value "18p"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  4.724409  4.314961
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C2
+
+$MODULE "C3"
+reference "C3"
+value "18p"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  4.879921  4.242126
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C3
+
+$MODULE "C4"
+reference "C4"
+value "100n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  4.962598  4.200787
+orientation  90.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C4
+
+$MODULE "C5"
+reference "C5"
+value "100n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  4.086614  3.704724
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C5
+
+$MODULE "C6"
+reference "C6"
+value "4u7"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  4.027559  3.704724
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C6
+
+$MODULE "C7"
+reference "C7"
+value "4u7"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  4.346457  3.409449
+orientation  90.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C7
+
+$MODULE "C8"
+reference "C8"
+value "100n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  4.588583  3.875984
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C8
+
+$MODULE "C9"
+reference "C9"
+value "100n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  4.580709  3.494094
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C9
+
+$MODULE "C10"
+reference "C10"
+value "100n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  4.950787  3.486220
+orientation  90.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C10
+
+$MODULE "C11"
+reference "C11"
+value "100n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  4.852362  3.990157
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C11
+
+$MODULE "C12"
+reference "C12"
+value "4u7"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  5.009843  3.486220
+orientation  90.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C12
+
+$MODULE "C13"
+reference "C13"
+value "4u7"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  6.879921  3.718504
+orientation  0.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C13
+
+$MODULE "C14"
+reference "C14"
+value "100n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  3.858268  3.885827
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C14
+
+$MODULE "C15"
+reference "C15"
+value "100n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  6.879921  3.781496
+orientation  0.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C15
+
+$MODULE "C16"
+reference "C16"
+value "10n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  6.990157  3.990157
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C16
+
+$MODULE "C18"
+reference "C18"
+value "4u7"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  4.094488  4.295276
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C18
+
+$MODULE "C19"
+reference "C19"
+value "1n2"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  6.875984  4.135827
+orientation  0.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C19
+
+$MODULE "C20"
+reference "C20"
+value "10n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  6.718504  4.167323
+orientation  90.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C20
+
+$MODULE "C21"
+reference "C21"
+value "4u7"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  4.200787  4.389764
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C21
+
+$MODULE "C22"
+reference "C22"
+value "680u"
+footprint "Capacitors_ThroughHole:C_Radial_D10_L20_P5"
+attribut none
+position  6.838583  3.007874
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Capacitors_ThroughHole.3dshapes/C_Radial_D10_L20_P5.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position  0.000000  0.000000
+size  0.051181  0.051181
+drill  0.031496
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  both
+$EndPAD
+$PAD "2"
+position  0.196850  0.000000
+size  0.051181  0.051181
+drill  0.031496
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  ???
+Layer  both
+$EndPAD
+$EndMODULE  C22
+
+$MODULE "C23"
+reference "C23"
+value "100n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  3.862205  4.196850
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C23
+
+$MODULE "C24"
+reference "C24"
+value "100n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  7.086614  3.889764
+orientation  90.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C24
+
+$MODULE "C25"
+reference "C25"
+value "680u"
+footprint "Capacitors_ThroughHole:C_Radial_D10_L20_P5"
+attribut none
+position  7.196850  4.279528
+orientation  90.00
+layer component
+$SHAPE3D
+Na "Capacitors_ThroughHole.3dshapes/C_Radial_D10_L20_P5.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position  0.000000  0.000000
+size  0.051181  0.051181
+drill  0.031496
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  both
+$EndPAD
+$PAD "2"
+position  0.196850  0.000000
+size  0.051181  0.051181
+drill  0.031496
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  ???
+Layer  both
+$EndPAD
+$EndMODULE  C25
+
+$MODULE "C26"
+reference "C26"
+value "100n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  4.909449  4.425197
+orientation  0.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C26
+
+$MODULE "C27"
+reference "C27"
+value "100n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  6.232283  3.649606
+orientation  0.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C27
+
+$MODULE "C28"
+reference "C28"
+value "100n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  5.767717  3.547244
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C28
+
+$MODULE "C29"
+reference "C29"
+value "100n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  5.712598  3.641732
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C29
+
+$MODULE "C30"
+reference "C30"
+value "220n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  5.842520  3.669291
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C30
+
+$MODULE "C32"
+reference "C32"
+value "100n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  5.795276  3.210630
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C32
+
+$MODULE "C33"
+reference "C33"
+value "100n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  5.759843  3.862205
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C33
+
+$MODULE "C34"
+reference "C34"
+value "100n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  6.220472  3.929134
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C34
+
+$MODULE "C35"
+reference "C35"
+value "100n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  6.228346  3.870079
+orientation  0.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C35
+
+$MODULE "C36"
+reference "C36"
+value "220n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  6.098425  3.842520
+orientation  0.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C36
+
+$MODULE "C38"
+reference "C38"
+value "100n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  6.171260  4.303150
+orientation  0.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C38
+
+$MODULE "D1"
+reference "D1"
+value "LED"
+footprint "LEDs:LED-3MM"
+attribut none
+position  3.559055  4.303150
+orientation  90.00
+layer component
+$SHAPE3D
+Na "LEDs.3dshapes/LED-3MM.wrl"
+Sc 1 1 1
+Of 0.05 0 0
+Ro 0 0 90
+$EndSHAPE3D
+$PAD "1"
+position  0.000000  0.000000
+size  0.078740  0.078740
+drill  0.039400
+shape_offset  0.000000  0.000000
+orientation  90.00
+Shape  Circ
+Layer  both
+$EndPAD
+$PAD "2"
+position  0.100000  0.000000
+size  0.078740  0.078740
+drill  0.039400
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  ???
+Layer  both
+$EndPAD
+$EndMODULE  D1
+
+$MODULE "D2"
+reference "D2"
+value "LED"
+footprint "LEDs:LED-3MM"
+attribut none
+position  3.559055  3.996063
+orientation  90.00
+layer component
+$SHAPE3D
+Na "LEDs.3dshapes/LED-3MM.wrl"
+Sc 1 1 1
+Of 0.05 0 0
+Ro 0 0 90
+$EndSHAPE3D
+$PAD "1"
+position  0.000000  0.000000
+size  0.078740  0.078740
+drill  0.039400
+shape_offset  0.000000  0.000000
+orientation  90.00
+Shape  Circ
+Layer  both
+$EndPAD
+$PAD "2"
+position  0.100000  0.000000
+size  0.078740  0.078740
+drill  0.039400
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  ???
+Layer  both
+$EndPAD
+$EndMODULE  D2
+
+$MODULE "D3"
+reference "D3"
+value "1n5819"
+footprint "Diodes_ThroughHole:Diode_DO-41_SOD81_Horizontal_RM10"
+attribut none
+position  4.330709  4.094488
+orientation  270.00
+layer component
+$PAD "2"
+position  0.400000 -0.000100
+size  0.078700  0.078700
+drill  0.050000
+shape_offset  0.000000  0.000000
+orientation  -180.00
+Shape  ???
+Layer  both
+$EndPAD
+$PAD "1"
+position  0.000000 -0.000100
+size  0.078700  0.078700
+drill  0.039400
+shape_offset  0.000000  0.000000
+orientation  -180.00
+Shape  Circ
+Layer  both
+$EndPAD
+$EndMODULE  D3
+
+$MODULE "D4"
+reference "D4"
+value "1n5819"
+footprint "Diodes_ThroughHole:Diode_DO-41_SOD81_Horizontal_RM10"
+attribut none
+position  7.181102  3.665354
+orientation  90.00
+layer component
+$PAD "2"
+position  0.400000 -0.000100
+size  0.078700  0.078700
+drill  0.050000
+shape_offset  0.000000  0.000000
+orientation  180.00
+Shape  ???
+Layer  both
+$EndPAD
+$PAD "1"
+position  0.000000 -0.000100
+size  0.078700  0.078700
+drill  0.039400
+shape_offset  0.000000  0.000000
+orientation  180.00
+Shape  Circ
+Layer  both
+$EndPAD
+$EndMODULE  D4
+
+$MODULE "L1"
+reference "L1"
+value "10uH"
+footprint "Resistors_SMD:R_1206_HandSoldering"
+attribut smd
+position  7.035433  3.041339
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_1206_HandSoldering.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.078740  0.000000
+size  0.078740  0.066929
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.078740  0.000000
+size  0.078740  0.066929
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  L1
+
+$MODULE "L2"
+reference "L2"
+value "10uH"
+footprint "my-lib:my_inductance"
+attribut none
+position  6.885827  3.429134
+orientation  90.00
+layer component
+$PAD "1"
+position  0.000000 -0.098400
+size  0.100000  0.100000
+drill  0.059055
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  ???
+Layer  both
+$EndPAD
+$PAD "2"
+position  0.000000  0.098400
+size  0.100000  0.100000
+drill  0.059055
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  ???
+Layer  both
+$EndPAD
+$EndMODULE  L2
+
+$MODULE "P6"
+reference "P6"
+value "~rst~"
+footprint "Measurement_Points:Measurement_Point_Round-TH_Small"
+attribut none
+position  5.015748  4.299213
+orientation  270.00
+layer component
+$PAD "1"
+position  0.000000  0.000000
+size  0.059100  0.059100
+drill  0.031500
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  ???
+Layer  both
+$EndPAD
+$EndMODULE  P6
+
+$MODULE "P7"
+reference "P7"
+value "mode"
+footprint "Pin_Headers:Pin_Header_Straight_1x02"
+attribut none
+position  4.366142  3.968504
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Pin_Headers.3dshapes/Pin_Header_Straight_1x02.wrl"
+Sc 1 1 1
+Of 0 -0.05 0
+Ro 0 0 90
+$EndSHAPE3D
+$PAD "1"
+position  0.000000  0.000000
+size  0.080000  0.080000
+drill  0.040000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  both
+$EndPAD
+$PAD "2"
+position  0.000000  0.100000
+size  0.080000  0.080000
+drill  0.040000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Rect
+Layer  both
+$EndPAD
+$EndMODULE  P7
+
+$MODULE "P8"
+reference "P8"
+value "ext-2"
+footprint "Pin_Headers:Pin_Header_Straight_1x08"
+attribut none
+position  3.956693  2.874016
+orientation  90.00
+layer component
+$SHAPE3D
+Na "Pin_Headers.3dshapes/Pin_Header_Straight_1x08.wrl"
+Sc 1 1 1
+Of 0 -0.35 0
+Ro 0 0 90
+$EndSHAPE3D
+$PAD "1"
+position  0.000000  0.000000
+size  0.080000  0.068000
+drill  0.040000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  both
+$EndPAD
+$PAD "2"
+position  0.000000  0.100000
+size  0.080000  0.068000
+drill  0.040000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Rect
+Layer  both
+$EndPAD
+$PAD "3"
+position  0.000000  0.200000
+size  0.080000  0.068000
+drill  0.040000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Rect
+Layer  both
+$EndPAD
+$PAD "4"
+position  0.000000  0.300000
+size  0.080000  0.068000
+drill  0.040000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Rect
+Layer  both
+$EndPAD
+$PAD "5"
+position  0.000000  0.400000
+size  0.080000  0.068000
+drill  0.040000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Rect
+Layer  both
+$EndPAD
+$PAD "6"
+position  0.000000  0.500000
+size  0.080000  0.068000
+drill  0.040000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Rect
+Layer  both
+$EndPAD
+$PAD "7"
+position  0.000000  0.600000
+size  0.080000  0.068000
+drill  0.040000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Rect
+Layer  both
+$EndPAD
+$PAD "8"
+position  0.000000  0.700000
+size  0.080000  0.068000
+drill  0.040000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Rect
+Layer  both
+$EndPAD
+$EndMODULE  P8
+
+$MODULE "P9"
+reference "P9"
+value "USB_B"
+footprint "Connect:USB_B"
+attribut none
+position  3.779528  3.590551
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Connect.3dshapes/USB_B.wrl"
+Sc 0.3937 0.3937 0.3937
+Of 0.185 -0.05 0.001
+Ro 0 0 -90
+$EndSHAPE3D
+$PAD "2"
+position  0.000000  0.100000
+size  0.060000  0.060000
+drill  0.032000
+shape_offset  0.000000  0.000000
+orientation  -90.00
+Shape  ???
+Layer  both
+$EndPAD
+$PAD "1"
+position  0.000000  0.000000
+size  0.060000  0.060000
+drill  0.032000
+shape_offset  0.000000  0.000000
+orientation  -90.00
+Shape  ???
+Layer  both
+$EndPAD
+$PAD "4"
+position  0.078700  0.000000
+size  0.060000  0.060000
+drill  0.032000
+shape_offset  0.000000  0.000000
+orientation  -90.00
+Shape  ???
+Layer  both
+$EndPAD
+$PAD "3"
+position  0.078700  0.100000
+size  0.060000  0.060000
+drill  0.032000
+shape_offset  0.000000  0.000000
+orientation  -90.00
+Shape  ???
+Layer  both
+$EndPAD
+$PAD "5"
+position  0.185000  0.286200
+size  0.106300  0.106300
+drill  0.090600
+shape_offset  0.000000  0.000000
+orientation  -90.00
+Shape  ???
+Layer  both
+$EndPAD
+$PAD "5"
+position  0.185000 -0.186200
+size  0.106300  0.106300
+drill  0.090600
+shape_offset  0.000000  0.000000
+orientation  -90.00
+Shape  ???
+Layer  both
+$EndPAD
+$EndMODULE  P9
+
+$MODULE "P10"
+reference "P10"
+value "swd"
+footprint "Pin_Headers:Pin_Header_Straight_1x03"
+attribut none
+position  4.649606  3.381890
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Pin_Headers.3dshapes/Pin_Header_Straight_1x03.wrl"
+Sc 1 1 1
+Of 0 -0.1 0
+Ro 0 0 90
+$EndSHAPE3D
+$PAD "1"
+position  0.000000  0.000000
+size  0.080000  0.068000
+drill  0.040000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  both
+$EndPAD
+$PAD "2"
+position  0.000000  0.100000
+size  0.080000  0.068000
+drill  0.040000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Rect
+Layer  both
+$EndPAD
+$PAD "3"
+position  0.000000  0.200000
+size  0.080000  0.068000
+drill  0.040000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Rect
+Layer  both
+$EndPAD
+$EndMODULE  P10
+
+$MODULE "Q4"
+reference "Q4"
+value "ntd18n06l"
+footprint "my-lib:my-DPAK"
+attribut smd
+position  6.708661  4.633858
+orientation  0.00
+layer component
+$SHAPE3D
+Na "smd/dpack_2.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.090600  0.000000
+size  0.065000  0.120000
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "4"
+position  0.000000 -0.261800
+size  0.263800  0.263800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "3"
+position  0.090600  0.000000
+size  0.065000  0.120000
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  Q4
+
+$MODULE "R1"
+reference "R1"
+value "10k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  4.208661  3.704724
+orientation  90.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R1
+
+$MODULE "R2"
+reference "R2"
+value "1k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  3.559055  4.405512
+orientation  90.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R2
+
+$MODULE "R3"
+reference "R3"
+value "1k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  3.559055  4.098425
+orientation  90.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R3
+
+$MODULE "R4"
+reference "R4"
+value "10k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  4.614173  4.535433
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R4
+
+$MODULE "R5"
+reference "R5"
+value "10k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  4.279528  3.874016
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R5
+
+$MODULE "R6"
+reference "R6"
+value "100 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  4.765748  3.990157
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R6
+
+$MODULE "R7"
+reference "R7"
+value "10k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  5.338583  3.653543
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R7
+
+$MODULE "R8"
+reference "R8"
+value "10k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  5.047244  4.196850
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R8
+
+$MODULE "R9"
+reference "R9"
+value "10k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  4.035433  3.968504
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R9
+
+$MODULE "R10"
+reference "R10"
+value "10k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  4.157480  4.586614
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R10
+
+$MODULE "R11"
+reference "R11"
+value "10k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  4.275591  4.586614
+orientation  0.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R11
+
+$MODULE "R13"
+reference "R13"
+value "1k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  6.990157  3.852362
+orientation  0.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R13
+
+$MODULE "R14"
+reference "R14"
+value "0"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  4.456693  4.496063
+orientation  0.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R14
+
+$MODULE "R15"
+reference "R15"
+value "0"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  4.200787  4.496063
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R15
+
+$MODULE "R16"
+reference "R16"
+value "6k2 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  6.990157  3.923228
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R16
+
+$MODULE "R17"
+reference "R17"
+value "47k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  3.742126  4.301181
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R17
+
+$MODULE "R18"
+reference "R18"
+value "33k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  3.767717  4.397638
+orientation  0.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R18
+
+$MODULE "R19"
+reference "R19"
+value "10k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  4.779528  2.937008
+orientation  0.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R19
+
+$MODULE "R20"
+reference "R20"
+value "1k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  4.779528  2.862205
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R20
+
+$MODULE "R21"
+reference "R21"
+value "33k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  3.964567  4.299213
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R21
+
+$MODULE "R22"
+reference "R22"
+value "33k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  3.881890  4.397638
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R22
+
+$MODULE "R23"
+reference "R23"
+value "33k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  5.003937  2.897638
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R23
+
+$MODULE "R24"
+reference "R24"
+value "470 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  6.777559  4.163386
+orientation  90.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R24
+
+$MODULE "R25"
+reference "R25"
+value "1k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  6.864173  4.198819
+orientation  0.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R25
+
+$MODULE "R26"
+reference "R26"
+value "100k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  5.066929  2.897638
+orientation  90.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R26
+
+$MODULE "R27"
+reference "R27"
+value "10k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  5.133858  2.897638
+orientation  90.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R27
+
+$MODULE "R28"
+reference "R28"
+value "0"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  5.370079  3.366142
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R28
+
+$MODULE "R29"
+reference "R29"
+value "0"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  5.370079  3.480315
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R29
+
+$MODULE "R30"
+reference "R30"
+value "0"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  5.271654  3.366142
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R30
+
+$MODULE "R31"
+reference "R31"
+value "0"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  5.271654  3.480315
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R31
+
+$MODULE "R32"
+reference "R32"
+value "10 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  5.102362  4.515748
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R32
+
+$MODULE "R33"
+reference "R33"
+value "33k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  5.535433  4.074803
+orientation  0.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R33
+
+$MODULE "R34"
+reference "R34"
+value "1k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  5.377953  4.074803
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R34
+
+$MODULE "R35"
+reference "R35"
+value "33k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  5.375984  3.159449
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R35
+
+$MODULE "R36"
+reference "R36"
+value "1k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  5.533465  3.159449
+orientation  0.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R36
+
+$MODULE "R37"
+reference "R37"
+value "100 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  5.183071  3.698819
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R37
+
+$MODULE "R38"
+reference "R38"
+value "100 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  5.096457  3.568898
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R38
+
+$MODULE "R39"
+reference "R39"
+value "1 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  5.870079  3.151575
+orientation  0.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R39
+
+$MODULE "R40"
+reference "R40"
+value "1 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  6.074803  3.173228
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R40
+
+$MODULE "R41"
+reference "R41"
+value "100 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  5.108268  3.958661
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R41
+
+$MODULE "R42"
+reference "R42"
+value "100 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  5.218504  3.844488
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R42
+
+$MODULE "R43"
+reference "R43"
+value "1 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  6.076772  4.356299
+orientation  90.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R43
+
+$MODULE "R44"
+reference "R44"
+value "1 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  5.921260  4.332677
+orientation  90.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R44
+
+$MODULE "stm1"
+reference "stm1"
+value "STM32F103CBT6"
+footprint "my-lib:LQFP48"
+attribut smd
+position  4.769685  3.671260
+orientation  90.00
+layer component
+$PAD "12"
+position -0.161300  0.108200
+size  0.051181  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "11"
+position -0.161300  0.088500
+size  0.051181  0.009900
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "10"
+position -0.161300  0.068800
+size  0.051181  0.009900
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "9"
+position -0.161300  0.049100
+size  0.051181  0.009900
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "8"
+position -0.161300  0.029500
+size  0.051181  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "7"
+position -0.161300  0.009800
+size  0.051181  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "6"
+position -0.161300 -0.009800
+size  0.051181  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "5"
+position -0.161300 -0.029500
+size  0.051181  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "4"
+position -0.161300 -0.049100
+size  0.051181  0.009900
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "3"
+position -0.161300 -0.068800
+size  0.051181  0.009900
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position -0.161300 -0.088500
+size  0.051181  0.009900
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "1"
+position -0.161300 -0.108200
+size  0.051181  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "48"
+position -0.108200 -0.161300
+size  0.009800  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "47"
+position -0.088500 -0.161300
+size  0.009900  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "46"
+position -0.068800 -0.161300
+size  0.009900  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "45"
+position -0.049100 -0.161300
+size  0.009900  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "44"
+position -0.029500 -0.161300
+size  0.009800  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "43"
+position -0.009800 -0.161300
+size  0.009800  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "42"
+position  0.009800 -0.161300
+size  0.009800  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "41"
+position  0.029500 -0.161300
+size  0.009800  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "40"
+position  0.049100 -0.161300
+size  0.009900  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "39"
+position  0.068800 -0.161300
+size  0.009900  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "38"
+position  0.088500 -0.161300
+size  0.009900  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "37"
+position  0.108200 -0.161300
+size  0.009800  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "25"
+position  0.161300  0.108200
+size  0.051181  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "26"
+position  0.161300  0.088500
+size  0.051181  0.009900
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "27"
+position  0.161300  0.068800
+size  0.051181  0.009900
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "28"
+position  0.161300  0.049100
+size  0.051181  0.009900
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "29"
+position  0.161300  0.029500
+size  0.051181  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "30"
+position  0.161300  0.009800
+size  0.051181  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "31"
+position  0.161300 -0.009800
+size  0.051181  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "32"
+position  0.161300 -0.029500
+size  0.051181  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "33"
+position  0.161300 -0.049100
+size  0.051181  0.009900
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "34"
+position  0.161300 -0.068800
+size  0.051181  0.009900
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "35"
+position  0.161300 -0.088500
+size  0.051181  0.009900
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "36"
+position  0.161300 -0.108200
+size  0.051181  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "13"
+position -0.108200  0.161300
+size  0.009800  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "14"
+position -0.088500  0.161300
+size  0.009900  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "15"
+position -0.068800  0.161300
+size  0.009900  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "16"
+position -0.049100  0.161300
+size  0.009900  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "17"
+position -0.029500  0.161300
+size  0.009800  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "18"
+position -0.009800  0.161300
+size  0.009800  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "19"
+position  0.009800  0.161300
+size  0.009800  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "20"
+position  0.029500  0.161300
+size  0.009800  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "21"
+position  0.049100  0.161300
+size  0.009900  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "22"
+position  0.068800  0.161300
+size  0.009900  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "23"
+position  0.088500  0.161300
+size  0.009900  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "24"
+position  0.108200  0.161300
+size  0.009800  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  stm1
+
+$MODULE "U1"
+reference "U1"
+value "crystal-4pin"
+footprint "my-lib:CRYSTAL-SMD-5x3"
+attribut none
+position  4.726378  4.198819
+orientation  180.00
+layer component
+$SHAPE3D
+Na "smd/SOT23_6.wrl"
+Sc 0.11 0.11 0.11
+Of 0 0 0
+Ro 0 0 -180
+$EndSHAPE3D
+$PAD "1"
+position -0.072800  0.045300
+size  0.074800  0.043300
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.072800  0.045300
+size  0.074800  0.043300
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "3"
+position  0.072800 -0.045300
+size  0.074800  0.043300
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "4"
+position -0.072800 -0.045300
+size  0.074800  0.043300
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  U1
+
+$MODULE "U2"
+reference "U2"
+value "CP2102"
+footprint "my-lib:CP2102"
+attribut none
+position  4.141732  3.456693
+orientation  0.00
+layer component
+$SHAPE3D
+Na "smd/qfn28.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.098400 -0.059100
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "2"
+position -0.098400 -0.039400
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "3"
+position -0.098400 -0.019700
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "4"
+position -0.098400  0.000000
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "5"
+position -0.098400  0.019700
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "6"
+position -0.098400  0.039400
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "7"
+position -0.098400  0.059100
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "8"
+position -0.059100  0.098400
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  90.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "9"
+position -0.039400  0.098400
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  90.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "10"
+position -0.019700  0.098400
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  90.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "11"
+position  0.000000  0.098400
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  90.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "12"
+position  0.019700  0.098400
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  90.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "13"
+position  0.039400  0.098400
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  90.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "14"
+position  0.059100  0.098400
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  90.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "15"
+position  0.098400  0.059100
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  180.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "16"
+position  0.098400  0.039400
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  180.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "17"
+position  0.098400  0.019700
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  180.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "18"
+position  0.098400  0.000000
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  180.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "19"
+position  0.098400 -0.019700
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  180.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "20"
+position  0.098400 -0.039400
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  180.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "21"
+position  0.098400 -0.059100
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  180.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "22"
+position  0.059100 -0.098400
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  270.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "23"
+position  0.039400 -0.098400
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  270.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "24"
+position  0.019700 -0.098400
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  270.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "25"
+position  0.000000 -0.098400
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  270.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "26"
+position -0.019700 -0.098400
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  270.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "27"
+position -0.039400 -0.098400
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  270.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "28"
+position -0.059100 -0.098400
+size  0.039400  0.009800
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  270.00
+Shape  Rect
+Layer  front
+$EndPAD
+$PAD "0"
+position  0.000000  0.000000
+size  0.118110  0.118110
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "0"
+position  0.000000  0.000000
+size  0.118110  0.118110
+drill  0.078740
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  ???
+Layer  both
+$EndPAD
+$EndMODULE  U2
+
+$MODULE "U3"
+reference "U3"
+value "m24c02"
+footprint "Housings_SOIC:SOIC-8_3.9x4.9mm_Pitch1.27mm"
+attribut smd
+position  3.862205  4.035433
+orientation  0.00
+layer component
+$SHAPE3D
+Na "Housings_SOIC.3dshapes/SOIC-8_3.9x4.9mm_Pitch1.27mm.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.106299 -0.075000
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position -0.106299 -0.025000
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "3"
+position -0.106299  0.025000
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "4"
+position -0.106299  0.075000
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "5"
+position  0.106299  0.075000
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "6"
+position  0.106299  0.025000
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "7"
+position  0.106299 -0.025000
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "8"
+position  0.106299 -0.075000
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  U3
+
+$MODULE "U4"
+reference "U4"
+value "NCP3063"
+footprint "Housings_SOIC:SOIC-8_3.9x4.9mm_Pitch1.27mm"
+attribut smd
+position  6.805118  3.962598
+orientation  90.00
+layer component
+$SHAPE3D
+Na "Housings_SOIC.3dshapes/SOIC-8_3.9x4.9mm_Pitch1.27mm.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.106299 -0.075000
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position -0.106299 -0.025000
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "3"
+position -0.106299  0.025000
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "4"
+position -0.106299  0.075000
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "5"
+position  0.106299  0.075000
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "6"
+position  0.106299  0.025000
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "7"
+position  0.106299 -0.025000
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "8"
+position  0.106299 -0.075000
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  U4
+
+$MODULE "U6"
+reference "U6"
+value "ts881"
+footprint "TO_SOT_Packages_SMD:SOT-23-5"
+attribut smd
+position  3.862205  4.299213
+orientation  0.00
+layer component
+$SHAPE3D
+Na "TO_SOT_Packages_SMD.3dshapes/SOT-23-5.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.043307 -0.037402
+size  0.041732  0.025591
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position -0.043307  0.000000
+size  0.041732  0.025591
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "3"
+position -0.043307  0.037402
+size  0.041732  0.025591
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "4"
+position  0.043307  0.037402
+size  0.041732  0.025591
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "5"
+position  0.043307 -0.037402
+size  0.041732  0.025591
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  U6
+
+$MODULE "U7"
+reference "U7"
+value "lb1930mc"
+footprint "my-lib:lb1930mc"
+attribut smd
+position  4.929134  4.574803
+orientation  0.00
+layer component
+$SHAPE3D
+Na "Housings_SOIC.3dshapes/SOIC-8-1EP_3.9x4.9mm_Pitch1.27mm.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.101575 -0.059055
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position -0.101575 -0.019685
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "3"
+position -0.101575  0.019685
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "4"
+position -0.101575  0.059055
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "7"
+position  0.101575  0.059055
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "8"
+position  0.101575  0.019685
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "9"
+position  0.101575 -0.019685
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "10"
+position  0.101575 -0.059055
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "5"
+position -0.101575  0.098425
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "6"
+position  0.101575  0.098425
+size  0.061024  0.023622
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  U7
+
+$MODULE "U8"
+reference "U8"
+value "a4985"
+footprint "my-lib:a4985"
+attribut smd
+position  5.980315  3.440945
+orientation  90.00
+layer component
+$SHAPE3D
+Na "Housings_SSOP.3dshapes/TSSOP-24_4.4x7.8mm_Pitch0.65mm.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.120079 -0.140748
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position -0.120079 -0.115157
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "3"
+position -0.120079 -0.089567
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "4"
+position -0.120079 -0.063976
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "5"
+position -0.120079 -0.038386
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "6"
+position -0.120079 -0.012795
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "7"
+position -0.120079  0.012795
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "8"
+position -0.120079  0.038386
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "9"
+position -0.120079  0.063976
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "10"
+position -0.120079  0.089567
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "11"
+position -0.120079  0.115157
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "12"
+position -0.120079  0.140748
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "13"
+position  0.120079  0.140748
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "14"
+position  0.120079  0.115157
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "15"
+position  0.120079  0.089567
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "16"
+position  0.120079  0.063976
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "17"
+position  0.120079  0.038386
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "18"
+position  0.120079  0.012795
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "19"
+position  0.120079 -0.012795
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "20"
+position  0.120079 -0.038386
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "21"
+position  0.120079 -0.063976
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "22"
+position  0.120079 -0.089567
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "23"
+position  0.120079 -0.115157
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "24"
+position  0.120079 -0.140748
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "pad"
+position  0.000000  0.000000
+size  0.118110  0.170079
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "pad"
+position  0.000000  0.000000
+size  0.118110  0.118110
+drill  0.098425
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  ???
+Layer  both
+$EndPAD
+$EndMODULE  U8
+
+$MODULE "U9"
+reference "U9"
+value "a4985"
+footprint "my-lib:a4985"
+attribut smd
+position  5.984252  4.070866
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Housings_SSOP.3dshapes/TSSOP-24_4.4x7.8mm_Pitch0.65mm.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.120079 -0.140748
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position -0.120079 -0.115157
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "3"
+position -0.120079 -0.089567
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "4"
+position -0.120079 -0.063976
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "5"
+position -0.120079 -0.038386
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "6"
+position -0.120079 -0.012795
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "7"
+position -0.120079  0.012795
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "8"
+position -0.120079  0.038386
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "9"
+position -0.120079  0.063976
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "10"
+position -0.120079  0.089567
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "11"
+position -0.120079  0.115157
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "12"
+position -0.120079  0.140748
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "13"
+position  0.120079  0.140748
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "14"
+position  0.120079  0.115157
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "15"
+position  0.120079  0.089567
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "16"
+position  0.120079  0.063976
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "17"
+position  0.120079  0.038386
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "18"
+position  0.120079  0.012795
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "19"
+position  0.120079 -0.012795
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "20"
+position  0.120079 -0.038386
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "21"
+position  0.120079 -0.063976
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "22"
+position  0.120079 -0.089567
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "23"
+position  0.120079 -0.115157
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "24"
+position  0.120079 -0.140748
+size  0.064961  0.017717
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "pad"
+position  0.000000  0.000000
+size  0.118110  0.170079
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "pad"
+position  0.000000  0.000000
+size  0.118110  0.118110
+drill  0.098425
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  ???
+Layer  both
+$EndPAD
+$EndMODULE  U9
+
+$MODULE "P11"
+reference "P11"
+value "stepper_conn"
+footprint "my-lib:JST_B4B-PH-SM4-TB"
+attribut smd
+position  5.460630  4.598425
+orientation  180.00
+layer component
+$PAD "1"
+position -0.118110  0.044291
+size  0.039370  0.216535
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position -0.039370  0.044291
+size  0.039370  0.216535
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "3"
+position  0.039370  0.044291
+size  0.039370  0.216535
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "4"
+position  0.118110  0.044291
+size  0.039370  0.216535
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "0"
+position -0.212598 -0.044291
+size  0.062992  0.118110
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "0"
+position  0.212598 -0.044291
+size  0.062992  0.118110
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  P11
+
+$MODULE "P12"
+reference "P12"
+value "stepper_conn"
+footprint "my-lib:JST_B4B-PH-SM4-TB"
+attribut smd
+position  5.456693  4.267717
+orientation  180.00
+layer component
+$PAD "1"
+position -0.118110  0.044291
+size  0.039370  0.216535
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position -0.039370  0.044291
+size  0.039370  0.216535
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "3"
+position  0.039370  0.044291
+size  0.039370  0.216535
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "4"
+position  0.118110  0.044291
+size  0.039370  0.216535
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "0"
+position -0.212598 -0.044291
+size  0.062992  0.118110
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "0"
+position  0.212598 -0.044291
+size  0.062992  0.118110
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  P12
+
+$MODULE "P13"
+reference "P13"
+value "stepper_conn"
+footprint "my-lib:JST_B4B-PH-SM4-TB"
+attribut smd
+position  5.454724  2.966535
+orientation  0.00
+layer component
+$PAD "1"
+position -0.118110  0.044291
+size  0.039370  0.216535
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position -0.039370  0.044291
+size  0.039370  0.216535
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "3"
+position  0.039370  0.044291
+size  0.039370  0.216535
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "4"
+position  0.118110  0.044291
+size  0.039370  0.216535
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "0"
+position -0.212598 -0.044291
+size  0.062992  0.118110
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "0"
+position  0.212598 -0.044291
+size  0.062992  0.118110
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  P13
+
+$MODULE "P14"
+reference "P14"
+value "stepper_conn"
+footprint "my-lib:JST_B4B-PH-SM4-TB"
+attribut smd
+position  5.980315  2.964567
+orientation  0.00
+layer component
+$PAD "1"
+position -0.118110  0.044291
+size  0.039370  0.216535
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position -0.039370  0.044291
+size  0.039370  0.216535
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "3"
+position  0.039370  0.044291
+size  0.039370  0.216535
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "4"
+position  0.118110  0.044291
+size  0.039370  0.216535
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "0"
+position -0.212598 -0.044291
+size  0.062992  0.118110
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "0"
+position  0.212598 -0.044291
+size  0.062992  0.118110
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  P14
+
+$MODULE "P15"
+reference "P15"
+value "stepper_conn"
+footprint "my-lib:JST_B4B-PH-SM4-TB"
+attribut smd
+position  5.984252  4.598425
+orientation  180.00
+layer component
+$PAD "1"
+position -0.118110  0.044291
+size  0.039370  0.216535
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position -0.039370  0.044291
+size  0.039370  0.216535
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "3"
+position  0.039370  0.044291
+size  0.039370  0.216535
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "4"
+position  0.118110  0.044291
+size  0.039370  0.216535
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "0"
+position -0.212598 -0.044291
+size  0.062992  0.118110
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "0"
+position  0.212598 -0.044291
+size  0.062992  0.118110
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  P15
+
+$MODULE "P5"
+reference "P5"
+value "ext-1"
+footprint "Pin_Headers:Pin_Header_Straight_1x08"
+attribut none
+position  3.956693  4.685039
+orientation  90.00
+layer component
+$SHAPE3D
+Na "Pin_Headers.3dshapes/Pin_Header_Straight_1x08.wrl"
+Sc 1 1 1
+Of 0 -0.35 0
+Ro 0 0 90
+$EndSHAPE3D
+$PAD "1"
+position  0.000000  0.000000
+size  0.080000  0.068000
+drill  0.040000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  both
+$EndPAD
+$PAD "2"
+position  0.000000  0.100000
+size  0.080000  0.068000
+drill  0.040000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Rect
+Layer  both
+$EndPAD
+$PAD "3"
+position  0.000000  0.200000
+size  0.080000  0.068000
+drill  0.040000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Rect
+Layer  both
+$EndPAD
+$PAD "4"
+position  0.000000  0.300000
+size  0.080000  0.068000
+drill  0.040000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Rect
+Layer  both
+$EndPAD
+$PAD "5"
+position  0.000000  0.400000
+size  0.080000  0.068000
+drill  0.040000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Rect
+Layer  both
+$EndPAD
+$PAD "6"
+position  0.000000  0.500000
+size  0.080000  0.068000
+drill  0.040000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Rect
+Layer  both
+$EndPAD
+$PAD "7"
+position  0.000000  0.600000
+size  0.080000  0.068000
+drill  0.040000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Rect
+Layer  both
+$EndPAD
+$PAD "8"
+position  0.000000  0.700000
+size  0.080000  0.068000
+drill  0.040000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Rect
+Layer  both
+$EndPAD
+$EndMODULE  P5
+
+$MODULE "Q1"
+reference "Q1"
+value "bc857"
+footprint "TO_SOT_Packages_SMD:SOT-23"
+attribut smd
+position  4.901575  2.897638
+orientation  270.00
+layer component
+$SHAPE3D
+Na "TO_SOT_Packages_SMD.3dshapes/SOT-23.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.039400
+size  0.031500  0.031500
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.039400
+size  0.031500  0.031500
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "3"
+position  0.000000 -0.039300
+size  0.031500  0.031500
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  Q1
+
+$MODULE "Q2"
+reference "Q2"
+value "bc847"
+footprint "TO_SOT_Packages_SMD:SOT-23"
+attribut smd
+position  7.015748  4.673228
+orientation  90.00
+layer component
+$SHAPE3D
+Na "TO_SOT_Packages_SMD.3dshapes/SOT-23.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.039400
+size  0.031500  0.031500
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.039400
+size  0.031500  0.031500
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "3"
+position  0.000000 -0.039300
+size  0.031500  0.031500
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  Q2
+
+$MODULE "Q3"
+reference "Q3"
+value "bc857"
+footprint "TO_SOT_Packages_SMD:SOT-23"
+attribut smd
+position  7.015748  4.543307
+orientation  90.00
+layer component
+$SHAPE3D
+Na "TO_SOT_Packages_SMD.3dshapes/SOT-23.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.039400
+size  0.031500  0.031500
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.039400
+size  0.031500  0.031500
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "3"
+position  0.000000 -0.039300
+size  0.031500  0.031500
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  Q3
+
+$MODULE "U5"
+reference "U5"
+value "MCP1703T-3302E/CB"
+footprint "TO_SOT_Packages_SMD:SOT-23"
+attribut smd
+position  4.196850  4.295276
+orientation  0.00
+layer component
+$SHAPE3D
+Na "TO_SOT_Packages_SMD.3dshapes/SOT-23.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.039400
+size  0.031500  0.031500
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.039400
+size  0.031500  0.031500
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "3"
+position  0.000000 -0.039300
+size  0.031500  0.031500
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  U5
+
+$MODULE "R45"
+reference "R45"
+value "100 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  6.090551  3.688976
+orientation  180.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R45
+
+$MODULE "R46"
+reference "R46"
+value "100 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  5.901575  3.822835
+orientation  0.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R46
+
+$MODULE "C31"
+reference "C31"
+value "100n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  6.185039  3.523622
+orientation  90.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C31
+
+$MODULE "C37"
+reference "C37"
+value "100n"
+footprint "Capacitors_SMD:C_0805"
+attribut smd
+position  5.779528  4.049213
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.039370  0.000000
+size  0.039370  0.049213
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  C37
+
+$MODULE "R12"
+reference "R12"
+value "0.15 5%"
+footprint "Capacitors_SMD:C_1206"
+attribut smd
+position  6.763780  3.732283
+orientation  90.00
+layer component
+$SHAPE3D
+Na "Capacitors_SMD.3dshapes/C_1206.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.059055  0.000000
+size  0.039370  0.062992
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.059055  0.000000
+size  0.039370  0.062992
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R12
+
+$MODULE "R47"
+reference "R47"
+value "10k 5%"
+footprint "Resistors_SMD:R_0805"
+attribut smd
+position  4.141732  3.210630
+orientation  270.00
+layer component
+$SHAPE3D
+Na "Resistors_SMD.3dshapes/R_0805.wrl"
+Sc 1 1 1
+Of 0 0 0
+Ro 0 0 0
+$EndSHAPE3D
+$PAD "1"
+position -0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$PAD "2"
+position  0.037402  0.000000
+size  0.027559  0.051181
+drill  0.000000
+shape_offset  0.000000  0.000000
+orientation  0.00
+Shape  Circ
+Layer  front
+$EndPAD
+$EndMODULE  R47
+
+$LINE 
+start 3.464567 4.763780
+end 7.381890 4.763780
+width 0.005906
+$EndLINE 
+$LINE 
+start 3.464567 2.795276
+end 7.381890 2.795276
+width 0.005906
+$EndLINE 
+$LINE 
+start 7.381890 2.795276
+end 7.381890 4.763780
+width 0.005906
+$EndLINE 
+$LINE 
+start 3.464567 4.763780
+end 3.464567 2.795276
+width 0.005906
+$EndLINE 
+$EndDESCRIPTION
