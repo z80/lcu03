@@ -817,13 +817,13 @@ Text Label 9800 3000 0    60   ~ 0
 tx-2
 Text Label 9800 3200 0    60   ~ 0
 rx-2
-Text Label 9250 7150 0    60   ~ 0
+Text Label 9600 4200 0    60   ~ 0
 gpio-0
 Text Label 9700 9500 0    60   ~ 0
 gpio-1
-Text Label 9700 4200 0    60   ~ 0
-gpio-2
 Text Label 9700 9300 0    60   ~ 0
+gpio-2
+Text Label 9700 7150 0    60   ~ 0
 gpio-3
 Text Label 2700 13050 0    60   ~ 0
 tx-2
@@ -1214,7 +1214,7 @@ Wire Wire Line
 Wire Wire Line
 	4550 5900 4100 5900
 Wire Wire Line
-	9600 7150 9150 7150
+	9150 4200 9950 4200
 Wire Wire Line
 	1200 12950 1200 12750
 Wire Wire Line
@@ -1234,9 +1234,9 @@ Wire Wire Line
 Wire Wire Line
 	9150 2300 10000 2300
 Wire Wire Line
-	9150 9300 10000 9300
+	9150 7150 10000 7150
 Wire Wire Line
-	9150 4200 10000 4200
+	9150 9300 10000 9300
 Wire Wire Line
 	9150 9500 10000 9500
 Wire Wire Line
