@@ -274,13 +274,13 @@ Wire Notes Line
 Wire Notes Line
 	4450 1775 4400 1775
 Wire Notes Line
-	4150 1600 4150 1650
+	4400 1825 4400 1875
 Wire Notes Line
-	4150 1650 4200 1650
+	4400 1875 4450 1875
 Wire Notes Line
-	4200 1650 4200 1600
+	4450 1875 4450 1825
 Wire Notes Line
-	4200 1600 4150 1600
+	4450 1825 4400 1825
 Wire Notes Line
 	4750 1825 4750 1875
 Wire Notes Line
@@ -298,13 +298,13 @@ Wire Notes Line
 Wire Notes Line
 	4800 1775 4750 1825
 Wire Notes Line
-	5050 1600 5050 1650
+	4800 1825 4800 1875
 Wire Notes Line
-	5050 1650 5100 1650
+	4800 1875 4850 1875
 Wire Notes Line
-	5100 1650 5100 1600
+	4850 1875 4850 1825
 Wire Notes Line
-	5100 1600 5050 1600
+	4850 1825 4800 1825
 Wire Notes Line
 	4150 1550 4200 1550
 Wire Notes Line
@@ -382,19 +382,11 @@ Wire Notes Line
 Wire Notes Line
 	3950 4900 3950 5250
 Wire Notes Line
-	4075 1725 4000 2175
-Wire Notes Line
-	4000 2175 4250 3350
-Wire Notes Line
 	4250 3350 4550 4100
 Wire Notes Line
 	4550 4100 4750 4775
 Wire Notes Line
 	4750 4775 4750 5250
-Wire Notes Line
-	5175 1700 4975 2100
-Wire Notes Line
-	4975 2100 4900 2875
 Wire Notes Line
 	4900 2875 5075 4400
 Wire Notes Line
@@ -417,4 +409,8 @@ Text Notes 4050 2200 0    60   ~ 0
 Yellow
 Text Notes 5025 2150 0    60   ~ 0
 Red
+Wire Notes Line
+	4250 3350 4400 2000
+Wire Notes Line
+	4900 2875 4825 2000
 $EndSCHEMATC
