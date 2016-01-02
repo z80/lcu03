@@ -976,7 +976,7 @@ destructors     0x080000ec        0x0
  *(SORT(.fini_array.*))
                 0x080000ec                PROVIDE (__fini_array_end, .)
 
-.text           0x080000f0     0x2524
+.text           0x080000f0     0x2534
  *(.text.startup.*)
  *(.text)
  *(.text.*)
@@ -1376,32 +1376,35 @@ destructors     0x080000ec        0x0
                 0x08002580       0x3c build/obj/board.o
                 0x08002580                pal_default_config
  *fill*         0x080025bc        0x4 00
- .rodata.funcs  0x080025c0       0x18 build/obj/cpu_io.o
- *fill*         0x080025d8        0x8 00
+ .rodata.serial_cfg
+                0x080025c0        0xc build/obj/cpu_io.o
+ *fill*         0x080025cc        0x4 00
+ .rodata.funcs  0x080025d0       0x18 build/obj/cpu_io.o
+ *fill*         0x080025e8        0x8 00
  .rodata.str1.4
-                0x080025e0       0x24 build/obj/cpu_io.o
- *fill*         0x08002604        0xc 00
+                0x080025f0       0x24 build/obj/cpu_io.o
+ *fill*         0x08002614        0xc 00
  .rodata.str1.4
-                0x08002610        0x4 build/obj/led_ctrl.o
+                0x08002620        0x4 build/obj/led_ctrl.o
  *(.glue_7t)
  .glue_7t       0x00000000        0x0 linker stubs
  *(.glue_7)
  .glue_7        0x00000000        0x0 linker stubs
  *(.gcc*)
 
-.vfp11_veneer   0x08002614        0x0
+.vfp11_veneer   0x08002624        0x0
  .vfp11_veneer  0x00000000        0x0 linker stubs
 
-.v4_bx          0x08002614        0x0
+.v4_bx          0x08002624        0x0
  .v4_bx         0x00000000        0x0 linker stubs
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
 
-.ARM.exidx      0x08002614        0x0
-                0x08002614                PROVIDE (__exidx_start, .)
+.ARM.exidx      0x08002624        0x0
+                0x08002624                PROVIDE (__exidx_start, .)
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
-                0x08002614                PROVIDE (__exidx_end, .)
+                0x08002624                PROVIDE (__exidx_end, .)
 
 .eh_frame_hdr
  *(.eh_frame_hdr)
@@ -1409,12 +1412,12 @@ destructors     0x080000ec        0x0
 .eh_frame
  *(.eh_frame)
 
-.textalign      0x08002614        0x4
-                0x08002618                . = ALIGN (0x8)
- *fill*         0x08002614        0x4 00
-                0x08002618                . = ALIGN (0x4)
-                0x08002618                _etext = .
-                0x08002618                _textdata = _etext
+.textalign      0x08002624        0x4
+                0x08002628                . = ALIGN (0x8)
+ *fill*         0x08002624        0x4 00
+                0x08002628                . = ALIGN (0x4)
+                0x08002628                _etext = .
+                0x08002628                _textdata = _etext
 
 .stacks         0x20000000      0x800
                 0x20000000                . = ALIGN (0x8)
@@ -1431,7 +1434,7 @@ destructors     0x080000ec        0x0
                 0x20000800                __process_stack_end__ = .
                 0x20000800                __main_thread_stack_end__ = .
 
-.data           0x20000800        0x4 load address 0x08002618
+.data           0x20000800        0x4 load address 0x08002628
                 0x20000800                . = ALIGN (0x4)
                 0x20000800                PROVIDE (_data, .)
  *(.data)
@@ -1444,7 +1447,7 @@ destructors     0x080000ec        0x0
                 0x20000804                . = ALIGN (0x4)
                 0x20000804                PROVIDE (_edata, .)
 
-.bss            0x20000808      0xfc0 load address 0x0800261c
+.bss            0x20000808      0xfc0 load address 0x0800262c
                 0x20000808                . = ALIGN (0x4)
                 0x20000808                PROVIDE (_bss_start, .)
  *(.bss)
@@ -1585,7 +1588,7 @@ OUTPUT(build/digitizer.elf elf32-littlearm)
  .debug_abbrev  0x00005597      0x14e build/obj/misc.o
  .debug_abbrev  0x000056e5      0x1e5 build/obj/stm32f10x_flash.o
 
-.debug_info     0x00000000    0x162ab
+.debug_info     0x00000000    0x162b1
  .debug_info    0x00000000      0x345 build/obj/crt0.o
  .debug_info    0x00000345       0xb5 build/obj/vectors.o
  .debug_info    0x000003fa       0x8b build/obj/chcore.o
@@ -1663,11 +1666,11 @@ OUTPUT(build/digitizer.elf elf32-littlearm)
  .debug_info    0x000137d3      0x29a build/obj/iwdg.o
  .debug_info    0x00013a6d      0x256 build/obj/iwdg_lld.o
  .debug_info    0x00013cc3       0xbc build/obj/main.o
- .debug_info    0x00013d7f      0xd1d build/obj/cpu_io.o
- .debug_info    0x00014a9c      0x645 build/obj/led_ctrl.o
- .debug_info    0x000150e1      0x3d2 build/obj/dfu_ctrl.o
- .debug_info    0x000154b3      0x59a build/obj/misc.o
- .debug_info    0x00015a4d      0x85e build/obj/stm32f10x_flash.o
+ .debug_info    0x00013d7f      0xd23 build/obj/cpu_io.o
+ .debug_info    0x00014aa2      0x645 build/obj/led_ctrl.o
+ .debug_info    0x000150e7      0x3d2 build/obj/dfu_ctrl.o
+ .debug_info    0x000154b9      0x59a build/obj/misc.o
+ .debug_info    0x00015a53      0x85e build/obj/stm32f10x_flash.o
 
 .debug_line     0x00000000     0x9271
  .debug_line    0x00000000      0x173 build/obj/crt0.o

@@ -33,7 +33,7 @@ static const SerialConfig serial_cfg =
 {
 	115200,
 	0,
-	USART_CR2_STOP1_BITS | USART_CR2_LINEN,
+	USART_CR2_STOP1_BITS /*| USART_CR2_LINEN*/,
 	USART_CR3_RTSE | USART_CR3_CTSE
 
 };
@@ -49,8 +49,8 @@ void initCpuIo( void )
 	palSetPadMode( GPIOA, 12, PAL_MODE_INPUT );
 
 	// Initialize serial driver.
-	//sdStart( &SERIAL, &serial_cfg );
-	sdStart( &SERIAL, 0 );
+	sdStart( &SERIAL, &serial_cfg );
+	//sdStart( &SERIAL, 0 );
 }
 
 void processCpuIo( void )
