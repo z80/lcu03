@@ -3,11 +3,17 @@
 #include "hal.h"
 
 #include "iwdg.h"
-#include "temp_ctrl.h"
+//#include "temp_ctrl.h"
 #include "hdw_config.h"
 
 static Mutex    mutex;
 static uint32_t value = 0;
+
+// LEDs
+#define LED_0_PORT   GPIOC
+#define LED_0_PIN    14
+#define LED_1_PORT   GPIOC
+#define LED_1_PIN    13
 
 
 static WORKING_AREA( waLeds, 256 );
@@ -32,7 +38,7 @@ static msg_t ledsThread( void *arg )
         chMtxUnlock();
         chThdSleepMilliseconds( 500 );
 
-        processTemp();
+        //processTemp();
     }
 
     return 0;

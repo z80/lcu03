@@ -6,6 +6,8 @@
 
 void shutterInit( void );
 void setShutter( uint8_t en );
+// This is in case of poweroff to unpower shutter.
+void haltShutterI( void );
 
 
 #endif

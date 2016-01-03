@@ -97,7 +97,8 @@ CSRC = $(PORTSRC) \
        ./src/timer_ctrl.c \
        ./src/temp_ctrl.c \
        ./src/output_ctrl.c \
-       ./src/dfu_ctrl.c
+       ./src/dfu_ctrl.c \
+       ./src/shutter_ctrl.c
        
        #./src/cpal_usercallback.c \
        #./cpal_i2c/cpal_hal.c \
