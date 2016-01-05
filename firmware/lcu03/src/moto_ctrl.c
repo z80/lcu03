@@ -25,11 +25,15 @@ typedef struct
 {
 	int     pos;
 	int     sensorPos;
-	uint8_t activated;
+	uint8_t activated : 1;
+	uint8_t in_motion : 1;
 } TMotor;
 
-TMotor motor[2];
-static int moto_vmin, moto_vmax, moto_acc;
+static TMotor motor[2];
+static int moto_vmin = 200,
+		moto_vmax = 500,
+		moto_acc = 200;
+static int steps_per_rev = 5120;
 
 static void extHall0( EXTDriver * extp, expchannel_t channel );
 static void extHall1( EXTDriver * extp, expchannel_t channel );
@@ -179,23 +183,47 @@ void motorSetParams( int vmin, int vmax, int acc )
 	moto_acc  = acc;
 }
 
-void motorMove( int index, int pos )
+void motorSetRevSteps( int cnt )
 {
-
+	steps_per_rev = cnt;
 }
 
-void motorSensorData( int * activated, int * pos )
+void motorMove( int index, int pos )
 {
+	uint8_t * arg = (uint8_t *)(&pos);
+	chSysLock();
+		chIQPutI( &motor_queue, (index > 0) ? 1 : 0 );
+		cjIQPutI( &motor_queue, arg[0] );
+		cjIQPutI( &motor_queue, arg[1] );
+		cjIQPutI( &motor_queue, arg[2] );
+		cjIQPutI( &motor_queue, arg[3] );
+	chSysUnlock();
+}
 
+void motorSensorData( int index, int * activated, int * pos )
+{
+	int ind = (index > 0) ? 1 : 0;
+	TMotor * m = &(motor[ind]);
+	if ( pos )
+		*pos = m->sensorPos;
+	if ( activated )
+		*activated = m->activated;
 }
 
 int motorInMotion( int index )
 {
-
+	int ind = (index > 0) ? 1 : 0;
+	TMotor * m = &(motor[ind]);
+	int res = m->in_motion;
+	return res;
 }
 
 int motorPos( int index )
 {
+	int ind = (index > 0) ? 1 : 0;
+	TMotor * m = &(motor[ind]);
+	int res = m->pos;
+	return res;
 
 }
 
