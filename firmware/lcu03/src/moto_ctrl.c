@@ -118,21 +118,22 @@ static PWMConfig pwmcfgMotor1 = {
 
 
 
-#define MOTOR_QUEUE_SZ 5
+#define MOTOR_QUEUE_SZ 3
 
-typedef struct
-{
-	uint8_t index;
-	int     steps;
-} TCmd;
+#define MOTOR_BUFFER_SZ ( MOTOR_QUEUE_SZ * sizeof( int ) )
 
-#define MOTOR_BUFFER_SZ ( MOTOR_QUEUE_SZ * sizeof( TCmd ) )
+InputQueue  motor0_queue;
+uint8_t     motor0_queue_buffer[ MOTOR_BUFFER_SZ ];
 
-InputQueue  motor_queue;
-uint8_t     motor_queue_buffer[ MOTOR_BUFFER_SZ ];
+InputQueue  motor1_queue;
+uint8_t     motor1_queue_buffer[ MOTOR_BUFFER_SZ ];
 
 
+static WORKING_AREA( waMotor0, 256 );
+static msg_t motor0Thread( void *arg );
 
+static WORKING_AREA( waMotor1, 256 );
+static msg_t motor1Thread( void *arg );
 
 
 
@@ -150,7 +151,8 @@ void motorInit( void )
 	// Hall_1.
 	palSetPadMode( GPIOB, 12, PAL_MODE_INPUT );
 
-	chIQInit( &motor_queue,   motor_queue_buffer, SWEEP_BUFFER_SZ, 0 );
+	chIQInit( &motor0_queue,   motor0_queue_buffer, SWEEP_BUFFER_SZ, 0 );
+	chIQInit( &motor1_queue,   motor1_queue_buffer, SWEEP_BUFFER_SZ, 0 );
 
 	// Initialize external interrupt input here.
 	extStart(&EXTD1, &extcfg);
@@ -167,6 +169,13 @@ void motorInit( void )
 	palClearPad( SLEEP_PORT,  SLEEP_PAD );
 	palClearPad( RESET_PORT,  RESET_PAD );
 	palSetPad(  HIGH_CURRENT_PORT, HIGH_CURRENT_PAD );
+	palSetPadMode( ENABLE_PORT, ENABLE_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+	palSetPadMode( SLEEP_PORT,  SLEEP_PAD,  PAL_MODE_OUTPUT_PUSHPULL );
+	palSetPadMode( RESET_PORT,  RESET_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+	palSetPadMode( HIGH_CURRENT_PORT, HIGH_CURRENT_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+
+	chThdCreateStatic( waMotor0, sizeof(waMotor0), NORMALPRIO, motor0Thread, NULL );
+	chThdCreateStatic( waMotor1, sizeof(waMotor1), NORMALPRIO, motor1Thread, NULL );
 }
 
 
@@ -192,11 +201,11 @@ void motorMove( int index, int pos )
 {
 	uint8_t * arg = (uint8_t *)(&pos);
 	chSysLock();
-		chIQPutI( &motor_queue, (index > 0) ? 1 : 0 );
-		cjIQPutI( &motor_queue, arg[0] );
-		cjIQPutI( &motor_queue, arg[1] );
-		cjIQPutI( &motor_queue, arg[2] );
-		cjIQPutI( &motor_queue, arg[3] );
+	    InputQueue * motor_queue = ( index > 0 ) ? 1 : 0;
+		chIQPutI( motor_queue, arg[0] );
+		chIQPutI( motor_queue, arg[1] );
+		chIQPutI( motor_queue, arg[2] );
+		chIQPutI( motor_queue, arg[3] );
 	chSysUnlock();
 }
 
@@ -237,6 +246,24 @@ static void pwmMotor1( PWMDriver * pwmp )
 
 }
 
+
+static msg_t motor0Thread( void *arg )
+{
+	while ( 1 )
+	{
+
+	}
+	return 0;
+}
+
+static msg_t motor1Thread( void *arg )
+{
+	while ( 1 )
+	{
+
+	}
+	return 0;
+}
 
 
 
