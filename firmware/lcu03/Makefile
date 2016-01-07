@@ -92,12 +92,6 @@ CSRC = $(PORTSRC) \
        ./src/main.c \
        ./src/cpu_io.c \
        ./src/led_ctrl.c \
-       ./src/sweep_ctrl.c \
-       ./src/adc_ctrl.c \
-       ./src/dac_ctrl.c \
-       ./src/timer_ctrl.c \
-       ./src/temp_ctrl.c \
-       ./src/output_ctrl.c \
        ./src/dfu_ctrl.c \
        ./src/shutter_ctrl.c
        

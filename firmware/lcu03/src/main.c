@@ -61,21 +61,29 @@ int main(void)
     initCpuIo();
     //initTemp();
     initLed();
-    shutterInit();
-    motorInit();
+    //shutterInit();
+    //motorInit();
     //initOutput();
     setLeds( 3 );
 
 
-    pwmStart( &PWMD3, &pwmcfgMotor0 );
-    pwmDisableChannel( &PWMD3, 2 );
-    palSetPadMode( GPIOB, 0, PAL_MODE_STM32_ALTERNATE_PUSHPULL );
+    //pwmStart( &PWMD3, &pwmcfgMotor0 );
+    //pwmDisableChannel( &PWMD3, 2 );
+    //palSetPadMode( GPIOB, 0, PAL_MODE_STM32_ALTERNATE_PUSHPULL );
 
     int period;
     period = PWM_FREQ / 100;
-    pwmChangePeriod( &PWMD3, period );
-    pwmEnableChannel( &PWMD3, 2, PWM_PERCENTAGE_TO_WIDTH( &PWMD3, 5000 ) );
+    //pwmChangePeriod( &PWMD3, period );
+    //pwmEnableChannel( &PWMD3, 2, PWM_PERCENTAGE_TO_WIDTH( &PWMD3, 5000 ) );
 
+
+    palSetPadMode( GPIOA, 1, PAL_MODE_OUTPUT_PUSHPULL );
+    int i;
+    for ( i=0; i<100; i++ )
+    {
+        palClearPad( GPIOA, 1 );
+        palSetPad( GPIOA, 1 );
+    }
 
 
     pwmStart( &PWMD2, &pwmcfgMotor1 );
@@ -89,7 +97,7 @@ int main(void)
     pwmEnableChannel( &PWMD2, 3, PWM_PERCENTAGE_TO_WIDTH( &PWMD2, 5000 ) );
 
     // High current.
-    palClearPad( GPIOB, 13 );
+    //palClearPad( GPIOB, 13 );
 
 
     while ( 1 )
