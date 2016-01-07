@@ -3,9 +3,9 @@
 #include "hal.h"
 
 #include "iwdg.h"
+#include "moto_ctrl.h"
 #include "led_ctrl.h"
 #include "shutter_ctrl.h"
-#include "moto_ctrl.h"
 //#include "dac_ctrl.h"
 //#include "adc_ctrl.h"
 //#include "timer_ctrl.h"
@@ -13,6 +13,7 @@
 //#include "sweep_ctrl.h"
 //#include "output_ctrl.h"
 #include "cpu_io.h"
+
 
 int main(void)
 {
@@ -29,19 +30,26 @@ int main(void)
 
     while ( 1 )
     {
-    	//processCpuIo();
+        //processCpuIo();
 
-    	chThdSleepSeconds( 5 );
+        chThdSleepSeconds( 5 );
+
+        while ( 1 )
+        {
+            //setShutter( 1 );
+            motorMove( 0, 1000 );
+            chThdSleepSeconds( 5 );
 
 
-    	while ( 1 )
-    	{
-    		setShutter( 1 );
-    		chThdSleepSeconds( 3 );
-    		setShutter( 0 );
-    		chThdSleepSeconds( 3 );
-    	}
+
+
+
+            //setShutter( 0 );
+            motorMove( 0, -1000 );
+            chThdSleepSeconds( 5 );
+        }
 
     }
     return 0;
 }
+
