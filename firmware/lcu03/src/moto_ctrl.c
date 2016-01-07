@@ -165,9 +165,11 @@ void motorInit( void )
 
 	// Init PWM for step control.
 	pwmStart( &PWMD3, &pwmcfgMotor0 );
+	pwmDisableChannel( &PWMD3, 2 );
 	palSetPadMode( GPIOB, 0, PAL_MODE_STM32_ALTERNATE_PUSHPULL );
 
 	pwmStart( &PWMD2, &pwmcfgMotor1 );
+	pwmDisableChannel( &PWMD2, 1 );
 	palSetPadMode( GPIOA, 1, PAL_MODE_STM32_ALTERNATE_PUSHPULL );
 
 	// Init GPIO ~sleep~, ~enable~, ~reset~, ~high_current~.
@@ -263,14 +265,16 @@ static void extPowerOff( EXTDriver * extp, expchannel_t channel )
 }
 
 
+static int g_distance0 = 0;
 static void pwmMotor0( PWMDriver * pwmp )
 {
-
+    g_distance0 += 1;
 }
 
+static int g_distance1 = 0;
 static void pwmMotor1( PWMDriver * pwmp )
 {
-
+    g_distance1 += 1;
 }
 
 
@@ -288,13 +292,21 @@ static msg_t motor0Thread( void *arg )
 		// Choose direction and steps number.
 		TMotor * moto = &(motor[0]);
 		int dir;
-		dir = ( dest > moto->pos ) ? 1 : 0;
+		dir = ( dest > moto->pos ) ? 1 : -1;
+		int distance;
+		distance = dest - moto->pos;
+		distance = ( distance > 0 ) ? distance : -distance;
+		// Set rotation direction.
 		setMoto0Dir( dir );
 		// Set high current.
+		setHighCurrent( 1 );
 
-
+		// In loop control PWM speed.
+		pwmChangePeriod( &PWMD3, 5000 );
+		pwmEnableChannel( &PWMD3, 2, PWM_PERCENTAGE_TO_WIDTH( &PWMD3, 5000 ) );
 
 		// In the very end set low current.
+		setHighCurrent( -1 );
 	}
 	return 0;
 }

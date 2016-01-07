@@ -22,8 +22,8 @@ int main(void)
     initCpuIo();
     //initTemp();
     initLed();
-    //shutterInit();
-    //motorInit();
+    shutterInit();
+    motorInit();
     //initOutput();
     setLeds( 3 );
 
@@ -33,7 +33,7 @@ int main(void)
 
     	chThdSleepSeconds( 5 );
 
-    	/*
+
     	while ( 1 )
     	{
     		setShutter( 1 );
@@ -41,7 +41,7 @@ int main(void)
     		setShutter( 0 );
     		chThdSleepSeconds( 3 );
     	}
-    	*/
+
     }
     return 0;
 }
