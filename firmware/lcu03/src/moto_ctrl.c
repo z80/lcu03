@@ -2,7 +2,7 @@
 #include "moto_ctrl.h"
 #include "hal.h"
 
-#define PWM_FREQ 140625
+#define PWM_FREQ 10000 //140625
 #define HIGH_CURRENT_WAIT 200
 
 #define SLEEP_PORT GPIOA
@@ -186,6 +186,10 @@ void motorInit( void )
     palSetPadMode( SLEEP_PORT,  SLEEP_PAD,  PAL_MODE_OUTPUT_PUSHPULL );
     palSetPadMode( RESET_PORT,  RESET_PAD, PAL_MODE_OUTPUT_PUSHPULL );
     palSetPadMode( HIGH_CURRENT_PORT, HIGH_CURRENT_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+
+    // Dir0 and Dir1.
+    palSetPadMode( DIR_0_PORT, DIR_0_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+    palSetPadMode( DIR_1_PORT, DIR_1_PAD, PAL_MODE_OUTPUT_PUSHPULL );
 
     chThdCreateStatic( waMotor0, sizeof(waMotor0), NORMALPRIO, motor0Thread, NULL );
     chThdCreateStatic( waMotor1, sizeof(waMotor1), NORMALPRIO, motor1Thread, NULL );
