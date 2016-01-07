@@ -5,9 +5,9 @@
 
 # Compiler options here.
 ifeq ($(USE_OPT),)
-  USE_OPT = -O2 -ggdb -fomit-frame-pointer -falign-functions=16 
+  #USE_OPT = -O2 -ggdb -fomit-frame-pointer -falign-functions=16 
   #-DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER
-  #USE_OPT = -O0 -g -ggdb -fomit-frame-pointer -falign-functions=16 
+  USE_OPT = -O0 -g -ggdb -fomit-frame-pointer -falign-functions=16 
   #-DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER
 endif
 
@@ -98,7 +98,8 @@ CSRC = $(PORTSRC) \
        ./src/temp_ctrl.c \
        ./src/output_ctrl.c \
        ./src/dfu_ctrl.c \
-       ./src/shutter_ctrl.c
+       ./src/shutter_ctrl.c \
+       ./drc/moto_ctrl.c
        
        #./src/cpal_usercallback.c \
        #./cpal_i2c/cpal_hal.c \

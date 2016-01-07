@@ -20,6 +20,12 @@
 #define HIGH_CURRENT_PORT GPIOB
 #define HIGH_CURRENT_PAD  13
 
+static void setMotoSleep( int en );
+static void setMotoReset( int en );
+static void setMotoEnable( int en );
+static void setMoto0Dir( int dir );
+static void setMoto1Dir( int dir );
+static void setHighCurrent( int en );
 
 typedef struct
 {
@@ -151,8 +157,8 @@ void motorInit( void )
 	// Hall_1.
 	palSetPadMode( GPIOB, 12, PAL_MODE_INPUT );
 
-	chIQInit( &motor0_queue,   motor0_queue_buffer, SWEEP_BUFFER_SZ, 0 );
-	chIQInit( &motor1_queue,   motor1_queue_buffer, SWEEP_BUFFER_SZ, 0 );
+	chIQInit( &motor0_queue,   motor0_queue_buffer, MOTOR_BUFFER_SZ, 0 );
+	chIQInit( &motor1_queue,   motor1_queue_buffer, MOTOR_BUFFER_SZ, 0 );
 
 	// Initialize external interrupt input here.
 	extStart(&EXTD1, &extcfg);
@@ -161,7 +167,7 @@ void motorInit( void )
 	pwmStart( &PWMD3, &pwmcfgMotor0 );
 	palSetPadMode( GPIOB, 0, PAL_MODE_STM32_ALTERNATE_PUSHPULL );
 
-	pwmStart( &PWMD2, &pwmcfgMoto1 );
+	pwmStart( &PWMD2, &pwmcfgMotor1 );
 	palSetPadMode( GPIOA, 1, PAL_MODE_STM32_ALTERNATE_PUSHPULL );
 
 	// Init GPIO ~sleep~, ~enable~, ~reset~, ~high_current~.
@@ -176,6 +182,11 @@ void motorInit( void )
 
 	chThdCreateStatic( waMotor0, sizeof(waMotor0), NORMALPRIO, motor0Thread, NULL );
 	chThdCreateStatic( waMotor1, sizeof(waMotor1), NORMALPRIO, motor1Thread, NULL );
+
+	// Turn drivers on.
+	setMotoReset( 0 );
+	setMotoSleep( 0 );
+	setMotoEnable( 1 );
 }
 
 
@@ -201,7 +212,7 @@ void motorMove( int index, int pos )
 {
 	uint8_t * arg = (uint8_t *)(&pos);
 	chSysLock();
-	    InputQueue * motor_queue = ( index > 0 ) ? 1 : 0;
+	    InputQueue * motor_queue = ( index > 0 ) ? (&motor1_queue) : (&motor0_queue);
 		chIQPutI( motor_queue, arg[0] );
 		chIQPutI( motor_queue, arg[1] );
 		chIQPutI( motor_queue, arg[2] );
@@ -236,6 +247,22 @@ int motorPos( int index )
 
 }
 
+static void extHall0( EXTDriver * extp, expchannel_t channel )
+{
+
+}
+
+static void extHall1( EXTDriver * extp, expchannel_t channel )
+{
+
+}
+
+static void extPowerOff( EXTDriver * extp, expchannel_t channel )
+{
+
+}
+
+
 static void pwmMotor0( PWMDriver * pwmp )
 {
 
@@ -251,7 +278,23 @@ static msg_t motor0Thread( void *arg )
 {
 	while ( 1 )
 	{
+		int dest;
+		uint8_t * args = (uint8_t *)( &dest );
+		args[0] = chIQGet( &motor0_queue );
+		args[1] = chIQGet( &motor0_queue );
+		args[2] = chIQGet( &motor0_queue );
+		args[3] = chIQGet( &motor0_queue );
 
+		// Choose direction and steps number.
+		TMotor * moto = &(motor[0]);
+		int dir;
+		dir = ( dest > moto->pos ) ? 1 : 0;
+		setMoto0Dir( dir );
+		// Set high current.
+
+
+
+		// In the very end set low current.
 	}
 	return 0;
 }
@@ -267,4 +310,54 @@ static msg_t motor1Thread( void *arg )
 
 
 
+
+
+static void setMotoSleep( int en )
+{
+	if ( en )
+		palClearPad( SLEEP_PORT, SLEEP_PAD );
+	else
+		palSetPad( SLEEP_PORT, SLEEP_PAD );
+}
+
+static void setMotoReset( int en )
+{
+	if ( en )
+		palClearPad( RESET_PORT, RESET_PAD );
+	else
+		palSetPad( RESET_PORT, RESET_PAD );
+}
+
+static void setMotoEnable( int en )
+{
+	if ( en )
+		palClearPad( ENABLE_PORT, ENABLE_PAD );
+	else
+		palSetPad( ENABLE_PORT, ENABLE_PAD );
+}
+
+static void setMoto0Dir( int dir )
+{
+	if ( dir > 0 )
+		palSetPad( DIR_0_PORT, DIR_0_PAD );
+	else
+		palClearPad( DIR_0_PORT, DIR_0_PAD );
+}
+
+static void setMoto1Dir( int dir )
+{
+	if ( dir > 0 )
+		palSetPad( DIR_1_PORT, DIR_1_PAD );
+	else
+		palClearPad( DIR_1_PORT, DIR_1_PAD );
+}
+
+static void setHighCurrent( int en )
+{
+	if ( en )
+		palClearPad( HIGH_CURRENT_PORT, HIGH_CURRENT_PAD );
+	else
+		palSetPad( HIGH_CURRENT_PORT, HIGH_CURRENT_PAD );
+
+}
 
