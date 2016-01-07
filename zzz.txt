@@ -1,1 +1,4 @@
-aaa
+1) Changed capacitor to 2.4nF to decncrease switching frequency from 300kHz to 150kHz. Otherwise MOSFET couldn't 
+close fast enough.
+2) Changed 1k to 5k ressitpr which tights switching signal to ground. It increased upper voltage. So mosfet can 
+open now. Otherwise it couldn't open and stayed closed. (Or in saturation???)
