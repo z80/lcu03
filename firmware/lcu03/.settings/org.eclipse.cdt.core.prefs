@@ -1,4 +1,3 @@
-#Mon Dec 21 10:29:43 MSK 2015
 =\=\=\=\=\=\=
 <<<<<<<=HEAD
 >>>>>>>=624b040d06464fcc8757c449f1f979c06fd7ddf3
@@ -13,6 +12,11 @@ environment/project/0.1950772711/PATH/operation=replace
 environment/project/0.1950772711/PATH/value=C\:\\Programs\\CodeSourcery\\2011.03-56\\bin;${PATH}
 environment/project/0.1950772711/append=true
 environment/project/0.1950772711/appendContributed=true
+environment/project/0.428921593/PATH/delimiter=;
+environment/project/0.428921593/PATH/operation=append
+environment/project/0.428921593/PATH/value=${Path}\:C\:\\Programs\\CodeSourcery\\2011.03-56\\bin
+environment/project/0.428921593/append=true
+environment/project/0.428921593/appendContributed=true
 environment/project/0.590684545/PATH/delimiter=\:
 environment/project/0.590684545/PATH/operation=replace
 environment/project/0.590684545/PATH/value=${PATH}\:/home/z80/programs/code-sourcery/2011.03-42/bin
