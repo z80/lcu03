@@ -52,9 +52,9 @@ typedef struct
 } TMotor;
 
 static TMotor motor[2];
-static int moto_vmin = 200,
-        moto_vmax = 400,
-        moto_acc = 100;
+static int moto_vmin = 500,
+        moto_vmax = 5000,
+        moto_acc = 1500;
 static int steps_per_rev = 5120;
 
 static void extHall0( EXTDriver * extp, expchannel_t channel );
@@ -151,58 +151,6 @@ static WORKING_AREA( waMotor1, 2048 );
 static msg_t motor1Thread( void *arg );
 
 
-static void timerMotor0( GPTDriver *gptp )
-{
-	(void)gptp;
-	TMotor * moto = &(motor[0]);
-	if ( moto->steps_left > 0 )
-	{
-		palSetPad( STEP_0_PORT, STEP_0_PAD );
-		chSysLockFromIsr();
-		    if ( GPTD2.state == GPT_READY )
-		    {
-		        int period2 = moto->period/2;
-		        gptStartOneShotI( &GPTD2, period2 );
-		    }
-			gptStartOneShotI( &GPTD1, moto->period );
-		chSysUnlockFromIsr();
-	}
-}
-
-static void offMotor0( GPTDriver *gptp )
-{
-	(void)gptp;
-	TMotor * moto = &(motor[0]);
-	palClearPad( STEP_0_PORT, STEP_0_PAD );
-	moto->steps_left -= 1;
-	moto->pos += ( moto->dir > 0 ) ? 1 : -1;
-}
-
-
-static void timerMotor1( GPTDriver *gptp )
-{
-	(void)gptp;
-	TMotor * moto = &(motor[1]);
-	if ( moto->steps_left > 0 )
-	{
-		palSetPad( STEP_1_PORT, STEP_1_PAD );
-		chSysLockFromIsr();
-			gptStartOneShotI( &GPTD3, moto->period );
-			gptStartOneShotI( &GPTD4, moto->period/2 );
-		chSysLockFromIsr();
-	}
-}
-
-static void offMotor1( GPTDriver *gptp )
-{
-	(void)gptp;
-	TMotor * moto = &(motor[1]);
-	palClearPad( STEP_1_PORT, STEP_1_PAD );
-	moto->steps_left -= 1;
-	moto->pos += ( moto->dir > 0 ) ? 1 : -1;
-}
-
-
 static msg_t motor0Thread( void *arg )
 {
     (void)arg;
@@ -217,10 +165,12 @@ static msg_t motor0Thread( void *arg )
 
         // Choose direction and steps number.
         TMotor * moto = &(motor[0]);
-        int dir = ( dest > moto->pos ) ? 1 : -1;
-        int distance = dest - moto->pos;
+        chSysLock();
+            int distance = dest - moto->pos;
+        chSysUnlock();
         distance = ( distance > 0 ) ? distance : -distance;
         // Set rotation direction.
+        int dir = ( dest > moto->pos ) ? 1 : -1;
         setMoto0Dir( dir );
         // Set high current.
         setHighCurrent( 1 );
@@ -231,6 +181,7 @@ static msg_t motor0Thread( void *arg )
 
         int half_dist = distance / 2;
         chSysLock();
+            moto->dir = ( dir > 0 ) ? 1 : 0;
             moto->period = period;
             moto->steps_left = distance;
         chSysUnlock();
@@ -278,11 +229,12 @@ static msg_t motor0Thread( void *arg )
         } while ( steps_left > 0 );
 
         // In the very end set low current.
-        if ( !motor[1].in_motion )
-        {
-        	chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
-        	setHighCurrent( -1 );
-        }
+        chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
+        // In the other motor doesn't work turn high current off.
+        chSysLock();
+            if ( !motor[1].in_motion )
+                setHighCurrent( -1 );
+        chSysUnlock();
 
         chSysLock();
         	moto->in_motion = 0;
@@ -375,6 +327,62 @@ static msg_t motor1Thread( void *arg )
     }
     return 0;
 }
+
+static void timerMotor0( GPTDriver *gptp )
+{
+    (void)gptp;
+    TMotor * moto = &(motor[0]);
+    if ( moto->steps_left > 0 )
+    {
+        palSetPad( STEP_0_PORT, STEP_0_PAD );
+        chSysLockFromIsr();
+            if ( GPTD2.state == GPT_READY )
+            {
+                int period2 = moto->period/2;
+                gptStartOneShotI( &GPTD2, period2 );
+            }
+            gptStartOneShotI( &GPTD1, moto->period );
+        chSysUnlockFromIsr();
+    }
+}
+
+static void offMotor0( GPTDriver *gptp )
+{
+    (void)gptp;
+    TMotor * moto = &(motor[0]);
+    palClearPad( STEP_0_PORT, STEP_0_PAD );
+    moto->steps_left -= 1;
+    moto->pos += ( moto->dir > 0 ) ? 1 : -1;
+}
+
+
+static void timerMotor1( GPTDriver *gptp )
+{
+    (void)gptp;
+    TMotor * moto = &(motor[1]);
+    if ( moto->steps_left > 0 )
+    {
+        palSetPad( STEP_1_PORT, STEP_1_PAD );
+        chSysLockFromIsr();
+            if ( GPTD4.state == GPT_READY )
+            {
+                int period2 = moto->period/2;
+                gptStartOneShotI( &GPTD4, period2 );
+            }
+            gptStartOneShotI( &GPTD3, moto->period );
+        chSysUnlockFromIsr();
+    }
+}
+
+static void offMotor1( GPTDriver *gptp )
+{
+    (void)gptp;
+    TMotor * moto = &(motor[1]);
+    palClearPad( STEP_1_PORT, STEP_1_PAD );
+    moto->steps_left -= 1;
+    moto->pos += ( moto->dir > 0 ) ? 1 : -1;
+}
+
 
 void motorMove( int index, int pos )
 {
@@ -545,7 +553,7 @@ static void extPowerOff( EXTDriver * extp, expchannel_t channel )
 
 static void setMotoSleep( int en )
 {
-    if ( en )
+    if ( en > 0 )
         palClearPad( SLEEP_PORT, SLEEP_PAD );
     else
         palSetPad( SLEEP_PORT, SLEEP_PAD );
@@ -553,7 +561,7 @@ static void setMotoSleep( int en )
 
 static void setMotoReset( int en )
 {
-    if ( en )
+    if ( en > 0 )
         palClearPad( RESET_PORT, RESET_PAD );
     else
         palSetPad( RESET_PORT, RESET_PAD );
@@ -561,7 +569,7 @@ static void setMotoReset( int en )
 
 static void setMotoEnable( int en )
 {
-    if ( en )
+    if ( en > 0 )
         palClearPad( ENABLE_PORT, ENABLE_PAD );
     else
         palSetPad( ENABLE_PORT, ENABLE_PAD );
@@ -585,7 +593,7 @@ static void setMoto1Dir( int dir )
 
 static void setHighCurrent( int en )
 {
-    if ( en )
+    if ( en > 0 )
         palClearPad( HIGH_CURRENT_PORT, HIGH_CURRENT_PAD );
     else
         palSetPad( HIGH_CURRENT_PORT, HIGH_CURRENT_PAD );

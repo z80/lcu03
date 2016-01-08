@@ -79,7 +79,7 @@ int main(void)
             //setShutter( 1 );
         	if ( !motorInMotion( 0 ) )
         		motorMove( 0, 1000 );
-            chThdSleepSeconds( 5 );
+            chThdSleepSeconds( 15 );
 
 
 
@@ -88,7 +88,7 @@ int main(void)
             //setShutter( 0 );
         	if ( !motorInMotion( 0 ) )
         		motorMove( 0, -1000 );
-            chThdSleepSeconds( 5 );
+            chThdSleepSeconds( 15 );
         }
 
     }
