@@ -59,11 +59,9 @@ int main(void)
     chSysInit();
 
     initCpuIo();
-    //initTemp();
     initLed();
-    //shutterInit();
-    //motorInit();
-    //initOutput();
+    shutterInit();
+    motorInit();
     setLeds( 3 );
 
 
@@ -77,6 +75,7 @@ int main(void)
     //pwmEnableChannel( &PWMD3, 2, PWM_PERCENTAGE_TO_WIDTH( &PWMD3, 5000 ) );
 
 
+    /*
     palSetPadMode( GPIOA, 1, PAL_MODE_OUTPUT_PUSHPULL );
     int i;
     for ( i=0; i<100; i++ )
@@ -95,6 +94,7 @@ int main(void)
     pwmEnableChannel( &PWMD2, 1, PWM_PERCENTAGE_TO_WIDTH( &PWMD2, 5000 ) );
     pwmEnableChannel( &PWMD2, 2, PWM_PERCENTAGE_TO_WIDTH( &PWMD2, 5000 ) );
     pwmEnableChannel( &PWMD2, 3, PWM_PERCENTAGE_TO_WIDTH( &PWMD2, 5000 ) );
+    */
 
     // High current.
     //palClearPad( GPIOB, 13 );
@@ -109,7 +109,7 @@ int main(void)
         while ( 1 )
         {
             //setShutter( 1 );
-            //motorMove( 0, 1000 );
+            motorMove( 0, 10000 );
             chThdSleepSeconds( 5 );
 
 
@@ -117,7 +117,7 @@ int main(void)
 
 
             //setShutter( 0 );
-            //motorMove( 0, -1000 );
+            motorMove( 0, -10000 );
             chThdSleepSeconds( 5 );
         }
 

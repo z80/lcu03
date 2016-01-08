@@ -2,7 +2,7 @@
 #include "moto_ctrl.h"
 #include "hal.h"
 
-#define PWM_FREQ 10000 //140625
+#define PWM_FREQ 100000 //140625
 #define HIGH_CURRENT_WAIT 200
 
 #define SLEEP_PORT GPIOA
@@ -43,8 +43,8 @@ typedef struct
 
 static TMotor motor[2];
 static int moto_vmin = 200,
-        moto_vmax = 500,
-        moto_acc = 200;
+        moto_vmax = 400,
+        moto_acc = 100;
 static int steps_per_rev = 5120;
 
 static void extHall0( EXTDriver * extp, expchannel_t channel );
@@ -140,15 +140,169 @@ InputQueue  motor1_queue;
 uint8_t     motor1_queue_buffer[ MOTOR_BUFFER_SZ ];
 
 
-static WORKING_AREA( waMotor0, 256 );
+static WORKING_AREA( waMotor0, 1024 );
 static msg_t motor0Thread( void *arg );
 
-static WORKING_AREA( waMotor1, 256 );
+static WORKING_AREA( waMotor1, 1024 );
 static msg_t motor1Thread( void *arg );
 
 
 
 
+static int g_distance0 = 0;
+static void pwmMotor0( PWMDriver * pwmp )
+{
+    g_distance0 -= 1;
+    if ( g_distance0 <= 0 )
+    {
+        g_distance0 = 0;
+        chSysLockFromIsr();
+            pwmDisableChannelI( &PWMD3, 2 );
+        chSysUnlockFromIsr();
+    }
+}
+
+static int g_distance1 = 0;
+static void pwmMotor1( PWMDriver * pwmp )
+{
+    g_distance1 -= 1;
+    if ( g_distance1 <= 0 )
+    {
+        g_distance1 = 0;
+        chSysLockFromIsr();
+            pwmDisableChannelI( &PWMD2, 1 );
+        chSysUnlockFromIsr();
+    }
+}
+
+
+static msg_t motor0Thread( void *arg )
+{
+    while ( 1 )
+    {
+        int dest;
+        uint8_t * args = (uint8_t *)( &dest );
+        args[0] = chIQGet( &motor0_queue );
+        args[1] = chIQGet( &motor0_queue );
+        args[2] = chIQGet( &motor0_queue );
+        args[3] = chIQGet( &motor0_queue );
+
+        // Choose direction and steps number.
+        TMotor * moto = &(motor[0]);
+        int dir;
+        dir = ( dest > moto->pos ) ? 1 : -1;
+        int distance;
+        distance = dest - moto->pos;
+        g_distance0 = ( distance > 0 ) ? distance : -distance;
+        // Set rotation direction.
+        setMoto0Dir( dir );
+        // Set high current.
+        setHighCurrent( 1 );
+        chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
+
+        // In loop control PWM speed.
+        int period;
+        period = PWM_FREQ / moto_vmin;
+        pwmChangePeriod( &PWMD3, period );
+        pwmEnableChannel( &PWMD3, 2, PWM_PERCENTAGE_TO_WIDTH( &PWMD3, 5000 ) );
+
+        int half_dist = distance / 2;
+        int current_dist;
+        int speed;
+
+        // Acceleration.
+        int min_period = PWM_FREQ;
+        do {
+            chThdSleepMilliseconds( 1 );
+            chSysLock();
+                current_dist = g_distance0;
+            chSysUnlock();
+
+            int d = current_dist;
+            d = (d > half_dist ) ? (distance - d) : d;
+            speed = nsqrt( moto_vmin * moto_vmin + 2 * moto_acc * d );
+            speed = ( speed > moto_vmax ) ? moto_vmax : speed;
+            period = PWM_FREQ / speed;
+            min_period = ( min_period > period ) ? period : min_period;
+            pwmChangePeriod( &PWMD3, period );
+
+        } while ( current_dist > 0 );
+
+        // In the very end set low current.
+        chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
+        setHighCurrent( -1 );
+    }
+    return 0;
+}
+
+static msg_t motor1Thread( void *arg )
+{
+    while ( 1 )
+    {
+        int dest;
+        uint8_t * args = (uint8_t *)( &dest );
+        args[0] = chIQGet( &motor1_queue );
+        args[1] = chIQGet( &motor1_queue );
+        args[2] = chIQGet( &motor1_queue );
+        args[3] = chIQGet( &motor1_queue );
+
+        // Choose direction and steps number.
+        TMotor * moto = &(motor[1]);
+        int dir;
+        dir = ( dest > moto->pos ) ? 1 : -1;
+        int distance;
+        distance = dest - moto->pos;
+        g_distance1 = ( distance > 0 ) ? distance : -distance;
+        // Set rotation direction.
+        setMoto1Dir( dir );
+        // Set high current.
+        setHighCurrent( 1 );
+        chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
+
+        // In loop control PWM speed.
+        int period;
+        period = PWM_FREQ / moto_vmin;
+        pwmChangePeriod( &PWMD2, period );
+        pwmEnableChannel( &PWMD2, 1, PWM_PERCENTAGE_TO_WIDTH( &PWMD2, 5000 ) );
+
+        int half_dist = distance / 2;
+        int current_dist;
+        int speed;
+
+        // Acceleration.
+        do {
+            chThdSleepMilliseconds( 1 );
+            chSysLock();
+                current_dist = g_distance0;
+            chSysUnlock();
+
+            int d = current_dist;
+            d = (d > half_dist ) ? (distance - d) : d;
+            speed = nsqrt( moto_vmin * moto_vmin + 2 * moto_acc * d );
+            speed = ( speed > moto_vmax ) ? moto_vmax : speed;
+            period = PWM_FREQ / speed;
+            pwmChangePeriod( &PWMD2, period );
+
+        } while ( current_dist > 0 );
+
+        // In the very end set low current.
+        chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
+        setHighCurrent( -1 );
+    }
+    return 0;
+}
+
+void motorMove( int index, int pos )
+{
+    uint8_t * arg = (uint8_t *)(&pos);
+    chSysLock();
+        InputQueue * motor_queue = ( index > 0 ) ? (&motor1_queue) : (&motor0_queue);
+        chIQPutI( motor_queue, arg[0] );
+        chIQPutI( motor_queue, arg[1] );
+        chIQPutI( motor_queue, arg[2] );
+        chIQPutI( motor_queue, arg[3] );
+    chSysUnlock();
+}
 
 
 
@@ -229,18 +383,6 @@ void motorSetRevSteps( int cnt )
     steps_per_rev = cnt;
 }
 
-void motorMove( int index, int pos )
-{
-    uint8_t * arg = (uint8_t *)(&pos);
-    chSysLock();
-        InputQueue * motor_queue = ( index > 0 ) ? (&motor1_queue) : (&motor0_queue);
-        chIQPutI( motor_queue, arg[0] );
-        chIQPutI( motor_queue, arg[1] );
-        chIQPutI( motor_queue, arg[2] );
-        chIQPutI( motor_queue, arg[3] );
-    chSysUnlock();
-}
-
 void motorSensorData( int index, int * activated, int * pos )
 {
     int ind = (index > 0) ? 1 : 0;
@@ -284,144 +426,6 @@ static void extPowerOff( EXTDriver * extp, expchannel_t channel )
 }
 
 
-static int g_distance0 = 0;
-static void pwmMotor0( PWMDriver * pwmp )
-{
-    g_distance0 -= 1;
-    if ( g_distance0 <= 0 )
-    {
-        chSysLockFromIsr();
-            pwmDisableChannelI( &PWMD3, 2 );
-        chSysUnlockFromIsr();
-    }
-}
-
-static int g_distance1 = 0;
-static void pwmMotor1( PWMDriver * pwmp )
-{
-    g_distance1 -= 1;
-    if ( g_distance1 <= 0 )
-    {
-        chSysLockFromIsr();
-            pwmDisableChannelI( &PWMD2, 1 );
-        chSysUnlockFromIsr();
-    }
-}
-
-
-static msg_t motor0Thread( void *arg )
-{
-    while ( 1 )
-    {
-        int dest;
-        uint8_t * args = (uint8_t *)( &dest );
-        args[0] = chIQGet( &motor0_queue );
-        args[1] = chIQGet( &motor0_queue );
-        args[2] = chIQGet( &motor0_queue );
-        args[3] = chIQGet( &motor0_queue );
-
-        // Choose direction and steps number.
-        TMotor * moto = &(motor[0]);
-        int dir;
-        dir = ( dest > moto->pos ) ? 1 : -1;
-        int distance;
-        distance = dest - moto->pos;
-        g_distance0 = ( distance > 0 ) ? distance : -distance;
-        // Set rotation direction.
-        setMoto0Dir( dir );
-        // Set high current.
-        setHighCurrent( 1 );
-        chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
-
-        // In loop control PWM speed.
-        int period;
-        period = PWM_FREQ / moto_vmin;
-        pwmChangePeriod( &PWMD3, period );
-        pwmEnableChannel( &PWMD3, 2, PWM_PERCENTAGE_TO_WIDTH( &PWMD3, 5000 ) );
-
-        int half_dist = distance / 2;
-        int current_dist;
-        int speed;
-
-        // Acceleration.
-        do {
-            chThdSleepMilliseconds( 1 );
-            chSysLock();
-                current_dist = g_distance0;
-            chSysUnlock();
-
-            int d = current_dist;
-            d = (d > half_dist ) ? (distance - d) : d;
-            speed = nsqrt( moto_vmin * moto_vmin + 2 * moto_acc * d );
-            speed = ( speed > moto_vmax ) ? moto_vmax : speed;
-            period = PWM_FREQ / moto_vmin;
-            pwmChangePeriod( &PWMD3, period );
-
-        } while ( current_dist > 0 );
-
-        // In the very end set low current.
-        chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
-        setHighCurrent( -1 );
-    }
-    return 0;
-}
-
-static msg_t motor1Thread( void *arg )
-{
-    while ( 1 )
-    {
-        int dest;
-        uint8_t * args = (uint8_t *)( &dest );
-        args[0] = chIQGet( &motor1_queue );
-        args[1] = chIQGet( &motor1_queue );
-        args[2] = chIQGet( &motor1_queue );
-        args[3] = chIQGet( &motor1_queue );
-
-        // Choose direction and steps number.
-        TMotor * moto = &(motor[1]);
-        int dir;
-        dir = ( dest > moto->pos ) ? 1 : -1;
-        int distance;
-        distance = dest - moto->pos;
-        g_distance1 = ( distance > 0 ) ? distance : -distance;
-        // Set rotation direction.
-        setMoto1Dir( dir );
-        // Set high current.
-        setHighCurrent( 1 );
-        chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
-
-        // In loop control PWM speed.
-        int period;
-        period = PWM_FREQ / moto_vmin;
-        pwmChangePeriod( &PWMD2, period );
-        pwmEnableChannel( &PWMD2, 1, PWM_PERCENTAGE_TO_WIDTH( &PWMD2, 5000 ) );
-
-        int half_dist = distance / 2;
-        int current_dist;
-        int speed;
-
-        // Acceleration.
-        do {
-            chThdSleepMilliseconds( 1 );
-            chSysLock();
-                current_dist = g_distance0;
-            chSysUnlock();
-
-            int d = current_dist;
-            d = (d > half_dist ) ? (distance - d) : d;
-            speed = nsqrt( moto_vmin * moto_vmin + 2 * moto_acc * d );
-            speed = ( speed > moto_vmax ) ? moto_vmax : speed;
-            period = PWM_FREQ / moto_vmin;
-            pwmChangePeriod( &PWMD2, period );
-
-        } while ( current_dist > 0 );
-
-        // In the very end set low current.
-        chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
-        setHighCurrent( -1 );
-    }
-    return 0;
-}
 
 
 
