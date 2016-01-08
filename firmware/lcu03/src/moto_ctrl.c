@@ -101,14 +101,14 @@ static const EXTConfig extcfg = {
    {EXT_CH_MODE_DISABLED, NULL},
    {EXT_CH_MODE_DISABLED, NULL},
    {EXT_CH_MODE_DISABLED, NULL},
-   {EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, extHall0 },
+   {EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, extHall1 },
    {EXT_CH_MODE_DISABLED, NULL},
    {EXT_CH_MODE_DISABLED, NULL},
    {EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, extPowerOff },
    {EXT_CH_MODE_DISABLED, NULL},
    {EXT_CH_MODE_DISABLED, NULL},
    {EXT_CH_MODE_DISABLED, NULL},
-   {EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, extHall1 },
+   {EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, extHall0 },
    {EXT_CH_MODE_DISABLED, NULL},
    {EXT_CH_MODE_DISABLED, NULL},
    {EXT_CH_MODE_DISABLED, NULL},
@@ -511,18 +511,21 @@ void motorInit( void )
     motor[1].dir        = 0;
 }
 
-
 void motorSetPos( int index, int pos )
 {
     int ind = (index > 0) ? 1 : 0;
-    motor[ind].pos = pos;
+    chSysLock();
+        motor[ind].pos = pos;
+    chSysUnlock();
 }
 
 void motorSetParams( int vmin, int vmax, int acc )
 {
-    moto_vmin = vmin;
-    moto_vmax = vmax;
-    moto_acc  = acc;
+    chSysLock();
+        moto_vmin = vmin;
+        moto_vmax = vmax;
+        moto_acc  = acc;
+    chSysUnlock();
 }
 
 void motorSetRevSteps( int cnt )

@@ -28,6 +28,7 @@ public:
     bool sensor( int index, bool & triggered, int & pos );
     bool motorSetPos( int index, int pos );
     bool motorSetParams( int vmin, int vmax, int acc );
+    bool motorPos( int index, int & at );
 
     /*
     bool setDac1( int dacA, int dacB );

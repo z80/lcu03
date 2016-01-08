@@ -40,6 +40,20 @@ static const SerialConfig serial_cfg =
 
 };
 
+static void motor_pos( uint8_t * args )
+{
+    int ind = (args[0] > 0) ? 1 : 0;
+
+    int pos = motorPos( ind );
+
+    writeResult( pos & 0xFF );
+    writeResult( (pos >> 8) & 0xFF );
+    writeResult( (pos >> 16) & 0xFF );
+    writeResult( (pos >> 24) & 0xFF );
+    writeEom();
+}
+
+
 void initCpuIo( void )
 {
 	// Setup pad settings.
@@ -51,8 +65,8 @@ void initCpuIo( void )
 	palSetPadMode( GPIOA, 12, PAL_MODE_INPUT );
 
 	// Initialize serial driver.
-	sdStart( &SERIAL, &serial_cfg );
-	//sdStart( &SERIAL, 0 );
+	//sdStart( &SERIAL, &serial_cfg );
+	sdStart( &SERIAL, 0 );
 }
 
 void processCpuIo( void )
@@ -136,6 +150,7 @@ static void motor_in_motion( uint8_t * args );
 static void sensor( uint8_t * args );
 static void motor_set_pos( uint8_t * args );
 static void motor_set_params( uint8_t * args );
+static void motor_pos( uint8_t * args );
 
 /*
 static void set_dac1( uint8_t * args );
@@ -173,6 +188,7 @@ static TFunc funcs[] =
     sensor,
     motor_set_pos,
     motor_set_params,
+    motor_pos
 };
 
 static void exec_func( void )
@@ -238,12 +254,12 @@ static void set_shutter( uint8_t * args )
 static void move_motor( uint8_t * args )
 {
     int32_t pos;
-    uint8_t * ppos = (uint8_t *)(&pos);
+    //uint8_t * ppos = (uint8_t *)(&pos);
     int ind = (args[0] > 0) ? 1 : 0;
-    ppos[0] = args[4];
-    ppos[1] = args[3];
-    ppos[2] = args[2];
-    ppos[3] = args[1];
+    pos = (int32_t)args[1];
+    pos |= ((int32_t)args[2] << 8);
+    pos |= ((int32_t)args[3] << 16);
+    pos |= ((int32_t)args[4] << 24);
     motorMove( ind, pos );
 }
 
@@ -258,13 +274,13 @@ static void motor_in_motion( uint8_t * args )
     int ind = (args[0] > 0) ? 1 : 0;
     int pos;
     int res = motorInMotion( ind, &pos );
-    uint8_t * ppos = (uint8_t *)(&pos);
+    //uint8_t * ppos = (uint8_t *)(&pos);
 
     writeResult( res );
-    writeResult( ppos[0] );
-    writeResult( ppos[1] );
-    writeResult( ppos[2] );
-    writeResult( ppos[3] );
+    writeResult( pos & 0xFF );
+    writeResult( (pos >> 8) & 0xFF );
+    writeResult( (pos >> 16) & 0xFF );
+    writeResult( (pos >> 24) & 0xFF );
     writeEom();
 }
 
@@ -274,13 +290,13 @@ static void sensor( uint8_t * args )
 
     int activated, pos;
     motorSensorData( ind, &activated, &pos );
-    uint8_t * ppos = (uint8_t *)(&pos);
+    //uint8_t * ppos = (uint8_t *)(&pos);
 
     writeResult( activated );
-    writeResult( ppos[0] );
-    writeResult( ppos[1] );
-    writeResult( ppos[2] );
-    writeResult( ppos[3] );
+    writeResult( pos & 0xFF );
+    writeResult( (pos >> 8) & 0xFF );
+    writeResult( (pos >> 16) & 0xFF );
+    writeResult( (pos >> 24) & 0xFF );
     writeEom();
 }
 
@@ -288,36 +304,51 @@ static void motor_set_pos( uint8_t * args )
 {
     int ind = (args[0] > 0) ? 1 : 0;
     int32_t pos;
-    uint8_t * ppos = (uint8_t *)(&pos);
-    ppos[0] = args[4];
-    ppos[1] = args[3];
-    ppos[2] = args[2];
-    ppos[3] = args[1];
+    //uint8_t * ppos = (uint8_t *)(&pos);
+    pos = (int32_t)args[1];
+    pos |= ((int32_t)args[2] << 8);
+    pos |= ((int32_t)args[3] << 16);
+    pos |= ((int32_t)args[4] << 24);
     motorSetPos( ind, pos );
 }
 
 static void motor_set_params( uint8_t * args )
 {
     int32_t vmin, vmax, acc;
-    uint8_t * ppos = (uint8_t *)(&vmin);
-    ppos[0] = args[3];
-    ppos[1] = args[2];
-    ppos[2] = args[1];
-    ppos[3] = args[0];
+    //uint8_t * ppos = (uint8_t *)(&vmin);
+    vmin = (int32_t)args[0];
+    vmin |= ((int32_t)args[1] << 8);
+    vmin |= ((int32_t)args[2] << 16);
+    vmin |= ((int32_t)args[3] << 24);
 
-    ppos = (uint8_t *)(&vmax);
-    ppos[0] = args[7];
-    ppos[1] = args[6];
-    ppos[2] = args[5];
-    ppos[3] = args[4];
+    //ppos = (uint8_t *)(&vmax);
+    vmax = (int32_t)args[4];
+    vmax |= ((int32_t)args[5] << 8);
+    vmax |= ((int32_t)args[6] << 16);
+    vmax |= ((int32_t)args[7] << 24);
 
-    ppos = (uint8_t *)(&acc);
-    ppos[0] = args[11];
-    ppos[1] = args[10];
-    ppos[2] = args[9];
-    ppos[3] = args[8];
+    //ppos = (uint8_t *)(&acc);
+    acc = (int32_t)args[8];
+    acc |= ((int32_t)args[9] << 8);
+    acc |= ((int32_t)args[10] << 16);
+    acc |= ((int32_t)args[11] << 24);
     motorSetParams( vmin, vmax, acc );
 }
+
+/*
+static void motor_pos( uint8_t * args )
+{
+    int ind = (args[0] > 0) ? 1 : 0;
+
+    int pos = motorPos( ind );
+
+    writeResult( pos & 0xFF );
+    writeResult( (pos >> 8) & 0xFF );
+    writeResult( (pos >> 16) & 0xFF );
+    writeResult( (pos >> 24) & 0xFF );
+    writeEom();
+}
+*/
 
 
 

@@ -368,6 +368,40 @@ bool VoltampIo::motorSetParams( int vmin, int vmax, int acc )
     return true;
 }
 
+bool VoltampIo::motorPos( int index, int & at )
+{
+    QMutexLocker lock( &pd->mutex );
+    
+    quint8 v;
+    v = (index > 0) ? 1 : 0;
+    bool res;
+    res = setArgs( &v, 1 );
+    if ( !res )
+        return false;
+
+    quint8 funcInd = 11;
+    res = execFunc( funcInd );
+    if ( !res )
+        return false;
+
+    // Getting result.
+    QByteArray & arr = pd->buffer;
+    arr.resize( PD::IN_BUFFER_SZ );
+    bool eom;
+    int cnt = read( reinterpret_cast<quint8 *>( arr.data() ), arr.size(), eom );
+    if ( ( !eom ) || ( cnt < 4 ) )
+        return false;
+
+    quint8 * dat = reinterpret_cast<quint8 *>( arr.data() );
+
+    at = dat[0];
+    at |= (static_cast<int>( dat[1] ) << 8);
+    at |= (static_cast<int>( dat[2] ) << 16);
+    at |= (static_cast<int>( dat[3] ) << 24);
+
+    return true;
+}
+
 
 
 
