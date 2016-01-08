@@ -3,7 +3,7 @@
 #include "hal.h"
 
 #define TMR_FREQ 100000 //140625
-#define HIGH_CURRENT_WAIT 200
+#define HIGH_CURRENT_WAIT 50
 
 #define SLEEP_PORT GPIOA
 #define SLEEP_PAD  6
@@ -144,10 +144,10 @@ InputQueue  motor1_stop_queue;
 uint8_t     motor1_stop_queue_buffer[ MOTOR_QUEUE_SZ ];
 
 
-static WORKING_AREA( waMotor0, 4096 );
+static WORKING_AREA( waMotor0, 1024 );
 static msg_t motor0Thread( void *arg );
 
-static WORKING_AREA( waMotor1, 2048 );
+static WORKING_AREA( waMotor1, 1024 );
 static msg_t motor1Thread( void *arg );
 
 
@@ -168,9 +168,9 @@ static msg_t motor0Thread( void *arg )
         chSysLock();
             int distance = dest - moto->pos;
         chSysUnlock();
+        int dir = ( distance > 0 ) ? 1 : -1;
         distance = ( distance > 0 ) ? distance : -distance;
         // Set rotation direction.
-        int dir = ( dest > moto->pos ) ? 1 : -1;
         setMoto0Dir( dir );
         // Set high current.
         setHighCurrent( 1 );
@@ -257,8 +257,10 @@ static msg_t motor1Thread( void *arg )
 
         // Choose direction and steps number.
         TMotor * moto = &(motor[1]);
-        int dir = ( dest > moto->pos ) ? 1 : -1;
-        int distance = dest - moto->pos;
+        chSysLock();
+            int distance = dest - moto->pos;
+        chSysUnlock();
+        int dir = ( distance > 0 ) ? 1 : -1;
         distance = ( distance > 0 ) ? distance : -distance;
         // Set rotation direction.
         setMoto1Dir( dir );
@@ -271,58 +273,63 @@ static msg_t motor1Thread( void *arg )
 
         int half_dist = distance / 2;
         chSysLock();
-        	gptStartOneShot( &GPTD3, period );
+            moto->dir = ( dir > 0 ) ? 1 : 0;
+            moto->period = period;
+            moto->steps_left = distance;
         chSysUnlock();
+        gptStartOneShot( &GPTD3, period );
 
         // Acceleration.
         //int min_period = TMR_FREQ;
         int steps_left;
         do {
-            chThdSleepMilliseconds( 1 );
+            //chThdSleepMilliseconds( 1 );
             chSysLock();
-            	steps_left = moto->steps_left;
+                steps_left = moto->steps_left;
             chSysUnlock();
             int current_dist = distance - steps_left;
 
             int d = current_dist;
             d = (d > half_dist ) ? (distance - d) : d;
             int speed = nsqrt( moto_vmin * moto_vmin + 2 * moto_acc * d );
+            //int speed = moto_vmin;
             speed = ( speed > moto_vmax ) ? moto_vmax : speed;
             period = TMR_FREQ / speed;
             period = ( period > 2 ) ? period : 2; // Just limin minimum period to the one which makes sense.
             //min_period = ( min_period > period ) ? period : min_period;
-
             // Apply period.
             chSysLock();
-            	moto->period = period;
-
-				// Check for stop condition.
-				msg_t msg = chIQGetTimeout( &motor1_stop_queue, 0 );
-				if ( msg != Q_TIMEOUT )
-				{
-					gptStop( &GPTD3 );
-					gptStop( &GPTD4 );
-					if ( palReadPad( STEP_1_PORT, STEP_1_PAD ) )
-					{
-						palClearPad( STEP_1_PORT, STEP_1_PAD );
-						moto->steps_left -= 1;
-						moto->pos += ( moto->dir > 0 ) ? 1 : -1;
-					}
-					break;
-				}
+                moto->period = period;
             chSysUnlock();
+
+            msg_t msg = chIQGetTimeout( &motor0_stop_queue, 0 );
+
+            // Check for stop condition.
+            if ( msg != Q_TIMEOUT )
+            {
+                gptStop( &GPTD3 );
+                gptStop( &GPTD4 );
+                if ( palReadPad( STEP_1_PORT, STEP_1_PAD ) )
+                {
+                    palClearPad( STEP_1_PORT, STEP_1_PAD );
+                    moto->steps_left -= 1;
+                    moto->pos += ( moto->dir > 0 ) ? 1 : -1;
+                }
+                break;
+            }
 
         } while ( steps_left > 0 );
 
         // In the very end set low current.
-        if ( !motor[0].in_motion )
-        {
-        	chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
-        	setHighCurrent( -1 );
-        }
+        chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
+        // In the other motor doesn't work turn high current off.
+        chSysLock();
+            if ( !motor[0].in_motion )
+                setHighCurrent( -1 );
+        chSysUnlock();
 
         chSysLock();
-        	moto->in_motion = 0;
+            moto->in_motion = 0;
         chSysUnlock();
     }
     return 0;
@@ -422,8 +429,8 @@ void motorInit( void )
     // Init PWM for step control.
     gptStart( &GPTD1, &gpt1cfg );
     gptStart( &GPTD2, &gpt2cfg );
-    //gptStart( &GPTD3, &gpt3cfg );
-    //gptStart( &GPTD4, &gpt4cfg );
+    gptStart( &GPTD3, &gpt3cfg );
+    gptStart( &GPTD4, &gpt4cfg );
     palClearPad( STEP_0_PORT,  STEP_0_PAD );
     palSetPadMode( STEP_0_PORT, STEP_0_PAD, PAL_MODE_OUTPUT_PUSHPULL );
     palClearPad( STEP_1_PORT,  STEP_1_PAD );
@@ -491,17 +498,21 @@ void motorSensorData( int index, int * activated, int * pos )
 {
     int ind = (index > 0) ? 1 : 0;
     TMotor * m = &(motor[ind]);
-    if ( pos )
-        *pos = m->sensorPos;
-    if ( activated )
-        *activated = m->activated;
+    chSysLock();
+        if ( pos )
+            *pos = m->sensorPos;
+        if ( activated )
+            *activated = m->activated;
+    chSysUnlock();
 }
 
 int motorInMotion( int index )
 {
     int ind = (index > 0) ? 1 : 0;
     TMotor * m = &(motor[ind]);
-    int res = m->in_motion;
+    chSysLock();
+        int res = m->in_motion;
+    chSysUnlock();
     return res;
 }
 
@@ -509,15 +520,16 @@ int motorPos( int index )
 {
     int ind = (index > 0) ? 1 : 0;
     TMotor * m = &(motor[ind]);
-    int res = m->pos;
+    chSysLock();
+        int res = m->pos;
+    chSysUnlock();
     return res;
-
 }
 
 void motorStop( int index )
 {
+    InputQueue * motor_queue = ( index > 0 ) ? (&motor1_stop_queue) : (&motor0_stop_queue);
     chSysLock();
-        InputQueue * motor_queue = ( index > 0 ) ? (&motor1_stop_queue) : (&motor0_stop_queue);
         chIQPutI( motor_queue, 0 );
     chSysUnlock();
 }

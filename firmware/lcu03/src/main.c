@@ -78,17 +78,25 @@ int main(void)
         {
             //setShutter( 1 );
         	if ( !motorInMotion( 0 ) )
-        		motorMove( 0, 1000 );
+        		motorMove( 0, 10000 );
             chThdSleepSeconds( 15 );
 
+            if ( !motorInMotion( 1 ) )
+                motorMove( 1, 10000 );
+            chThdSleepSeconds( 15 );
 
 
 
 
             //setShutter( 0 );
         	if ( !motorInMotion( 0 ) )
-        		motorMove( 0, -1000 );
+        		motorMove( 0, -10000 );
             chThdSleepSeconds( 15 );
+
+            if ( !motorInMotion( 1 ) )
+                motorMove( 1, -10000 );
+            chThdSleepSeconds( 15 );
+
         }
 
     }
