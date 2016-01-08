@@ -12,6 +12,7 @@ void motorMove( int index, int pos );
 void motorSensorData( int index, int * activated, int * pos );
 int motorInMotion( int index );
 int motorPos( int index );
+void motorStop( int index );
 
 
 #endif

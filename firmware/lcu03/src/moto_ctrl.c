@@ -2,7 +2,7 @@
 #include "moto_ctrl.h"
 #include "hal.h"
 
-#define PWM_FREQ 100000 //140625
+#define TMR_FREQ 100000 //140625
 #define HIGH_CURRENT_WAIT 200
 
 #define SLEEP_PORT GPIOA
@@ -19,6 +19,12 @@
 
 #define DIR_1_PORT GPIOA
 #define DIR_1_PAD  4
+
+#define STEP_0_PORT GPIOB
+#define STEP_0_PAD  0
+
+#define STEP_1_PORT GPIOA
+#define STEP_1_PAD  1
 
 #define HIGH_CURRENT_PORT GPIOB
 #define HIGH_CURRENT_PAD  13
@@ -37,8 +43,12 @@ typedef struct
 {
     int     pos;
     int     sensorPos;
+
+    int     steps_left;
+    int     period;
     uint8_t activated : 1;
     uint8_t in_motion : 1;
+    uint8_t dir : 1;
 } TMotor;
 
 static TMotor motor[2];
@@ -90,41 +100,29 @@ static const EXTConfig extcfg = {
 
 
 
-static void pwmMotor0( PWMDriver * pwmp );
-static void pwmMotor1( PWMDriver * pwmp );
+static void timerMotor0( GPTDriver *gptp );
+static void offMotor0( GPTDriver *gptp );
+static void timerMotor1( GPTDriver *gptp );
+static void offMotor1( GPTDriver *gptp );
 
-static PWMConfig pwmcfgMotor0 = {
-  PWM_FREQ,
-  PWM_FREQ, // Initial PWM period 1S.
-  pwmMotor0,
-  {
-   { PWM_OUTPUT_DISABLED, NULL },
-   { PWM_OUTPUT_DISABLED, NULL },
-   { PWM_OUTPUT_ACTIVE_HIGH, NULL },
-   { PWM_OUTPUT_DISABLED, NULL }
-  },
-  0,
-  0,
-#if STM32_PWM_USE_ADVANCED
-  0
-#endif
+static const GPTConfig gpt0cfg = {
+  TMR_FREQ,
+  timerMotor0
 };
 
-static PWMConfig pwmcfgMotor1 = {
-  PWM_FREQ,
-  PWM_FREQ, // Initial PWM period 1S.
-  pwmMotor1,
-  {
-   { PWM_OUTPUT_DISABLED, NULL },
-   { PWM_OUTPUT_ACTIVE_HIGH, NULL },
-   { PWM_OUTPUT_DISABLED, NULL },
-   { PWM_OUTPUT_DISABLED, NULL }
-  },
-  0,
-  0,
-#if STM32_PWM_USE_ADVANCED
-  0
-#endif
+static const GPTConfig gpt1cfg = {
+  TMR_FREQ,
+  offMotor0
+};
+
+static const GPTConfig gpt2cfg = {
+  TMR_FREQ,
+  timerMotor1
+};
+
+static const GPTConfig gpt3cfg = {
+  TMR_FREQ,
+  offMotor1
 };
 
 
@@ -136,8 +134,14 @@ static PWMConfig pwmcfgMotor1 = {
 InputQueue  motor0_queue;
 uint8_t     motor0_queue_buffer[ MOTOR_BUFFER_SZ ];
 
+InputQueue  motor0_stop_queue;
+uint8_t     motor0_stop_queue_buffer[ MOTOR_QUEUE_SZ ];
+
 InputQueue  motor1_queue;
 uint8_t     motor1_queue_buffer[ MOTOR_BUFFER_SZ ];
+
+InputQueue  motor1_stop_queue;
+uint8_t     motor1_stop_queue_buffer[ MOTOR_QUEUE_SZ ];
 
 
 static WORKING_AREA( waMotor0, 1024 );
@@ -149,30 +153,51 @@ static msg_t motor1Thread( void *arg );
 
 
 
-static int g_distance0 = 0;
-static void pwmMotor0( PWMDriver * pwmp )
+static void timerMotor0( GPTDriver *gptp )
 {
-    g_distance0 -= 1;
-    if ( g_distance0 <= 0 )
-    {
-        g_distance0 = 0;
-        chSysLockFromIsr();
-            pwmDisableChannelI( &PWMD3, 2 );
-        chSysUnlockFromIsr();
-    }
+	(void)gptp;
+	TMotor * motor = &(motor[0]);
+	if ( motor->steps_left > 0 )
+	{
+		palSetPad( STEP_0_PORT, STEP_0_PAD );
+		chSysLockFromIsr();
+			gptStartOneShotI( &GPTD1, motor->period );
+			gptStartOneShotI( &GPTD2, motor->period/2 );
+		chSysLockFromIsr();
+	}
 }
 
-static int g_distance1 = 0;
-static void pwmMotor1( PWMDriver * pwmp )
+static void offMotor0( GPTDriver *gptp )
 {
-    g_distance1 -= 1;
-    if ( g_distance1 <= 0 )
-    {
-        g_distance1 = 0;
-        chSysLockFromIsr();
-            pwmDisableChannelI( &PWMD2, 1 );
-        chSysUnlockFromIsr();
-    }
+	(void)gptp;
+	TMotor * motor = &(motor[0]);
+	palClearPad( STEP_0_PORT, STEP_0_PAD );
+	motor->steps_left -= 1;
+	motor->pos += ( motor->dir > 0 ) ? 1 : -1;
+}
+
+
+static void timerMotor1( GPTDriver *gptp )
+{
+	(void)gptp;
+	TMotor * motor = &(motor[1]);
+	if ( motor->steps_left > 0 )
+	{
+		palSetPad( STEP_1_PORT, STEP_1_PAD );
+		chSysLockFromIsr();
+			gptStartOneShotI( &GPTD3, motor->period );
+			gptStartOneShotI( &GPTD4, motor->period/2 );
+		chSysLockFromIsr();
+	}
+}
+
+static void offMotor1( GPTDriver *gptp )
+{
+	(void)gptp;
+	TMotor * motor = &(motor[1]);
+	palClearPad( STEP_1_PORT, STEP_1_PAD );
+	motor->steps_left -= 1;
+	motor->pos += ( motor->dir > 0 ) ? 1 : -1;
 }
 
 
@@ -189,11 +214,9 @@ static msg_t motor0Thread( void *arg )
 
         // Choose direction and steps number.
         TMotor * moto = &(motor[0]);
-        int dir;
-        dir = ( dest > moto->pos ) ? 1 : -1;
-        int distance;
-        distance = dest - moto->pos;
-        g_distance0 = ( distance > 0 ) ? distance : -distance;
+        int dir = ( dest > moto->pos ) ? 1 : -1;
+        int distance = dest - moto->pos;
+        distance = ( distance > 0 ) ? distance : -distance;
         // Set rotation direction.
         setMoto0Dir( dir );
         // Set high current.
@@ -201,36 +224,63 @@ static msg_t motor0Thread( void *arg )
         chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
 
         // In loop control PWM speed.
-        int period;
-        period = PWM_FREQ / moto_vmin;
-        pwmChangePeriod( &PWMD3, period );
-        pwmEnableChannel( &PWMD3, 2, PWM_PERCENTAGE_TO_WIDTH( &PWMD3, 5000 ) );
+        int period = TMR_FREQ / moto_vmin;
 
         int half_dist = distance / 2;
-        int current_dist;
-        int speed;
+        chSysLock();
+        	gptStartOneShot( &GPTD1, period );
+        chSysUnlock();
 
         // Acceleration.
-        int min_period = PWM_FREQ;
+        //int min_period = TMR_FREQ;
+        int steps_left;
         do {
             chThdSleepMilliseconds( 1 );
             chSysLock();
-                current_dist = g_distance0;
+            	steps_left = moto->steps_left;
             chSysUnlock();
+            int current_dist = distance - steps_left;
 
             int d = current_dist;
             d = (d > half_dist ) ? (distance - d) : d;
-            speed = nsqrt( moto_vmin * moto_vmin + 2 * moto_acc * d );
+            int speed = nsqrt( moto_vmin * moto_vmin + 2 * moto_acc * d );
             speed = ( speed > moto_vmax ) ? moto_vmax : speed;
-            period = PWM_FREQ / speed;
-            min_period = ( min_period > period ) ? period : min_period;
-            pwmChangePeriod( &PWMD3, period );
+            period = TMR_FREQ / speed;
+            period = ( period > 2 ) ? period : 2; // Just limin minimum period to the one which makes sense.
+            //min_period = ( min_period > period ) ? period : min_period;
 
-        } while ( current_dist > 0 );
+            // Apply period.
+            chSysLock();
+            	moto->period = period;
+
+				// Check for stop condition.
+				msg_t msg = chIQGetTimeout( &motor0_stop_queue, 0 );
+				if ( msg != Q_TIMEOUT )
+				{
+					gptStop( &GPTD1 );
+					gptStop( &GPTD2 );
+					if ( palReadPad( STEP_0_PORT, STEP_0_PAD ) )
+					{
+						palClearPad( STEP_0_PORT, STEP_0_PAD );
+						moto->steps_left -= 1;
+						moto->pos += ( moto->dir > 0 ) ? 1 : -1;
+					}
+					break;
+				}
+            chSysUnlock();
+
+        } while ( steps_left > 0 );
 
         // In the very end set low current.
-        chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
-        setHighCurrent( -1 );
+        if ( !motor[1].in_motion )
+        {
+        	chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
+        	setHighCurrent( -1 );
+        }
+
+        chSysLock();
+        	moto->in_motion = 0;
+        chSysUnlock();
     }
     return 0;
 }
@@ -248,11 +298,9 @@ static msg_t motor1Thread( void *arg )
 
         // Choose direction and steps number.
         TMotor * moto = &(motor[1]);
-        int dir;
-        dir = ( dest > moto->pos ) ? 1 : -1;
-        int distance;
-        distance = dest - moto->pos;
-        g_distance1 = ( distance > 0 ) ? distance : -distance;
+        int dir = ( dest > moto->pos ) ? 1 : -1;
+        int distance = dest - moto->pos;
+        distance = ( distance > 0 ) ? distance : -distance;
         // Set rotation direction.
         setMoto1Dir( dir );
         // Set high current.
@@ -260,34 +308,63 @@ static msg_t motor1Thread( void *arg )
         chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
 
         // In loop control PWM speed.
-        int period;
-        period = PWM_FREQ / moto_vmin;
-        pwmChangePeriod( &PWMD2, period );
-        pwmEnableChannel( &PWMD2, 1, PWM_PERCENTAGE_TO_WIDTH( &PWMD2, 5000 ) );
+        int period = TMR_FREQ / moto_vmin;
 
         int half_dist = distance / 2;
-        int current_dist;
-        int speed;
+        chSysLock();
+        	gptStartOneShot( &GPTD3, period );
+        chSysUnlock();
 
         // Acceleration.
+        //int min_period = TMR_FREQ;
+        int steps_left;
         do {
             chThdSleepMilliseconds( 1 );
             chSysLock();
-                current_dist = g_distance0;
+            	steps_left = moto->steps_left;
             chSysUnlock();
+            int current_dist = distance - steps_left;
 
             int d = current_dist;
             d = (d > half_dist ) ? (distance - d) : d;
-            speed = nsqrt( moto_vmin * moto_vmin + 2 * moto_acc * d );
+            int speed = nsqrt( moto_vmin * moto_vmin + 2 * moto_acc * d );
             speed = ( speed > moto_vmax ) ? moto_vmax : speed;
-            period = PWM_FREQ / speed;
-            pwmChangePeriod( &PWMD2, period );
+            period = TMR_FREQ / speed;
+            period = ( period > 2 ) ? period : 2; // Just limin minimum period to the one which makes sense.
+            //min_period = ( min_period > period ) ? period : min_period;
 
-        } while ( current_dist > 0 );
+            // Apply period.
+            chSysLock();
+            	moto->period = period;
+
+				// Check for stop condition.
+				msg_t msg = chIQGetTimeout( &motor1_stop_queue, 0 );
+				if ( msg != Q_TIMEOUT )
+				{
+					gptStop( &GPTD3 );
+					gptStop( &GPTD4 );
+					if ( palReadPad( STEP_1_PORT, STEP_1_PAD ) )
+					{
+						palClearPad( STEP_1_PORT, STEP_1_PAD );
+						moto->steps_left -= 1;
+						moto->pos += ( moto->dir > 0 ) ? 1 : -1;
+					}
+					break;
+				}
+            chSysUnlock();
+
+        } while ( steps_left > 0 );
 
         // In the very end set low current.
-        chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
-        setHighCurrent( -1 );
+        if ( !motor[0].in_motion )
+        {
+        	chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
+        	setHighCurrent( -1 );
+        }
+
+        chSysLock();
+        	moto->in_motion = 0;
+        chSysUnlock();
     }
     return 0;
 }
@@ -296,6 +373,9 @@ void motorMove( int index, int pos )
 {
     uint8_t * arg = (uint8_t *)(&pos);
     chSysLock();
+    	int ind = (index > 0) ? 1 : 0;
+    	motor[ind].activated = 0;
+    	motor[ind].in_motion = 1;
         InputQueue * motor_queue = ( index > 0 ) ? (&motor1_queue) : (&motor0_queue);
         chIQPutI( motor_queue, arg[0] );
         chIQPutI( motor_queue, arg[1] );
@@ -316,20 +396,23 @@ void motorInit( void )
     // Hall_1.
     palSetPadMode( GPIOB, 12, PAL_MODE_INPUT );
 
-    chIQInit( &motor0_queue,   motor0_queue_buffer, MOTOR_BUFFER_SZ, 0 );
-    chIQInit( &motor1_queue,   motor1_queue_buffer, MOTOR_BUFFER_SZ, 0 );
+    chIQInit( &motor0_queue,      motor0_queue_buffer,      MOTOR_BUFFER_SZ, 0 );
+    chIQInit( &motor0_stop_queue, motor0_stop_queue_buffer, MOTOR_QUEUE_SZ, 0 );
+    chIQInit( &motor1_queue,      motor1_queue_buffer,      MOTOR_BUFFER_SZ, 0 );
+    chIQInit( &motor1_stop_queue, motor1_stop_queue_buffer, MOTOR_QUEUE_SZ, 0 );
 
     // Initialize external interrupt input here.
     extStart(&EXTD1, &extcfg);
 
     // Init PWM for step control.
-    pwmStart( &PWMD3, &pwmcfgMotor0 );
-    pwmDisableChannel( &PWMD3, 2 );
-    palSetPadMode( GPIOB, 0, PAL_MODE_STM32_ALTERNATE_PUSHPULL );
-
-    pwmStart( &PWMD2, &pwmcfgMotor1 );
-    pwmDisableChannel( &PWMD2, 1 );
-    palSetPadMode( GPIOA, 1, PAL_MODE_STM32_ALTERNATE_PUSHPULL );
+    gptStart( &GPTD1, &gpt0cfg );
+    gptStart( &GPTD2, &gpt1cfg );
+    gptStart( &GPTD3, &gpt2cfg );
+    gptStart( &GPTD4, &gpt3cfg );
+    palClearPad( STEP_0_PORT,  STEP_0_PAD );
+    palSetPadMode( STEP_0_PORT, STEP_0_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+    palClearPad( STEP_1_PORT,  STEP_1_PAD );
+    palSetPadMode( STEP_1_PORT, STEP_1_PAD, PAL_MODE_OUTPUT_PUSHPULL );
 
     // Init GPIO ~sleep~, ~enable~, ~reset~, ~high_current~.
     palClearPad( ENABLE_PORT, ENABLE_PAD );
@@ -353,15 +436,21 @@ void motorInit( void )
     setMotoSleep( 0 );
     setMotoEnable( 1 );
 
-    motor[0].activated = 0;
-    motor[0].in_motion = 0;
-    motor[0].pos = 0;
-    motor[0].sensorPos = 0;
+    motor[0].pos         = 0;
+    motor[0].sensorPos   = 0;
+    motor[0].steps_left  = 0;
+    motor[0].period      = 0;
+    motor[0].activated   = 0;
+    motor[0].in_motion   = 0;
+    motor[0].dir         = 0;
 
-    motor[1].activated = 0;
-    motor[1].in_motion = 0;
-    motor[1].pos = 0;
-    motor[1].sensorPos = 0;
+    motor[1].pos        = 0;
+    motor[1].sensorPos  = 0;
+    motor[1].steps_left = 0;
+    motor[0].period     = 0;
+    motor[1].activated  = 0;
+    motor[1].in_motion  = 0;
+    motor[1].dir        = 0;
 }
 
 
@@ -410,19 +499,35 @@ int motorPos( int index )
 
 }
 
+void motorStop( int index )
+{
+    chSysLock();
+        InputQueue * motor_queue = ( index > 0 ) ? (&motor1_stop_queue) : (&motor0_stop_queue);
+        chIQPutI( motor_queue, 0 );
+    chSysUnlock();
+}
+
 static void extHall0( EXTDriver * extp, expchannel_t channel )
 {
+	(void)extp;
+	(void)channel;
     motor[0].activated = 1;
+    motor[0].sensorPos = motor[0].pos;
 }
 
 static void extHall1( EXTDriver * extp, expchannel_t channel )
 {
-
+	(void)extp;
+	(void)channel;
+	motor[1].activated = 1;
+	motor[1].sensorPos = motor[1].pos;
 }
 
 static void extPowerOff( EXTDriver * extp, expchannel_t channel )
 {
-
+	(void)extp;
+	(void)channel;
+	//motor[0].activated = 1;
 }
 
 

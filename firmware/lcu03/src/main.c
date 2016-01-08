@@ -18,39 +18,7 @@
 
 #define PWM_FREQ 10000
 
-static PWMConfig pwmcfgMotor0 = {
-  PWM_FREQ,
-  PWM_FREQ, // Initial PWM period 1S.
-  NULL,
-  {
-   { PWM_OUTPUT_DISABLED, NULL },
-   { PWM_OUTPUT_DISABLED, NULL },
-   { PWM_OUTPUT_ACTIVE_HIGH, NULL },
-   { PWM_OUTPUT_DISABLED, NULL }
-  },
-  0,
-  //0,
-#if STM32_PWM_USE_ADVANCED
-  0
-#endif
-};
 
-static PWMConfig pwmcfgMotor1 = {
-  PWM_FREQ,
-  PWM_FREQ, // Initial PWM period 1S.
-  NULL,
-  {
-   { PWM_OUTPUT_DISABLED, NULL },
-   { PWM_OUTPUT_DISABLED, NULL },
-   { PWM_OUTPUT_ACTIVE_HIGH, NULL },
-   { PWM_OUTPUT_DISABLED, NULL }
-  },
-  0,
-  //0,
-#if STM32_PWM_USE_ADVANCED
-  0
-#endif
-};
 
 
 int main(void)
@@ -109,7 +77,8 @@ int main(void)
         while ( 1 )
         {
             //setShutter( 1 );
-            motorMove( 0, 10000 );
+        	if ( !motorInMotion( 0 ) )
+        		motorMove( 0, 1000 );
             chThdSleepSeconds( 5 );
 
 
@@ -117,7 +86,8 @@ int main(void)
 
 
             //setShutter( 0 );
-            motorMove( 0, -10000 );
+        	if ( !motorInMotion( 0 ) )
+        		motorMove( 0, -1000 );
             chThdSleepSeconds( 5 );
         }
 
