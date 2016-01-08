@@ -169,7 +169,7 @@ bool VoltampIo::setLed( int leds )
     if ( !res )
         return false;
 
-    quint8 funcInd = 2;
+    quint8 funcInd = 3;
     res = execFunc( funcInd );
     if ( !res )
         return false;
@@ -177,6 +177,210 @@ bool VoltampIo::setLed( int leds )
     return true;
 }
 
+bool VoltampIo::setShutter( bool open )
+{
+    QMutexLocker lock( &pd->mutex );
+    
+    quint8 v;
+    v = open ? 1 : 0;
+    bool res;
+    res = setArgs( &v, 1 );
+    if ( !res )
+        return false;
+
+    quint8 funcInd = 4;
+    res = execFunc( funcInd );
+    if ( !res )
+        return false;
+
+    return true;
+}
+
+bool VoltampIo::moveMotor( int index, int pos )
+{
+    QMutexLocker lock( &pd->mutex );
+    
+    quint8 data[5];
+    data[0] = (index > 0) ? 1 : 0;
+
+    data[1] = static_cast<quint8>( pos & 0xFF );
+    data[2] = static_cast<quint8>( (pos >> 8) & 0xFF );
+    data[3] = static_cast<quint8>( (pos >> 16) & 0xFF );
+    data[4] = static_cast<quint8>( (pos >> 24) & 0xFF );
+    bool res;
+    res = setArgs( reinterpret_cast<quint8 *>(data), 5 );
+    if ( !res )
+        return false;
+
+    quint8 funcInd = 5;
+    res = execFunc( funcInd );
+    if ( !res )
+        return false;
+
+    return true;
+}
+
+bool VoltampIo::stopMotor( int index )
+{
+    QMutexLocker lock( &pd->mutex );
+    
+    quint8 v;
+    v = (index > 0) ? 1 : 0;
+    bool res;
+    res = setArgs( &v, 1 );
+    if ( !res )
+        return false;
+
+    quint8 funcInd = 6;
+    res = execFunc( funcInd );
+    if ( !res )
+        return false;
+
+    return true;
+
+}
+
+bool VoltampIo::motorInMotion( int index, bool & running, int & pos )
+{
+    QMutexLocker lock( &pd->mutex );
+    
+    quint8 v;
+    v = (index > 0) ? 1 : 0;
+    bool res;
+    res = setArgs( &v, 1 );
+    if ( !res )
+        return false;
+
+    quint8 funcInd = 7;
+    res = execFunc( funcInd );
+    if ( !res )
+        return false;
+
+    // Getting result.
+    QByteArray & arr = pd->buffer;
+    arr.resize( PD::IN_BUFFER_SZ );
+    bool eom;
+    int cnt = read( reinterpret_cast<quint8 *>( arr.data() ), arr.size(), eom );
+    if ( ( !eom ) || ( cnt < 5 ) )
+        return false;
+
+    quint8 * dat = reinterpret_cast<quint8 *>( arr.data() );
+    running = (dat[0] > 0);
+
+    pos = dat[1];
+    pos |= (static_cast<int>( dat[2] ) << 8);
+    pos |= (static_cast<int>( dat[3] ) << 16);
+    pos |= (static_cast<int>( dat[4] ) << 24);
+
+    return true;
+}
+
+bool VoltampIo::sensor( int index, bool & triggered, int & pos )
+{
+    QMutexLocker lock( &pd->mutex );
+    
+    quint8 v;
+    v = (index > 0) ? 1 : 0;
+    bool res;
+    res = setArgs( &v, 1 );
+    if ( !res )
+        return false;
+
+    quint8 funcInd = 8;
+    res = execFunc( funcInd );
+    if ( !res )
+        return false;
+
+    // Getting result.
+    QByteArray & arr = pd->buffer;
+    arr.resize( PD::IN_BUFFER_SZ );
+    bool eom;
+    int cnt = read( reinterpret_cast<quint8 *>( arr.data() ), arr.size(), eom );
+    if ( ( !eom ) || ( cnt < 5 ) )
+        return false;
+
+    quint8 * dat = reinterpret_cast<quint8 *>( arr.data() );
+    triggered = (dat[0] > 0);
+
+    pos = dat[1];
+    pos |= (static_cast<int>( dat[2] ) << 8);
+    pos |= (static_cast<int>( dat[3] ) << 16);
+    pos |= (static_cast<int>( dat[4] ) << 24);
+
+    return true;
+}
+
+bool VoltampIo::motorSetPos( int index, int pos )
+{
+    QMutexLocker lock( &pd->mutex );
+    
+    quint8 data[5];
+    data[0] = (index > 0) ? 1 : 0;
+
+    data[1] = static_cast<quint8>( pos & 0xFF );
+    data[2] = static_cast<quint8>( (pos >> 8) & 0xFF );
+    data[3] = static_cast<quint8>( (pos >> 16) & 0xFF );
+    data[4] = static_cast<quint8>( (pos >> 24) & 0xFF );
+
+    bool res;
+    res = setArgs( reinterpret_cast<quint8 *>(data), 5 );
+    if ( !res )
+        return false;
+
+    quint8 funcInd = 9;
+    res = execFunc( funcInd );
+    if ( !res )
+        return false;
+
+    return true;
+}
+
+bool VoltampIo::motorSetParams( int vmin, int vmax, int acc )
+{
+    QMutexLocker lock( &pd->mutex );
+    
+    quint8 data[12];
+    data[0] = static_cast<quint8>( vmin & 0xFF );
+    data[1] = static_cast<quint8>( (vmin >> 8) & 0xFF );
+    data[2] = static_cast<quint8>( (vmin >> 16) & 0xFF );
+    data[3] = static_cast<quint8>( (vmin >> 24) & 0xFF );
+
+    data[4] = static_cast<quint8>( vmax & 0xFF );
+    data[5] = static_cast<quint8>( (vmax >> 8) & 0xFF );
+    data[6] = static_cast<quint8>( (vmax >> 16) & 0xFF );
+    data[7] = static_cast<quint8>( (vmax >> 24) & 0xFF );
+
+    data[8] = static_cast<quint8>( acc & 0xFF );
+    data[9] = static_cast<quint8>( (acc >> 8) & 0xFF );
+    data[10] = static_cast<quint8>( (acc >> 16) & 0xFF );
+    data[11] = static_cast<quint8>( (acc >> 24) & 0xFF );
+
+    bool res;
+    res = setArgs( reinterpret_cast<quint8 *>(data), 12 );
+    if ( !res )
+        return false;
+
+    quint8 funcInd = 10;
+    res = execFunc( funcInd );
+    if ( !res )
+        return false;
+
+    return true;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 bool VoltampIo::setDac1( int dacA, int dacB )
 {
     QMutexLocker lock( &pd->mutex );
@@ -526,6 +730,8 @@ bool VoltampIo::setOutput( int o )
     return true;
 
 }
+*/
+
 
 bool VoltampIo::runBootloader()
 {
@@ -534,7 +740,7 @@ bool VoltampIo::runBootloader()
     // Should execute function. The function is supposed
     // to send back acknowledge data and jump to
     // upgrade firmware.
-    quint8 funcInd = 17;
+    quint8 funcInd = 2;
     bool res = execFunc( funcInd );
     if ( !res )
         return false;

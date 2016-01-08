@@ -1,5 +1,5 @@
 
-project( digitizer )
+project( lcu03 )
 cmake_minimum_required(VERSION 2.8)
 
 set( ROOT ${CMAKE_CURRENT_SOURCE_DIR} )
@@ -17,8 +17,7 @@ message( STATUS $ENV{PATH} )
 
 add_subdirectory( "./3dparty" )
 add_subdirectory( "./libio" )
-#add_subdirectory( "./lib_lua_machine" )
 add_subdirectory( "./test" )
-add_subdirectory( "./digitizer" )
-add_subdirectory( "./libextctrl" )
-add_subdirectory( "./libluafactory" )
+#add_subdirectory( "./digitizer" )
+#add_subdirectory( "./libextctrl" )
+#add_subdirectory( "./libluafactory" )

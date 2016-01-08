@@ -17,8 +17,19 @@ public:
 
     bool hardware_version( QString & stri );
     bool firmware_version( QString & stri );
+    bool runBootloader();
 
     bool setLed( int leds );
+
+    bool setShutter( bool open );
+    bool moveMotor( int index, int pos );
+    bool stopMotor( int index );
+    bool motorInMotion( int index, bool & running, int & pos );
+    bool sensor( int index, bool & triggered, int & pos );
+    bool motorSetPos( int index, int pos );
+    bool motorSetParams( int vmin, int vmax, int acc );
+
+    /*
     bool setDac1( int dacA, int dacB );
     bool setDac2( int dacA, int dacB );
     bool instantAdc( int * data );
@@ -38,8 +49,12 @@ public:
     bool sweepData( QVector<int> & data );
 
     bool setOutput( int o );
+    */
 
-    bool runBootloader();
+
+
+
+
     bool bootloaderHardwareVersion( QString & stri );
     bool bootloaderFirmwareVersion( QString & stri );
 private:

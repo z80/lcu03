@@ -206,28 +206,27 @@ static void firmware_version( uint8_t * args )
 	writeEom();
 }
 
-static void set_led( uint8_t * args )
+static void firmware_upgrade( uint8_t * args )
 {
-	setLeds( args[0] );
+    (void)args;
+
+    // Just report to let application know that function was executed successfully.
+    uint8_t res[] = "ok";
+    writeResult( res[0] );
+    writeResult( res[1] );
+    writeEom();
+
+    // To give some time to retrieve the result.
+    chThdSleepMilliseconds( 500 );
+
+    // Jump to the beginning of FLASH space to invoke bootloader.
+    firmwareUpgrade();
 }
 
 
-
-static void firmware_upgrade( uint8_t * args )
+static void set_led( uint8_t * args )
 {
-	(void)args;
-
-	// Just report to let application know that function was executed successfully.
-	uint8_t res[] = "ok";
-	writeResult( res[0] );
-	writeResult( res[1] );
-	writeEom();
-
-	// To give some time to retrieve the result.
-	chThdSleepMilliseconds( 500 );
-
-	// Jump to the beginning of FLASH space to invoke bootloader.
-	firmwareUpgrade();
+	setLeds( args[0] );
 }
 
 static void set_shutter( uint8_t * args )
