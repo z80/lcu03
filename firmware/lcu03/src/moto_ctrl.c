@@ -159,10 +159,10 @@ static void timerMotor0( GPTDriver *gptp )
 	{
 		palSetPad( STEP_0_PORT, STEP_0_PAD );
 		chSysLockFromIsr();
-		    if ( GPTD3.state == GPT_READY )
+		    if ( GPTD2.state == GPT_READY )
 		    {
 		        int period2 = moto->period/2;
-		        gptStartOneShotI( &GPTD3, period2 );
+		        gptStartOneShotI( &GPTD2, period2 );
 		    }
 			gptStartOneShotI( &GPTD1, moto->period );
 		chSysUnlockFromIsr();
@@ -223,7 +223,7 @@ static msg_t motor0Thread( void *arg )
         // Set rotation direction.
         setMoto0Dir( dir );
         // Set high current.
-        //setHighCurrent( 1 );
+        setHighCurrent( 1 );
         chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
 
         // In loop control PWM speed.
@@ -413,7 +413,7 @@ void motorInit( void )
 
     // Init PWM for step control.
     gptStart( &GPTD1, &gpt1cfg );
-    gptStart( &GPTD3, &gpt2cfg );
+    gptStart( &GPTD2, &gpt2cfg );
     //gptStart( &GPTD3, &gpt3cfg );
     //gptStart( &GPTD4, &gpt4cfg );
     palClearPad( STEP_0_PORT,  STEP_0_PAD );

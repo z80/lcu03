@@ -34,25 +34,25 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   7 .debug_info   0001b5af  00000000  00000000  00016aed  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00009c1a  00000000  00000000  0003209c  2**0
+  8 .debug_line   00009c1f  00000000  00000000  0003209c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_pubnames 00001c15  00000000  00000000  0003bcb6  2**0
+  9 .debug_pubnames 00001c15  00000000  00000000  0003bcbb  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_pubtypes 00004364  00000000  00000000  0003d8cb  2**0
+ 10 .debug_pubtypes 00004364  00000000  00000000  0003d8d0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_aranges 000013f8  00000000  00000000  00041c2f  2**0
+ 11 .debug_aranges 000013f8  00000000  00000000  00041c34  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000010a8  00000000  00000000  00043027  2**0
+ 12 .debug_ranges 000010a8  00000000  00000000  0004302c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_str    0000405d  00000000  00000000  000440cf  2**0
+ 13 .debug_str    0000405d  00000000  00000000  000440d4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .comment      00000011  00000000  00000000  0004812c  2**0
+ 14 .comment      00000011  00000000  00000000  00048131  2**0
                   CONTENTS, READONLY
- 15 .ARM.attributes 00000031  00000000  00000000  0004813d  2**0
+ 15 .ARM.attributes 00000031  00000000  00000000  00048142  2**0
                   CONTENTS, READONLY
- 16 .debug_frame  00003304  00000000  00000000  00048170  2**2
+ 16 .debug_frame  00003304  00000000  00000000  00048174  2**2
                   CONTENTS, READONLY, DEBUGGING
- 17 .debug_loc    00004837  00000000  00000000  0004b474  2**0
+ 17 .debug_loc    00004837  00000000  00000000  0004b478  2**0
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 08000000 l    d  startup	00000000 startup
@@ -151,10 +151,10 @@ SYMBOL TABLE:
 08003c80 l     F .text	0000004e offMotor0
 20001328 l     O .bss	000010b0 waMotor0
 200023d8 l     O .bss	000008b0 waMotor1
-08003cd0 l     F .text	000002b8 motor0Thread
+08003cd0 l     F .text	000002c0 motor0Thread
 080047a0 l     F .text	0000002c setMoto0Dir
-08004830 l     F .text	00000086 nsqrt
 08004800 l     F .text	0000002c setHighCurrent
+08004830 l     F .text	00000086 nsqrt
 08003f90 l     F .text	000002bc motor1Thread
 080047d0 l     F .text	0000002c setMoto1Dir
 08004740 l     F .text	0000002c setMotoReset

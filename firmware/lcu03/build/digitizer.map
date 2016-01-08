@@ -1999,7 +1999,7 @@ OUTPUT(build/digitizer.elf elf32-littlearm)
  .debug_info    0x0001b44e       0xda c:/programs/yagarto/bin/../lib/gcc/arm-none-eabi/4.5.0/../../../../arm-none-eabi/lib/thumb/v7m\libc.a(lib_a-strspn.o)
  .debug_info    0x0001b528       0x87 c:/programs/yagarto/bin/../lib/gcc/arm-none-eabi/4.5.0/../../../../arm-none-eabi/lib/thumb/v7m\libc.a(lib_a-ctype_.o)
 
-.debug_line     0x00000000     0x9c1a
+.debug_line     0x00000000     0x9c1f
  .debug_line    0x00000000      0x129 build/obj/crt0.o
  .debug_line    0x00000129       0x6e build/obj/vectors.o
  .debug_line    0x00000197       0x63 build/obj/chcore.o
@@ -2076,19 +2076,19 @@ OUTPUT(build/digitizer.elf elf32-littlearm)
  .debug_line    0x00007a3e      0x199 build/obj/syscalls.o
  .debug_line    0x00007bd7      0x329 build/obj/shell.o
  .debug_line    0x00007f00      0x234 build/obj/chprintf.o
- .debug_line    0x00008134      0x6ac build/obj/moto_ctrl.o
- .debug_line    0x000087e0      0x161 build/obj/iwdg.o
- .debug_line    0x00008941      0x16e build/obj/iwdg_lld.o
- .debug_line    0x00008aaf      0x10c build/obj/main.o
- .debug_line    0x00008bbb      0x5c2 build/obj/cpu_io.o
- .debug_line    0x0000917d      0x251 build/obj/led_ctrl.o
- .debug_line    0x000093ce      0x110 build/obj/dfu_ctrl.o
- .debug_line    0x000094de      0x299 build/obj/shutter_ctrl.o
- .debug_line    0x00009777      0x16f c:/programs/yagarto/bin/../lib/gcc/arm-none-eabi/4.5.0/../../../../arm-none-eabi/lib/thumb/v7m\libc.a(lib_a-memset.o)
- .debug_line    0x000098e6       0xd3 c:/programs/yagarto/bin/../lib/gcc/arm-none-eabi/4.5.0/../../../../arm-none-eabi/lib/thumb/v7m\libc.a(lib_a-strcasecmp.o)
- .debug_line    0x000099b9       0xdd c:/programs/yagarto/bin/../lib/gcc/arm-none-eabi/4.5.0/../../../../arm-none-eabi/lib/thumb/v7m\libc.a(lib_a-strpbrk.o)
- .debug_line    0x00009a96      0x121 c:/programs/yagarto/bin/../lib/gcc/arm-none-eabi/4.5.0/../../../../arm-none-eabi/lib/thumb/v7m\libc.a(lib_a-strspn.o)
- .debug_line    0x00009bb7       0x63 c:/programs/yagarto/bin/../lib/gcc/arm-none-eabi/4.5.0/../../../../arm-none-eabi/lib/thumb/v7m\libc.a(lib_a-ctype_.o)
+ .debug_line    0x00008134      0x6b1 build/obj/moto_ctrl.o
+ .debug_line    0x000087e5      0x161 build/obj/iwdg.o
+ .debug_line    0x00008946      0x16e build/obj/iwdg_lld.o
+ .debug_line    0x00008ab4      0x10c build/obj/main.o
+ .debug_line    0x00008bc0      0x5c2 build/obj/cpu_io.o
+ .debug_line    0x00009182      0x251 build/obj/led_ctrl.o
+ .debug_line    0x000093d3      0x110 build/obj/dfu_ctrl.o
+ .debug_line    0x000094e3      0x299 build/obj/shutter_ctrl.o
+ .debug_line    0x0000977c      0x16f c:/programs/yagarto/bin/../lib/gcc/arm-none-eabi/4.5.0/../../../../arm-none-eabi/lib/thumb/v7m\libc.a(lib_a-memset.o)
+ .debug_line    0x000098eb       0xd3 c:/programs/yagarto/bin/../lib/gcc/arm-none-eabi/4.5.0/../../../../arm-none-eabi/lib/thumb/v7m\libc.a(lib_a-strcasecmp.o)
+ .debug_line    0x000099be       0xdd c:/programs/yagarto/bin/../lib/gcc/arm-none-eabi/4.5.0/../../../../arm-none-eabi/lib/thumb/v7m\libc.a(lib_a-strpbrk.o)
+ .debug_line    0x00009a9b      0x121 c:/programs/yagarto/bin/../lib/gcc/arm-none-eabi/4.5.0/../../../../arm-none-eabi/lib/thumb/v7m\libc.a(lib_a-strspn.o)
+ .debug_line    0x00009bbc       0x63 c:/programs/yagarto/bin/../lib/gcc/arm-none-eabi/4.5.0/../../../../arm-none-eabi/lib/thumb/v7m\libc.a(lib_a-ctype_.o)
 
 .debug_pubnames
                 0x00000000     0x1c15
