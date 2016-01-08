@@ -105,22 +105,22 @@ static void offMotor0( GPTDriver *gptp );
 static void timerMotor1( GPTDriver *gptp );
 static void offMotor1( GPTDriver *gptp );
 
-static const GPTConfig gpt0cfg = {
+static const GPTConfig gpt1cfg = {
   TMR_FREQ,
   timerMotor0
 };
 
-static const GPTConfig gpt1cfg = {
+static const GPTConfig gpt2cfg = {
   TMR_FREQ,
   offMotor0
 };
 
-static const GPTConfig gpt2cfg = {
+static const GPTConfig gpt3cfg = {
   TMR_FREQ,
   timerMotor1
 };
 
-static const GPTConfig gpt3cfg = {
+static const GPTConfig gpt4cfg = {
   TMR_FREQ,
   offMotor1
 };
@@ -144,49 +144,51 @@ InputQueue  motor1_stop_queue;
 uint8_t     motor1_stop_queue_buffer[ MOTOR_QUEUE_SZ ];
 
 
-static WORKING_AREA( waMotor0, 1024 );
+static WORKING_AREA( waMotor0, 4096 );
 static msg_t motor0Thread( void *arg );
 
-static WORKING_AREA( waMotor1, 1024 );
+static WORKING_AREA( waMotor1, 2048 );
 static msg_t motor1Thread( void *arg );
-
-
 
 
 static void timerMotor0( GPTDriver *gptp )
 {
 	(void)gptp;
-	TMotor * motor = &(motor[0]);
-	if ( motor->steps_left > 0 )
+	TMotor * moto = &(motor[0]);
+	if ( moto->steps_left > 0 )
 	{
 		palSetPad( STEP_0_PORT, STEP_0_PAD );
 		chSysLockFromIsr();
-			gptStartOneShotI( &GPTD1, motor->period );
-			gptStartOneShotI( &GPTD2, motor->period/2 );
-		chSysLockFromIsr();
+		    if ( GPTD3.state == GPT_READY )
+		    {
+		        int period2 = moto->period/2;
+		        gptStartOneShotI( &GPTD3, period2 );
+		    }
+			gptStartOneShotI( &GPTD1, moto->period );
+		chSysUnlockFromIsr();
 	}
 }
 
 static void offMotor0( GPTDriver *gptp )
 {
 	(void)gptp;
-	TMotor * motor = &(motor[0]);
+	TMotor * moto = &(motor[0]);
 	palClearPad( STEP_0_PORT, STEP_0_PAD );
-	motor->steps_left -= 1;
-	motor->pos += ( motor->dir > 0 ) ? 1 : -1;
+	moto->steps_left -= 1;
+	moto->pos += ( moto->dir > 0 ) ? 1 : -1;
 }
 
 
 static void timerMotor1( GPTDriver *gptp )
 {
 	(void)gptp;
-	TMotor * motor = &(motor[1]);
-	if ( motor->steps_left > 0 )
+	TMotor * moto = &(motor[1]);
+	if ( moto->steps_left > 0 )
 	{
 		palSetPad( STEP_1_PORT, STEP_1_PAD );
 		chSysLockFromIsr();
-			gptStartOneShotI( &GPTD3, motor->period );
-			gptStartOneShotI( &GPTD4, motor->period/2 );
+			gptStartOneShotI( &GPTD3, moto->period );
+			gptStartOneShotI( &GPTD4, moto->period/2 );
 		chSysLockFromIsr();
 	}
 }
@@ -194,15 +196,16 @@ static void timerMotor1( GPTDriver *gptp )
 static void offMotor1( GPTDriver *gptp )
 {
 	(void)gptp;
-	TMotor * motor = &(motor[1]);
+	TMotor * moto = &(motor[1]);
 	palClearPad( STEP_1_PORT, STEP_1_PAD );
-	motor->steps_left -= 1;
-	motor->pos += ( motor->dir > 0 ) ? 1 : -1;
+	moto->steps_left -= 1;
+	moto->pos += ( moto->dir > 0 ) ? 1 : -1;
 }
 
 
 static msg_t motor0Thread( void *arg )
 {
+    (void)arg;
     while ( 1 )
     {
         int dest;
@@ -220,7 +223,7 @@ static msg_t motor0Thread( void *arg )
         // Set rotation direction.
         setMoto0Dir( dir );
         // Set high current.
-        setHighCurrent( 1 );
+        //setHighCurrent( 1 );
         chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
 
         // In loop control PWM speed.
@@ -228,14 +231,16 @@ static msg_t motor0Thread( void *arg )
 
         int half_dist = distance / 2;
         chSysLock();
-        	gptStartOneShot( &GPTD1, period );
+            moto->period = period;
+            moto->steps_left = distance;
         chSysUnlock();
+       	gptStartOneShot( &GPTD1, period );
 
         // Acceleration.
         //int min_period = TMR_FREQ;
         int steps_left;
         do {
-            chThdSleepMilliseconds( 1 );
+            //chThdSleepMilliseconds( 1 );
             chSysLock();
             	steps_left = moto->steps_left;
             chSysUnlock();
@@ -244,30 +249,31 @@ static msg_t motor0Thread( void *arg )
             int d = current_dist;
             d = (d > half_dist ) ? (distance - d) : d;
             int speed = nsqrt( moto_vmin * moto_vmin + 2 * moto_acc * d );
+            //int speed = moto_vmin;
             speed = ( speed > moto_vmax ) ? moto_vmax : speed;
             period = TMR_FREQ / speed;
             period = ( period > 2 ) ? period : 2; // Just limin minimum period to the one which makes sense.
             //min_period = ( min_period > period ) ? period : min_period;
-
             // Apply period.
             chSysLock();
-            	moto->period = period;
-
-				// Check for stop condition.
-				msg_t msg = chIQGetTimeout( &motor0_stop_queue, 0 );
-				if ( msg != Q_TIMEOUT )
-				{
-					gptStop( &GPTD1 );
-					gptStop( &GPTD2 );
-					if ( palReadPad( STEP_0_PORT, STEP_0_PAD ) )
-					{
-						palClearPad( STEP_0_PORT, STEP_0_PAD );
-						moto->steps_left -= 1;
-						moto->pos += ( moto->dir > 0 ) ? 1 : -1;
-					}
-					break;
-				}
+                moto->period = period;
             chSysUnlock();
+
+            msg_t msg = chIQGetTimeout( &motor0_stop_queue, 0 );
+
+			// Check for stop condition.
+			if ( msg != Q_TIMEOUT )
+			{
+				gptStop( &GPTD1 );
+				gptStop( &GPTD2 );
+				if ( palReadPad( STEP_0_PORT, STEP_0_PAD ) )
+				{
+					palClearPad( STEP_0_PORT, STEP_0_PAD );
+					moto->steps_left -= 1;
+					moto->pos += ( moto->dir > 0 ) ? 1 : -1;
+				}
+				break;
+			}
 
         } while ( steps_left > 0 );
 
@@ -287,6 +293,7 @@ static msg_t motor0Thread( void *arg )
 
 static msg_t motor1Thread( void *arg )
 {
+    (void)arg;
     while ( 1 )
     {
         int dest;
@@ -405,10 +412,10 @@ void motorInit( void )
     extStart(&EXTD1, &extcfg);
 
     // Init PWM for step control.
-    gptStart( &GPTD1, &gpt0cfg );
-    gptStart( &GPTD2, &gpt1cfg );
+    gptStart( &GPTD1, &gpt1cfg );
     gptStart( &GPTD3, &gpt2cfg );
-    gptStart( &GPTD4, &gpt3cfg );
+    //gptStart( &GPTD3, &gpt3cfg );
+    //gptStart( &GPTD4, &gpt4cfg );
     palClearPad( STEP_0_PORT,  STEP_0_PAD );
     palSetPadMode( STEP_0_PORT, STEP_0_PAD, PAL_MODE_OUTPUT_PUSHPULL );
     palClearPad( STEP_1_PORT,  STEP_1_PAD );
@@ -603,6 +610,8 @@ static int nsqrt( int arg )
         }
     }
 }
+
+
 
 
 
