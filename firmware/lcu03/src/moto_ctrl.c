@@ -542,12 +542,14 @@ void motorSensorData( int index, int * activated, int * pos )
     chSysUnlock();
 }
 
-int motorInMotion( int index )
+int motorInMotion( int index, int * pos )
 {
     int ind = (index > 0) ? 1 : 0;
     TMotor * m = &(motor[ind]);
     chSysLock();
         int res = m->in_motion;
+        if ( pos )
+            *pos = m->pos;
     chSysUnlock();
     return res;
 }

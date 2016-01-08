@@ -70,8 +70,9 @@ int main(void)
 
     while ( 1 )
     {
-        //processCpuIo();
+        processCpuIo();
 
+        /*
         chThdSleepSeconds( 5 );
 
         while ( 1 )
@@ -98,6 +99,7 @@ int main(void)
             chThdSleepSeconds( 15 );
 
         }
+        */
 
     }
     return 0;

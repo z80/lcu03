@@ -10,7 +10,7 @@ void motorSetParams( int vmin, int vmax, int acc );
 void motorSetRevSteps( int cnt );
 void motorMove( int index, int pos );
 void motorSensorData( int index, int * activated, int * pos );
-int motorInMotion( int index );
+int motorInMotion( int index, int * pos );
 int motorPos( int index );
 void motorStop( int index );
 

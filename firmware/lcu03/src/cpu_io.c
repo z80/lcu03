@@ -5,12 +5,9 @@
 #include "hal.h"
 
 #include "led_ctrl.h"
-#include "adc_ctrl.h"
-#include "dac_ctrl.h"
-#include "temp_ctrl.h"
-#include "sweep_ctrl.h"
-#include "output_ctrl.h"
 #include "dfu_ctrl.h"
+#include "shutter_ctrl.h"
+#include "moto_ctrl.h"
 
 #include "hdw_config.h"
 #include "funcs.h"
@@ -129,7 +126,18 @@ static void process_command( uint8_t * buf, int sz )
 
 static void hardware_version( uint8_t * args );
 static void firmware_version( uint8_t * args );
+static void firmware_upgrade( uint8_t * args );
+
 static void set_led( uint8_t * args );
+static void set_shutter( uint8_t * args );
+static void move_motor( uint8_t * args );
+static void stop_motor( uint8_t * args );
+static void motor_in_motion( uint8_t * args );
+static void sensor( uint8_t * args );
+static void motor_set_pos( uint8_t * args );
+static void motor_set_params( uint8_t * args );
+
+/*
 static void set_dac1( uint8_t * args );
 static void set_dac2( uint8_t * args );
 static void get_adc( uint8_t * args );
@@ -148,34 +156,23 @@ static void get_sweep_en( uint8_t * args );
 static void get_sweep_data( uint8_t * args );
 
 static void set_output( uint8_t * args );
+*/
 
-static void firmware_upgrade( uint8_t * args );
 
 static TFunc funcs[] =
 {
 	hardware_version,
 	firmware_version,
+    firmware_upgrade,
+
     set_led,
-	set_dac1,
-	set_dac2,
-	get_adc,
-	set_osc_signals,
-	set_osc_period,
-	get_osc_data,
-
-	get_temp,
-
-	set_trigger_en,
-
-	set_sweep_range,
-	set_sweep_time,
-	set_sweep_en,
-	get_sweep_en,
-	get_sweep_data,
-
-	set_output,
-
-	firmware_upgrade
+    set_shutter,
+    move_motor,
+    stop_motor,
+    motor_in_motion,
+    sensor,
+    motor_set_pos,
+    motor_set_params,
 };
 
 static void exec_func( void )
@@ -215,169 +212,6 @@ static void set_led( uint8_t * args )
 }
 
 
-static void set_dac1( uint8_t * args )
-{
-	int valL = (int)args[0] + ((int)args[1] << 8);
-	int valH = (int)args[2] + ((int)args[3] << 8);
-	setDac1( valL, valH );
-}
-
-static void set_dac2( uint8_t * args )
-{
-	int valL = (int)args[0] + ((int)args[1] << 8);
-	int valH = (int)args[2] + ((int)args[3] << 8);
-	setDac2( valL, valH );
-}
-
-static void get_adc( uint8_t * args )
-{
-	(void)args;
-	int res[4];
-	instantAdc( res );
-	int i;
-	for ( i=0; i<4; i++ )
-	{
-		uint8_t b = (uint8_t)(res[i] & 0xFF);
-		writeResult( b );
-		b = (uint8_t)((res[i] >> 8) & 0xFF);
-		writeResult( b );
-		b = (uint8_t)((res[i] >> 16) & 0xFF);
-		writeResult( b );
-		b = (uint8_t)((res[i] >> 24) & 0xFF);
-		writeResult( b );
-	}
-	writeEom();
-}
-
-static void set_osc_signals( uint8_t * arg )
-{
-	uint8_t v = arg[0];
-	setOscSignals( v );
-}
-
-static void set_osc_period( uint8_t * arg )
-{
-	uint32_t v;
-	v = (int)( arg[0] );
-	v += ( (int)( arg[1] ) << 8 );
-	v += ( (int)( arg[1] ) << 16 );
-	v += ( (int)( arg[1] ) << 24 );
-	setOscPeriod( v );
-}
-
-static void get_osc_data( uint8_t * arg )
-{
-	(void)arg;
-	InputQueue * q = adcQueue();
-	chSysLock();
-		size_t cnt;
-		cnt = (chQSpaceI( q ) / 12);
-	chSysUnlock();
-	size_t recInd;
-	for ( recInd=0; recInd<cnt; recInd++ )
-	{
-		size_t sigInd;
-		for ( sigInd=0; sigInd<4; sigInd++ )
-		{
-			size_t byteInd;
-			for ( byteInd = 0; byteInd<3; byteInd++ )
-			{
-				uint8_t v;
-				msg_t msg;
-
-				msg = chIQGet( q );
-				v = (uint8_t)msg;
-				writeResult( v );
-			}
-		}
-	}
-	writeEom();
-}
-
-static void get_temp( uint8_t * args )
-{
-	(void)args;
-	uint16_t t = lastTemp();
-
-	uint8_t v = (uint8_t)(t>>8);
-	writeResult( v );
-
-	v = (uint8_t)(t & 0xFF);
-	writeResult( v );
-
-	writeEom();
-}
-
-static void set_trigger_en( uint8_t * args )
-{
-	setTrigEn( args[0] );
-}
-
-static void set_sweep_range( uint8_t * args )
-{
-	int dacs[4];
-	uint8_t i;
-	for ( i=0; i<4; i++ )
-	{
-		dacs[i] = ( (int)args[ 2*i ] << 8 ) + (int)args[2*i+1];
-	}
-	setSweepRange( dacs );
-}
-
-static void set_sweep_time( uint8_t * args )
-{
-	int ptsCnt = ( (int)args[0] << 24 ) + ( (int)args[1] << 16 ) + ( (int)args[2] << 8 ) + ( (int)args[3] );
-	int period = ( (int)args[4] << 24 ) + ( (int)args[5] << 16 ) + ( (int)args[6] << 8 ) + ( (int)args[7] );
-	setSweepTime( ptsCnt, period );
-}
-
-static void set_sweep_en( uint8_t * args )
-{
-	setSweepEn( args[0] );
-}
-
-static void get_sweep_en( uint8_t * args )
-{
-	(void)args;
-	uint8_t v = sweepEn();
-	writeResult( v );
-	writeEom();
-}
-
-static void get_sweep_data( uint8_t * args )
-{
-	(void)args;
-	InputQueue * q = sweepQueue();
-	chSysLock();
-		size_t cnt;
-		cnt = (chQSpaceI( q ) / 12);
-	chSysUnlock();
-	size_t recInd;
-	for ( recInd=0; recInd<cnt; recInd++ )
-	{
-		size_t sigInd;
-		for ( sigInd=0; sigInd<4; sigInd++ )
-		{
-			size_t byteInd;
-			for ( byteInd = 0; byteInd<3; byteInd++ )
-			{
-				uint8_t v;
-				msg_t msg;
-
-				msg = chIQGet( q );
-				v = (uint8_t)msg;
-				writeResult( v );
-			}
-		}
-	}
-	writeEom();
-
-}
-
-static void set_output( uint8_t * args )
-{
-	setOutput( args[0] );
-}
 
 static void firmware_upgrade( uint8_t * args )
 {
@@ -396,7 +230,270 @@ static void firmware_upgrade( uint8_t * args )
 	firmwareUpgrade();
 }
 
+static void set_shutter( uint8_t * args )
+{
+    int en = (int)args[0];
+    setShutter( en );
+}
 
+static void move_motor( uint8_t * args )
+{
+    int32_t pos;
+    uint8_t * ppos = (uint8_t *)(&pos);
+    int ind = (args[0] > 0) ? 1 : 0;
+    ppos[0] = args[4];
+    ppos[1] = args[3];
+    ppos[2] = args[2];
+    ppos[3] = args[1];
+    motorMove( ind, pos );
+}
+
+static void stop_motor( uint8_t * args )
+{
+    int ind = (args[0] > 0) ? 1 : 0;
+    motorStop( ind );
+}
+
+static void motor_in_motion( uint8_t * args )
+{
+    int ind = (args[0] > 0) ? 1 : 0;
+    int pos;
+    int res = motorInMotion( ind, &pos );
+    uint8_t * ppos = (uint8_t *)(&pos);
+
+    writeResult( res );
+    writeResult( ppos[0] );
+    writeResult( ppos[1] );
+    writeResult( ppos[2] );
+    writeResult( ppos[3] );
+    writeEom();
+}
+
+static void sensor( uint8_t * args )
+{
+    int ind = (args[0] > 0) ? 1 : 0;
+
+    int activated, pos;
+    motorSensorData( ind, &activated, &pos );
+    uint8_t * ppos = (uint8_t *)(&pos);
+
+    writeResult( activated );
+    writeResult( ppos[0] );
+    writeResult( ppos[1] );
+    writeResult( ppos[2] );
+    writeResult( ppos[3] );
+    writeEom();
+}
+
+static void motor_set_pos( uint8_t * args )
+{
+    int ind = (args[0] > 0) ? 1 : 0;
+    int32_t pos;
+    uint8_t * ppos = (uint8_t *)(&pos);
+    ppos[0] = args[4];
+    ppos[1] = args[3];
+    ppos[2] = args[2];
+    ppos[3] = args[1];
+    motorSetPos( ind, pos );
+}
+
+static void motor_set_params( uint8_t * args )
+{
+    int32_t vmin, vmax, acc;
+    uint8_t * ppos = (uint8_t *)(&vmin);
+    ppos[0] = args[3];
+    ppos[1] = args[2];
+    ppos[2] = args[1];
+    ppos[3] = args[0];
+
+    ppos = (uint8_t *)(&vmax);
+    ppos[0] = args[7];
+    ppos[1] = args[6];
+    ppos[2] = args[5];
+    ppos[3] = args[4];
+
+    ppos = (uint8_t *)(&acc);
+    ppos[0] = args[11];
+    ppos[1] = args[10];
+    ppos[2] = args[9];
+    ppos[3] = args[8];
+    motorSetParams( vmin, vmax, acc );
+}
+
+
+
+
+
+
+
+/*
+
+
+static void set_dac1( uint8_t * args )
+{
+    int valL = (int)args[0] + ((int)args[1] << 8);
+    int valH = (int)args[2] + ((int)args[3] << 8);
+    setDac1( valL, valH );
+}
+
+static void set_dac2( uint8_t * args )
+{
+    int valL = (int)args[0] + ((int)args[1] << 8);
+    int valH = (int)args[2] + ((int)args[3] << 8);
+    setDac2( valL, valH );
+}
+
+static void get_adc( uint8_t * args )
+{
+    (void)args;
+    int res[4];
+    instantAdc( res );
+    int i;
+    for ( i=0; i<4; i++ )
+    {
+        uint8_t b = (uint8_t)(res[i] & 0xFF);
+        writeResult( b );
+        b = (uint8_t)((res[i] >> 8) & 0xFF);
+        writeResult( b );
+        b = (uint8_t)((res[i] >> 16) & 0xFF);
+        writeResult( b );
+        b = (uint8_t)((res[i] >> 24) & 0xFF);
+        writeResult( b );
+    }
+    writeEom();
+}
+
+static void set_osc_signals( uint8_t * arg )
+{
+    uint8_t v = arg[0];
+    setOscSignals( v );
+}
+
+static void set_osc_period( uint8_t * arg )
+{
+    uint32_t v;
+    v = (int)( arg[0] );
+    v += ( (int)( arg[1] ) << 8 );
+    v += ( (int)( arg[1] ) << 16 );
+    v += ( (int)( arg[1] ) << 24 );
+    setOscPeriod( v );
+}
+
+static void get_osc_data( uint8_t * arg )
+{
+    (void)arg;
+    InputQueue * q = adcQueue();
+    chSysLock();
+        size_t cnt;
+        cnt = (chQSpaceI( q ) / 12);
+    chSysUnlock();
+    size_t recInd;
+    for ( recInd=0; recInd<cnt; recInd++ )
+    {
+        size_t sigInd;
+        for ( sigInd=0; sigInd<4; sigInd++ )
+        {
+            size_t byteInd;
+            for ( byteInd = 0; byteInd<3; byteInd++ )
+            {
+                uint8_t v;
+                msg_t msg;
+
+                msg = chIQGet( q );
+                v = (uint8_t)msg;
+                writeResult( v );
+            }
+        }
+    }
+    writeEom();
+}
+
+static void get_temp( uint8_t * args )
+{
+    (void)args;
+    uint16_t t = lastTemp();
+
+    uint8_t v = (uint8_t)(t>>8);
+    writeResult( v );
+
+    v = (uint8_t)(t & 0xFF);
+    writeResult( v );
+
+    writeEom();
+}
+
+static void set_trigger_en( uint8_t * args )
+{
+    setTrigEn( args[0] );
+}
+
+static void set_sweep_range( uint8_t * args )
+{
+    int dacs[4];
+    uint8_t i;
+    for ( i=0; i<4; i++ )
+    {
+        dacs[i] = ( (int)args[ 2*i ] << 8 ) + (int)args[2*i+1];
+    }
+    setSweepRange( dacs );
+}
+
+static void set_sweep_time( uint8_t * args )
+{
+    int ptsCnt = ( (int)args[0] << 24 ) + ( (int)args[1] << 16 ) + ( (int)args[2] << 8 ) + ( (int)args[3] );
+    int period = ( (int)args[4] << 24 ) + ( (int)args[5] << 16 ) + ( (int)args[6] << 8 ) + ( (int)args[7] );
+    setSweepTime( ptsCnt, period );
+}
+
+static void set_sweep_en( uint8_t * args )
+{
+    setSweepEn( args[0] );
+}
+
+static void get_sweep_en( uint8_t * args )
+{
+    (void)args;
+    uint8_t v = sweepEn();
+    writeResult( v );
+    writeEom();
+}
+
+static void get_sweep_data( uint8_t * args )
+{
+    (void)args;
+    InputQueue * q = sweepQueue();
+    chSysLock();
+        size_t cnt;
+        cnt = (chQSpaceI( q ) / 12);
+    chSysUnlock();
+    size_t recInd;
+    for ( recInd=0; recInd<cnt; recInd++ )
+    {
+        size_t sigInd;
+        for ( sigInd=0; sigInd<4; sigInd++ )
+        {
+            size_t byteInd;
+            for ( byteInd = 0; byteInd<3; byteInd++ )
+            {
+                uint8_t v;
+                msg_t msg;
+
+                msg = chIQGet( q );
+                v = (uint8_t)msg;
+                writeResult( v );
+            }
+        }
+    }
+    writeEom();
+
+}
+
+static void set_output( uint8_t * args )
+{
+    setOutput( args[0] );
+}
+
+ */
 
 
 

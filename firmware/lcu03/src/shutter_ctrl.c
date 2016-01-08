@@ -32,7 +32,7 @@ void shutterInit( void )
 void setShutter( uint8_t en )
 {
 	chSysLock();
-	  chIQPutI( &sh_queue, en ? 1 : 2 );
+	  chIQPutI( &sh_queue, ( en > 0 ) ? 1 : 2 );
 	chSysUnlock();
 }
 
