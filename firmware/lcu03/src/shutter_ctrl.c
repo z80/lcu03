@@ -6,7 +6,7 @@
 #define SH_PIN_0  0
 #define SH_PORT_1 GPIOC
 #define SH_PIN_1  15
-#define SH_SLEEP 200
+#define SH_SLEEP 50
 
 static WORKING_AREA( waShutter, 256 );
 static msg_t shutterThread( void *arg );
