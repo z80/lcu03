@@ -29,6 +29,15 @@
 #define HIGH_CURRENT_PORT GPIOB
 #define HIGH_CURRENT_PAD  13
 
+#define HALL_0_PORT GPIOB
+#define HALL_0_PAD  12
+
+#define HALL_1_PORT GPIOA
+#define HALL_1_PAD  5
+
+#define PWR_OFF_PORT GPIOB
+#define PWR_OFF_PAD  8
+
 static int nsqrt( int arg );
 
 
@@ -52,14 +61,38 @@ typedef struct
 } TMotor;
 
 static TMotor motor[2];
-static int moto_vmin = 500,
-        moto_vmax = 5000,
-        moto_acc = 1500;
+static int moto_vmin = 300,
+        moto_vmax = 2000,
+        moto_acc = 2000;
 static int steps_per_rev = 5120;
 
 static void extHall0( EXTDriver * extp, expchannel_t channel );
 static void extHall1( EXTDriver * extp, expchannel_t channel );
 static void extPowerOff( EXTDriver * extp, expchannel_t channel );
+
+static void extHall0( EXTDriver * extp, expchannel_t channel )
+{
+    (void)extp;
+    (void)channel;
+    motor[0].activated = 1;
+    motor[0].sensorPos = motor[0].pos;
+}
+
+static void extHall1( EXTDriver * extp, expchannel_t channel )
+{
+    (void)extp;
+    (void)channel;
+    motor[1].activated = 1;
+    motor[1].sensorPos = motor[1].pos;
+}
+
+static void extPowerOff( EXTDriver * extp, expchannel_t channel )
+{
+    (void)extp;
+    (void)channel;
+    //motor[0].activated = 1;
+}
+
 
 static const EXTConfig extcfg = {
   {
@@ -68,14 +101,14 @@ static const EXTConfig extcfg = {
    {EXT_CH_MODE_DISABLED, NULL},
    {EXT_CH_MODE_DISABLED, NULL},
    {EXT_CH_MODE_DISABLED, NULL},
-   {EXT_CH_MODE_FALLING_EDGE /*| EXT_CH_MODE_AUTOSTART*/, extHall0 },
+   {EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, extHall0 },
    {EXT_CH_MODE_DISABLED, NULL},
    {EXT_CH_MODE_DISABLED, NULL},
-   {EXT_CH_MODE_FALLING_EDGE /*| EXT_CH_MODE_AUTOSTART*/, extPowerOff },
+   {EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, extPowerOff },
    {EXT_CH_MODE_DISABLED, NULL},
    {EXT_CH_MODE_DISABLED, NULL},
    {EXT_CH_MODE_DISABLED, NULL},
-   {EXT_CH_MODE_FALLING_EDGE /*| EXT_CH_MODE_AUTOSTART*/, extHall1 },
+   {EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, extHall1 },
    {EXT_CH_MODE_DISABLED, NULL},
    {EXT_CH_MODE_DISABLED, NULL},
    {EXT_CH_MODE_DISABLED, NULL},
@@ -424,6 +457,9 @@ void motorInit( void )
     chIQInit( &motor1_stop_queue, motor1_stop_queue_buffer, MOTOR_QUEUE_SZ, 0 );
 
     // Initialize external interrupt input here.
+    palSetPadMode( HALL_0_PORT,  HALL_0_PAD, PAL_MODE_INPUT );
+    palSetPadMode( HALL_1_PORT,  HALL_1_PAD, PAL_MODE_INPUT );
+    palSetPadMode( PWR_OFF_PORT, PWR_OFF_PAD, PAL_MODE_INPUT );
     extStart(&EXTD1, &extcfg);
 
     // Init PWM for step control.
@@ -534,28 +570,6 @@ void motorStop( int index )
     chSysUnlock();
 }
 
-static void extHall0( EXTDriver * extp, expchannel_t channel )
-{
-	(void)extp;
-	(void)channel;
-    motor[0].activated = 1;
-    motor[0].sensorPos = motor[0].pos;
-}
-
-static void extHall1( EXTDriver * extp, expchannel_t channel )
-{
-	(void)extp;
-	(void)channel;
-	motor[1].activated = 1;
-	motor[1].sensorPos = motor[1].pos;
-}
-
-static void extPowerOff( EXTDriver * extp, expchannel_t channel )
-{
-	(void)extp;
-	(void)channel;
-	//motor[0].activated = 1;
-}
 
 
 

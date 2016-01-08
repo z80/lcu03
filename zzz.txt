@@ -2,3 +2,4 @@
 close fast enough.
 2) Changed 1k to 5k ressitpr which tights switching signal to ground. It increased upper voltage. So mosfet can 
 open now. Otherwise it couldn't open and stayed closed. (Or in saturation???)
+3) Hall sensor wires are flipped. Actually 1-st is 2-d and vise versa. Just change names in the firmware....
