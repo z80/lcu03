@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>246</width>
-    <height>242</height>
+    <width>220</width>
+    <height>200</height>
    </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>220</width>
+    <height>200</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>LCU03</string>
@@ -18,6 +24,53 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_3">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0,0,0">
+      <item>
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Shutter</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="shutterClosed">
+        <property name="text">
+         <string>Closed</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">shutterGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="shutterOpen">
+        <property name="text">
+         <string>Open</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">shutterGroup</string>
+        </attribute>
+       </widget>
+      </item>
+     </layout>
+    </item>
     <item>
      <spacer name="verticalSpacer_2">
       <property name="orientation">
@@ -111,6 +164,12 @@
           <property name="text">
            <string/>
           </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">polarizationGroup</string>
+          </attribute>
          </widget>
         </item>
        </layout>
@@ -129,6 +188,9 @@
           <property name="text">
            <string/>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">polarizationGroup</string>
+          </attribute>
          </widget>
         </item>
        </layout>
@@ -154,13 +216,14 @@
    <zorder>horizontalLayoutWidget_2</zorder>
    <zorder>verticalSpacer</zorder>
    <zorder>verticalSpacer_2</zorder>
+   <zorder>horizontalLayoutWidget_3</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>246</width>
+     <width>220</width>
      <height>21</height>
     </rect>
    </property>
@@ -205,4 +268,8 @@
  </widget>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="shutterGroup"/>
+  <buttongroup name="polarizationGroup"/>
+ </buttongroups>
 </ui>

@@ -23,6 +23,11 @@ public:
     void loadSettings();
     void saveSettings();
 
+public slots:
+    void slotQuit();
+protected:
+    void closeEvent( QCloseEvent * e );
+
 private:
     Ui_MainWnd ui;
     

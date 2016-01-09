@@ -55,7 +55,7 @@ void HostTray::slotShowMainWnd()
 void HostTray::slotQuit()
 {
     hide();
-    //m_mainWnd->slotQuit();
+    m_mainWnd->slotQuit();
     this->deleteLater();
     QApplication::quit();
 }

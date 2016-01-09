@@ -34,4 +34,15 @@ void MainWnd::saveSettings()
 {
 }
 
+void MainWnd::slotQuit()
+{
+    saveSettings();
+}
+
+void MainWnd::closeEvent( QCloseEvent * e )
+{
+    hide();
+    e->ignore();
+}
+
 
