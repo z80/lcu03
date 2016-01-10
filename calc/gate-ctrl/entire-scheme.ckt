@@ -6,25 +6,12 @@
 * Schematic : /home/z80/projects/lcu03.git/calc/gate-ctrl/entire-scheme.sch
 
 * Component Definitions
-C1 3 Vout1 1n
-C2 0 1 2n
-C3 5 Vout2 100n
-C4 0 4 10n
-R2 3 1 10
-R3 Vin 3 26.1k
-R4 Vout1 5 5.76k
-R5 5 4 82.5k
-R6 unconnected_pin-2 Vout2 10k
-R7 Vres 2 1k
-R8 Vres 0 10k
-* Signal source (V1 Vin 0 dc 1650mv ac 1650mv 1khz)
-V1 Vin 0 0.0
-V2 2 0 pulse -1 1 10n 10n 10n 1u 2u
-V3 Vdd 0 DC 3300MV
-V4 vp 0 DC 12V
-V5 0 vm DC 12V
-XU1 1 Vout1 vp vm Vout1 AD825
-XU2 4 Vout2 vp vm Vout2 AD825
+C1 Vin Vout 100n
+C2 0 Vout 300p
+R1 Vin Vout 220
+R2 0 Vout 1k
+* Signal source (V2 Vin 0 pulse -1 1 10n 10n 10n 1u 2u)
+V2 Vin 0 PULSE( 600.00m 2.60 1000.00n 100.00n 2.00u 2.00u 5.00u )
 
 * Sub-Circuit Definitions
 .SUBCKT AD825    1 2 99 50 30
@@ -646,8 +633,8 @@ R344 8 0 1E12
 
 * NG-Spice Simulation Commands
 .OPTIONS NOPAGE NUMDGT=6 UNITS=Degrees WIDTH=104 VNTOL=2.00m
-.PRINT TRAN V(Vdd,0) V(Vout1) V(Vout2)
-.TRAN 1.00u 1.00m 0.00m
+.PRINT TRAN V(Vout) V(Vin)
+.TRAN 100.00n 150.00u 0.00u
 
 .END
 
