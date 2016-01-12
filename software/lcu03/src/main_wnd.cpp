@@ -4,6 +4,7 @@
 #include "main_wnd.h"
 #include <QFileDialog>
 //#include "setup_dlg.h"
+#include "settings_dlg.h"
 #include "host_tray.h"
 
 #include "qwt_text_label.h"
@@ -19,12 +20,15 @@ MainWnd::MainWnd( HostTray * parent )
 {
     ui.setupUi( this );
 
-
+    bindSlots();
     io = new VoltampIo();
+    loadSettings();
+    refreshDevicesList();
 }
 
 MainWnd::~MainWnd()
 {
+    delete io;
 }
 
 void MainWnd::loadSettings()
@@ -82,9 +86,15 @@ void MainWnd::slotShutter()
     QRadioButton * rad = qobject_cast<QRadioButton *>( snd );
     bool sh;
     if ( rad == ui.shutterOpen )
+    {
         sh = shutterOpened;
+        shutter = true;
+    }
     else
+    {
         sh = shutterClosed;
+        shutter = false;
+    }
     bool res = ensureOpen();
     if ( !res )
         return;
@@ -96,12 +106,40 @@ void MainWnd::slotShutter()
     }
 }
 
-void MainWnd::slotPower( qreal value )
+void MainWnd::slotPower()
 {
+    qreal pwr = ui.power->value();
+    int step = powerToStep( pwr );
+    bool res = ensureOpen();
+    if ( !res )
+        return;
+    res = io->motorSetPos( 0, step );
+    if ( !res )
+    {
+        QMessageBox::critical( this, "Error", "Falied to set power!" );
+        io->close();
+    }
 }
 
 void MainWnd::slotPolarization()
 {
+    QObject * snd = sender();
+    QRadioButton * rad = qobject_cast<QRadioButton *>( snd );
+    int step;
+    if ( rad == ui.vert )
+        step = polarizationToStep( true );
+    else
+        step = polarizationToStep( false );
+    
+    bool res = ensureOpen();
+    if ( !res )
+        return;
+    res = io->motorSetPos( 1, step );
+    if ( !res )
+    {
+        QMessageBox::critical( this, "Error", "Falied to set polarization!" );
+        io->close();
+    }
 }
 
 void MainWnd::slotDevice()
@@ -121,6 +159,8 @@ void MainWnd::slotReopen()
 
 void MainWnd::slotSetup()
 {
+    SettingsDlg sd( this );
+    sd.exec();
 }
 
 void MainWnd::slotRemoteSetup()
@@ -300,6 +340,59 @@ int MainWnd::polarizationToStep( bool vert )
         step = pol90deg;
     return step;
 }
+
+void MainWnd::bindSlots()
+{
+    // Setup section.
+    connect( ui.actionSettings, SIGNAL(triggered()), this, SLOT(slotSetup()) );
+    connect( ui.actionRemote_control_setup, SIGNAL(triggered()), this, SLOT(slotRemoteSetup()) );
+
+    // Help section.
+    connect( ui.actionAbout,    SIGNAL(triggered()), this, SLOT(slotAbout()) );
+    connect( ui.actionFirmware_upgrade, SIGNAL(triggered()), this, SLOT(slotFirmwareUpdate()) );
+
+    // Shutter controls.
+    connect( ui.shutterOpen,   SIGNAL(clicked()), this, SLOT(slotShutter()) );
+    connect( ui.shutterClosed, SIGNAL(clicked()), this, SLOT(slotShutter()) );
+
+    // Power controls.
+    connect( ui.power,   SIGNAL(editingFinished()), this, SLOT(slotPower()) );
+
+    // Polarization controls.
+    connect( ui.vert, SIGNAL(clicked()), this, SLOT(slotPolarization()) );
+    connect( ui.hor,  SIGNAL(clicked()), this, SLOT(slotPolarization()) );
+}
+
+void MainWnd::listen()
+{
+    //if ( m_thread )
+    //{
+    //    bool started = m_thread->isAlive();
+    //    if ( started )
+    //        m_thread->shutdown();
+    //}
+    //if ( m_doListen )
+    //{
+    //    std::ostringstream os;
+    //    if ( m_host.length() > 0 )
+    //        os << "tcp -h " << m_host.toStdString() << " -p " << m_port;
+    //    else
+    //        os << "tcp" << " -p " << m_port;
+    //    m_thread = new ThreadIce( os.str() );
+    //    if ( !m_thread->listen( this ) )
+    //        setTrayToolTip( "Not in service" );
+    //    else
+    //    {
+    //        QString stri;
+    //        if ( m_host.length() > 0 )
+    //            stri = QString( "Listening interface %1, port %2" ).arg( m_host ).arg( m_port );
+    //        else
+    //            stri = QString( "Listening port %1" ).arg( m_port );
+    //        setTrayToolTip( stri );
+    //    }
+    //}
+}
+
 
 
 

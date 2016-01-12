@@ -13,6 +13,7 @@
 //#include "thread_ice.h"
 
 class HostTray;
+class SettingsDlg;
 
 class MainWnd: public QMainWindow
 {
@@ -28,7 +29,7 @@ public slots:
     void slotQuit();
     // Control slots.
     void slotShutter();
-    void slotPower( qreal value );
+    void slotPower();
     void slotPolarization();
     // Device slots.
     void slotDevice();
@@ -43,18 +44,20 @@ public slots:
 protected:
     void closeEvent( QCloseEvent * e );
 
-private:
+protected:
     void refreshDevicesList();
     void reopen();
     bool ensureOpen();
     int  powerToStep( qreal power );
     int  polarizationToStep( bool vert );
+    void bindSlots();
+    void listen();
 
 
     // Shutte driver.
     int shutterOpened, 
         shutterClosed;
-    int shutter;
+    bool shutter;
 
     // Polarization driver.
     int  pol0deg, 
@@ -66,7 +69,14 @@ private:
         filterMax;
     int filter;
 
+    // Remore control.
+    //::IceUtil::Handle<ThreadIce> m_thread;
+    //QString m_host;
+    //int     m_port;
+    //bool    m_doListen;
 
+
+    // Device servicing.
     VoltampIo * io;
     int deviceIndex;
     QList<QAction *> devicesList;
@@ -75,6 +85,8 @@ private:
     Ui_MainWnd ui;
     
     static const QString SETTINGS_INI;
+
+    friend class SettingsDlg;
 };
 
 

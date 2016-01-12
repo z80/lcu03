@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Settings</class>
- <widget class="QDialog" name="Settings">
+ <class>SettingsDlg</class>
+ <widget class="QDialog" name="SettingsDlg">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -129,7 +129,7 @@
        <item>
         <widget class="QStackedWidget" name="pager">
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="power">
           <layout class="QVBoxLayout" name="verticalLayout">
@@ -227,14 +227,14 @@
            <item>
             <widget class="QRadioButton" name="shutterOpened">
              <property name="text">
-              <string>Shutter closed</string>
+              <string>Shutter opened</string>
              </property>
             </widget>
            </item>
            <item>
             <widget class="QRadioButton" name="shutterClosed">
              <property name="text">
-              <string>Shutter open</string>
+              <string>Shutter closed</string>
              </property>
             </widget>
            </item>
