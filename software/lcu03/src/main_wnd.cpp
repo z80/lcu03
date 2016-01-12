@@ -22,8 +22,8 @@ MainWnd::MainWnd( HostTray * parent )
 
     bindSlots();
     io = new VoltampIo();
-    loadSettings();
     refreshDevicesList();
+    loadSettings();
 }
 
 MainWnd::~MainWnd()
@@ -35,7 +35,7 @@ void MainWnd::loadSettings()
 {
     QSettings s( SETTINGS_INI, QSettings::IniFormat );
 
-    //devName  = s.value( "devName",  "0" ).toInt();
+    deviceIndex  = s.value( "deviceIndex",  "0" ).toInt();
     //m_host   = s.value( "host", "" ).toString();
     //m_port   = s.value( "port", 21345 ).toInt();
     //m_doListen = s.value( "listen", false ).toBool();
@@ -57,7 +57,7 @@ void MainWnd::saveSettings()
 {
     QSettings s( SETTINGS_INI, QSettings::IniFormat );
 
-    //devName  = s.value( "devName",  "0" ).toInt();
+    s.setValue( "deviceIndex",  deviceIndex );
     //m_host   = s.value( "host", "" ).toString();
     //m_port   = s.value( "port", 21345 ).toInt();
     //m_doListen = s.value( "listen", false ).toBool();

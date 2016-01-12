@@ -8,6 +8,10 @@ SettingsDlg::SettingsDlg( MainWnd * mainWnd )
 {
     this->mainWnd = mainWnd;
     ui.setupUi( this );
+
+    bindSlots();
+    // Prepare interface.
+    slotMotorSelected();
 }
 
 SettingsDlg::~SettingsDlg()
@@ -96,7 +100,7 @@ void SettingsDlg::closeEvent( QCloseEvent * e )
 
 void SettingsDlg::bindSlots()
 {
-    connect( ui.motor, SIGNAL(activated(int)),    this, SLOT(slotMotorSelected()) );
+    connect( ui.motor, SIGNAL(currentIndexChanged(int)),    this, SLOT(slotMotorSelected()) );
     connect( ui.pos,   SIGNAL(editingFinished()), this, SLOT(slotPositionChanged()) );
 
     connect( ui.saveVert, SIGNAL(clicked()), this, SLOT(slotSaveVert()) );
