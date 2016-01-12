@@ -177,12 +177,13 @@ bool VoltampIo::setLed( int leds )
     return true;
 }
 
-bool VoltampIo::setShutter( bool open )
+bool VoltampIo::setShutter( int state )
 {
     QMutexLocker lock( &pd->mutex );
     
     quint8 v;
-    v = open ? 1 : 0;
+    //v = open ? 1 : 0;
+    v = ( state > 1 ) ? 2 : 1;
     bool res;
     res = setArgs( &v, 1 );
     if ( !res )

@@ -107,7 +107,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QDoubleSpinBox" name="doubleSpinBox">
+       <widget class="QDoubleSpinBox" name="power">
         <property name="decimals">
          <number>0</number>
         </property>
@@ -160,7 +160,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="vertRb">
+         <widget class="QRadioButton" name="vert">
           <property name="text">
            <string/>
           </property>
@@ -184,7 +184,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="horRb">
+         <widget class="QRadioButton" name="hor">
           <property name="text">
            <string/>
           </property>
@@ -241,6 +241,12 @@
     <addaction name="actionAbout"/>
     <addaction name="actionFirmware_upgrade"/>
    </widget>
+   <widget class="QMenu" name="menuDevice">
+    <property name="title">
+     <string>Device</string>
+    </property>
+   </widget>
+   <addaction name="menuDevice"/>
    <addaction name="menuSetup"/>
    <addaction name="menuHelp"/>
   </widget>

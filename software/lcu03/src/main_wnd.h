@@ -8,6 +8,7 @@
 
 #include "ui_main_wnd.h"
 #include "exec.h"
+#include "voltamp_io.h"
 
 //#include "thread_ice.h"
 
@@ -25,10 +26,52 @@ public:
 
 public slots:
     void slotQuit();
+    // Control slots.
+    void slotShutter();
+    void slotPower( qreal value );
+    void slotPolarization();
+    // Device slots.
+    void slotDevice();
+    void slotReopen();
+    // Setup slots.
+    void slotSetup();
+    void slotRemoteSetup();
+    // Help slots.
+    void slotAbout();
+    void slotFirmwareUpdate();
+
 protected:
     void closeEvent( QCloseEvent * e );
 
 private:
+    void refreshDevicesList();
+    void reopen();
+    bool ensureOpen();
+    int  powerToStep( qreal power );
+    int  polarizationToStep( bool vert );
+
+
+    // Shutte driver.
+    int shutterOpened, 
+        shutterClosed;
+    int shutter;
+
+    // Polarization driver.
+    int  pol0deg, 
+         pol90deg;
+    bool polVert;
+
+    // Filter driver.
+    int filterMin, 
+        filterMax;
+    int filter;
+
+
+    VoltampIo * io;
+    int deviceIndex;
+    QList<QAction *> devicesList;
+
+
     Ui_MainWnd ui;
     
     static const QString SETTINGS_INI;

@@ -21,7 +21,7 @@ public:
 
     bool setLed( int leds );
 
-    bool setShutter( bool open );
+    bool setShutter( int state );
     bool moveMotor( int index, int pos );
     bool stopMotor( int index );
     bool motorInMotion( int index, bool & running, int & pos );
