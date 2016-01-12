@@ -28,6 +28,9 @@
   <property name="locale">
    <locale language="C" country="AnyCountry"/>
   </property>
+  <property name="sizeGripEnabled">
+   <bool>false</bool>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout_6">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -247,6 +250,29 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
+        <widget class="QPushButton" name="findPos">
+         <property name="toolTip">
+          <string>Find motors positions.</string>
+         </property>
+         <property name="text">
+          <string>Find pos.</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
         <widget class="QPushButton" name="firmwareUpgrade">
          <property name="minimumSize">
           <size>
@@ -259,6 +285,9 @@
            <width>64</width>
            <height>64</height>
           </size>
+         </property>
+         <property name="statusTip">
+          <string>Firmware upgrade</string>
          </property>
          <property name="text">
           <string/>
@@ -274,19 +303,6 @@
           </size>
          </property>
         </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
        </item>
       </layout>
      </item>

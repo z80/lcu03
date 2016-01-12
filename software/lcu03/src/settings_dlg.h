@@ -22,6 +22,8 @@ public slots:
     void slotSaveMaxPwr();
     void slotSaveMinPwr();
     void slotShutter();
+    void slotFindMotorPos();
+    void slotFirmwareUpgrade();
 protected:
     void closeEvent( QCloseEvent * e );
 private:
