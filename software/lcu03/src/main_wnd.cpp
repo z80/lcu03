@@ -113,7 +113,7 @@ void MainWnd::slotPower()
     bool res = ensureOpen();
     if ( !res )
         return;
-    res = io->motorSetPos( 0, step );
+    res = io->moveMotor( 0, step );
     if ( !res )
     {
         QMessageBox::critical( this, "Error", "Falied to set power!" );
@@ -134,7 +134,7 @@ void MainWnd::slotPolarization()
     bool res = ensureOpen();
     if ( !res )
         return;
-    res = io->motorSetPos( 1, step );
+    res = io->moveMotor( 1, step );
     if ( !res )
     {
         QMessageBox::critical( this, "Error", "Falied to set polarization!" );
@@ -161,6 +161,7 @@ void MainWnd::slotSetup()
 {
     SettingsDlg sd( this );
     sd.exec();
+    saveSettings();
 }
 
 void MainWnd::slotRemoteSetup()

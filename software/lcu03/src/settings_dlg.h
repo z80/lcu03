@@ -28,6 +28,7 @@ protected:
     void closeEvent( QCloseEvent * e );
 private:
     void bindSlots();
+    void updateLabels();
 
     Ui_SettingsDlg ui;
     MainWnd * mainWnd;

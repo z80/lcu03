@@ -12,6 +12,11 @@ SettingsDlg::SettingsDlg( MainWnd * mainWnd )
     bindSlots();
     // Prepare interface.
     slotMotorSelected();
+
+    ui.shutterOpened->setChecked( mainWnd->shutter );
+    ui.shutterClosed->setChecked( !mainWnd->shutter );
+
+    updateLabels();
 }
 
 SettingsDlg::~SettingsDlg()
@@ -59,21 +64,25 @@ void SettingsDlg::slotPositionChanged()
 void SettingsDlg::slotSaveVert()
 {
     mainWnd->pol0deg = ui.pos->value();
+    updateLabels();
 }
 
 void SettingsDlg::slotSaveHor()
 {
     mainWnd->pol90deg = ui.pos->value();
+    updateLabels();
 }
 
 void SettingsDlg::slotSaveMaxPwr()
 {
     mainWnd->filterMax = ui.pos->value();
+    updateLabels();
 }
 
 void SettingsDlg::slotSaveMinPwr()
 {
     mainWnd->filterMin = ui.pos->value();
+    updateLabels();
 }
 
 void SettingsDlg::slotShutter()
@@ -258,11 +267,27 @@ void SettingsDlg::slotFirmwareUpgrade()
 
 void SettingsDlg::closeEvent( QCloseEvent * e )
 {
-    e->ignore();
+    //e->ignore();
+    accept();
 }
 
 void SettingsDlg::bindSlots()
 {
+    ui.saveVert->setDefault( false );
+    ui.saveVert->setAutoDefault( false );
+    ui.saveHor->setDefault( false );
+    ui.saveHor->setAutoDefault( false );
+    ui.saveMaxPwr->setDefault( false );
+    ui.saveMaxPwr->setAutoDefault( false );
+    ui.saveMinPwr->setDefault( false );
+    ui.saveMinPwr->setAutoDefault( false );
+
+    ui.findPos->setDefault( false );
+    ui.findPos->setAutoDefault( false );
+
+    ui.firmwareUpgrade->setDefault( false );
+    ui.firmwareUpgrade->setAutoDefault( false );
+
     connect( ui.motor, SIGNAL(currentIndexChanged(int)), this, SLOT(slotMotorSelected()) );
     connect( ui.pos,   SIGNAL(editingFinished()),        this, SLOT(slotPositionChanged()) );
 
@@ -275,6 +300,14 @@ void SettingsDlg::bindSlots()
 
     connect( ui.findPos,         SIGNAL(clicked()), this, SLOT(slotFindMotorPos()) );
     connect( ui.firmwareUpgrade, SIGNAL(clicked()), this, SLOT(slotFirmwareUpgrade()) );
+}
+
+void SettingsDlg::updateLabels()
+{
+    ui.maxPowerLbl->setText( QString( "%1" ).arg( mainWnd->filterMax ) );
+    ui.minPowerLbl->setText( QString( "%1" ).arg( mainWnd->filterMin ) );
+    ui.vertPolLbl->setText( QString( "%1" ).arg( mainWnd->pol0deg ) );
+    ui.horPolLbl->setText( QString( "%1" ).arg( mainWnd->pol90deg ) );
 }
 
 

@@ -10,6 +10,12 @@
     <height>320</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="minimumSize">
    <size>
     <width>340</width>
@@ -30,6 +36,9 @@
   </property>
   <property name="sizeGripEnabled">
    <bool>false</bool>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_6">
    <item>
@@ -164,6 +173,63 @@
              </item>
             </layout>
            </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_7">
+             <item>
+              <spacer name="horizontalSpacer_7">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QLabel" name="maxPowerLbl">
+               <property name="text">
+                <string>Max power</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_3">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QLabel" name="minPowerLbl">
+               <property name="text">
+                <string>Min power</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_8">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
           </layout>
          </widget>
          <widget class="QWidget" name="polarization">
@@ -193,6 +259,63 @@
                 <string>Set hor. pos.</string>
                </property>
               </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_8">
+             <item>
+              <spacer name="horizontalSpacer_5">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QLabel" name="vertPolLbl">
+               <property name="text">
+                <string>Vert. pol</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QLabel" name="horPolLbl">
+               <property name="text">
+                <string>Hor. pol</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_6">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
              </item>
             </layout>
            </item>
@@ -232,6 +355,9 @@
              <property name="text">
               <string>Shutter opened</string>
              </property>
+             <attribute name="buttonGroup">
+              <string notr="true">buttonGroup_2</string>
+             </attribute>
             </widget>
            </item>
            <item>
@@ -239,6 +365,9 @@
              <property name="text">
               <string>Shutter closed</string>
              </property>
+             <attribute name="buttonGroup">
+              <string notr="true">buttonGroup_2</string>
+             </attribute>
             </widget>
            </item>
           </layout>
@@ -308,87 +437,13 @@
      </item>
     </layout>
    </item>
-   <item>
-    <spacer name="verticalSpacer_3">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>9</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_7">
-     <item>
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="ok">
-       <property name="text">
-        <string>Ok</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="cancel">
-       <property name="text">
-        <string>Cancel</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
   </layout>
  </widget>
  <resources>
   <include location="images.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>ok</sender>
-   <signal>clicked()</signal>
-   <receiver>SettingsDlg</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>211</x>
-     <y>298</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>169</x>
-     <y>159</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>cancel</sender>
-   <signal>clicked()</signal>
-   <receiver>SettingsDlg</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>292</x>
-     <y>298</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>169</x>
-     <y>159</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroup_2"/>
+ </buttongroups>
 </ui>
