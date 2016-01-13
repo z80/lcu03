@@ -41,7 +41,7 @@ void MainWnd::loadSettings()
     //m_doListen = s.value( "listen", false ).toBool();
 
     shutterOpened = s.value( "shutterOpened", 1 ).toInt();
-    shutterClosed = s.value( "shutterClosed", 2 ).toInt();
+    shutterClosed = s.value( "shutterClosed", 0 ).toInt();
     shutter       = s.value( "shutter", 2 ).toInt();
 
     pol0deg       = s.value( "pol0deg",  150 ).toInt();
@@ -84,7 +84,7 @@ void MainWnd::slotShutter()
 {
     QObject * snd = sender();
     QRadioButton * rad = qobject_cast<QRadioButton *>( snd );
-    bool sh;
+    int sh;
     if ( rad == ui.shutterOpen )
     {
         sh = shutterOpened;

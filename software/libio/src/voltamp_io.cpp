@@ -183,7 +183,7 @@ bool VoltampIo::setShutter( int state )
     
     quint8 v;
     //v = open ? 1 : 0;
-    v = ( state > 1 ) ? 2 : 1;
+    v = ( state > 0 ) ? 1 : 0;
     bool res;
     res = setArgs( &v, 1 );
     if ( !res )
@@ -203,6 +203,8 @@ bool VoltampIo::moveMotor( int index, int pos )
     
     quint8 data[5];
     data[0] = (index > 0) ? 1 : 0;
+
+    pos *= 8;
 
     data[1] = static_cast<quint8>( pos & 0xFF );
     data[2] = static_cast<quint8>( (pos >> 8) & 0xFF );
@@ -273,6 +275,8 @@ bool VoltampIo::motorInMotion( int index, bool & running, int & pos )
     pos |= (static_cast<int>( dat[3] ) << 16);
     pos |= (static_cast<int>( dat[4] ) << 24);
 
+    pos /= 8;
+
     return true;
 }
 
@@ -308,6 +312,8 @@ bool VoltampIo::sensor( int index, bool & triggered, int & pos )
     pos |= (static_cast<int>( dat[3] ) << 16);
     pos |= (static_cast<int>( dat[4] ) << 24);
 
+    pos /= 8;
+
     return true;
 }
 
@@ -317,6 +323,8 @@ bool VoltampIo::motorSetPos( int index, int pos )
     
     quint8 data[5];
     data[0] = (index > 0) ? 1 : 0;
+
+    pos *= 8;
 
     data[1] = static_cast<quint8>( pos & 0xFF );
     data[2] = static_cast<quint8>( (pos >> 8) & 0xFF );
@@ -341,16 +349,20 @@ bool VoltampIo::motorSetParams( int vmin, int vmax, int acc )
     QMutexLocker lock( &pd->mutex );
     
     quint8 data[12];
+
+    vmin *= 8;
     data[0] = static_cast<quint8>( vmin & 0xFF );
     data[1] = static_cast<quint8>( (vmin >> 8) & 0xFF );
     data[2] = static_cast<quint8>( (vmin >> 16) & 0xFF );
     data[3] = static_cast<quint8>( (vmin >> 24) & 0xFF );
 
+    vmax *= 8;
     data[4] = static_cast<quint8>( vmax & 0xFF );
     data[5] = static_cast<quint8>( (vmax >> 8) & 0xFF );
     data[6] = static_cast<quint8>( (vmax >> 16) & 0xFF );
     data[7] = static_cast<quint8>( (vmax >> 24) & 0xFF );
 
+    acc *= 8;
     data[8] = static_cast<quint8>( acc & 0xFF );
     data[9] = static_cast<quint8>( (acc >> 8) & 0xFF );
     data[10] = static_cast<quint8>( (acc >> 16) & 0xFF );
@@ -399,6 +411,8 @@ bool VoltampIo::motorPos( int index, int & at )
     at |= (static_cast<int>( dat[1] ) << 8);
     at |= (static_cast<int>( dat[2] ) << 16);
     at |= (static_cast<int>( dat[3] ) << 24);
+
+    at /= 8;
 
     return true;
 }

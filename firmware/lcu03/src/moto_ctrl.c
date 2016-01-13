@@ -61,10 +61,20 @@ typedef struct
 } TMotor;
 
 static TMotor motor[2];
+
+/*
 static int moto_vmin = 300,
         moto_vmax = 2000,
         moto_acc = 2000;
 static int steps_per_rev = 5120;
+*/
+
+static int moto_vmin = 300*8,
+        moto_vmax = 2000*8,
+        moto_acc = 2000*8;
+static int steps_per_rev = 5120*8;
+
+
 
 static void extHall0( EXTDriver * extp, expchannel_t channel );
 static void extHall1( EXTDriver * extp, expchannel_t channel );

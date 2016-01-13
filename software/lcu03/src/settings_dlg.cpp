@@ -122,7 +122,7 @@ void SettingsDlg::slotFindMotorPos()
 
     const int ONE_REVOLUTION = 5120;
     const int TIMEOUT = 10000;
-    const int DT      = 500;
+    const int DT      = 200;
 
     res = io->moveMotor( 0, pos0 + ONE_REVOLUTION );
     if ( !res )
