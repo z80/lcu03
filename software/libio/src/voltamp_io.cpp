@@ -2,6 +2,11 @@
 #include "voltamp_io.h"
 #include "io.h"
 
+#define SN_ADDR      0
+#define END_POS_ADDR 2
+
+static quint8 crc( quint8 * data, quint8 cnt );
+
 class Sleep: public QThread
 {
 public:
@@ -518,14 +523,48 @@ bool VoltampIo::eepromSetSdAddr( quint8 addr )
 
 bool VoltampIo::setSerialNumber( quint16 sn, bool overwrite )
 {
+    quint8 snRead[2];
+    quint8 sz = 2;
+    bool res = eepromRead( 0, snRead, sz );
+    if ( !res )
+        return false;
+    // If "overwrite" or serial number wasn't written yet (e.i. all ones).
+    if ( overwrite || ( ( snRead[0] == 0xFF ) && ( snRead[1] == 0xFF ) ) )
+    {
+        snRead[0] = static_cast<quint8>(sn & 0xFF);
+        snRead[0] = static_cast<quint8>((sn >> 8) & 0xFF);
+        res = eepromWrite( SN_ADDR, snRead, 2 );
+        if ( !res ) 
+            return false;
+    }
+
+    return true;
 }
 
 bool VoltampIo::serialNumber( quint16 & sn )
 {
+    quint8 snRead[2];
+    quint8 sz = 2;
+    bool res = eepromRead( 0, snRead, sz );
+    if ( !res )
+        return false;
+    quint16 sn = static_cast<quint16>( snRead[0] ) + 
+                 ( static_cast<quint16>( snRead[1] ) << 8 );
+    return true;
 }
 
 bool VoltampIo::writeEndPositions( int * pos )
 {
+    const int SZ = 17;
+    quint8 data[SZ];
+    for ( int i=0; i<4; i++ )
+    {
+        data[i*4]   = static_cast<quint8>(pos[i] & 0xFF);
+        data[i*4+1] = static_cast<quint8>((pos[i] >> 8) & 0xFF);
+        data[i*4+2] = static_cast<quint8>((pos[i] >> 16) & 0xFF);
+        data[i*4+3] = static_cast<quint8>((pos[i] >> 24) & 0xFF)
+    }
+    data[16] = crc( data, 16 );
 }
 
 bool VoltampIo::readEndPositions( int * pos )
@@ -538,6 +577,27 @@ bool VoltampIo::writeCurrentPositions( int * pos )
 
 bool VoltampIo::readCurrentPositions( int * pos )
 {
+}
+
+static quint8 crc( quint8 * data, quint8 cnt )
+{
+    const quint8 POLY = 0x8C;
+    quint8 val;
+    val = 0;
+    quint8 i;
+    for ( i=0; i<cnt; i++ )
+    {
+        val ^= data[i];
+        quint8 j;
+        for ( j=0; j<8; j++ )
+        {
+            if ( val & 0x01 )
+                val = ( val >> 1 ) ^ POLY;
+            else
+                val = ( val >> 1 );
+        }
+    }
+    return val;
 }
 
 
