@@ -1,6 +1,7 @@
 
 #include "moto_ctrl.h"
 #include "hal.h"
+#include "eeprom_ctrl.h"
 
 #define TMR_FREQ 100000 //140625
 #define HIGH_CURRENT_WAIT 50
@@ -47,6 +48,8 @@ static void setMotoEnable( int en );
 static void setMoto0Dir( int dir );
 static void setMoto1Dir( int dir );
 static void setHighCurrent( int en );
+
+static void saveEmergencyData( void );
 
 typedef struct
 {
@@ -100,7 +103,18 @@ static void extPowerOff( EXTDriver * extp, expchannel_t channel )
 {
     (void)extp;
     (void)channel;
-    //motor[0].activated = 1;
+
+    // Halt all drivers.
+    setMotoEnable( -1 );
+    chSysLockFromIsr();
+        // Invoke emergency EEPROM write.
+        eepromEmergencyI();
+        // Stop all timers.
+        gptStop( &GPTD1 );
+        gptStop( &GPTD2 );
+        gptStop( &GPTD3 );
+        gptStop( &GPTD4 );
+    chSysUnlockFromIsr();
 }
 
 
@@ -276,7 +290,10 @@ static msg_t motor0Thread( void *arg )
         // In the other motor doesn't work turn high current off.
         chSysLock();
             if ( !motor[1].in_motion )
+            {
                 setHighCurrent( -1 );
+                saveEmergencyData();
+            }
         chSysUnlock();
 
         chSysLock();
@@ -368,7 +385,10 @@ static msg_t motor1Thread( void *arg )
         // In the other motor doesn't work turn high current off.
         chSysLock();
             if ( !motor[0].in_motion )
+            {
                 setHighCurrent( -1 );
+                saveEmergencyData();
+            }
         chSysUnlock();
 
         chSysLock();
@@ -639,6 +659,23 @@ static void setHighCurrent( int en )
     else
         palSetPad( HIGH_CURRENT_PORT, HIGH_CURRENT_PAD );
 
+}
+
+static void saveEmergencyData( void )
+{
+    uint8_t data[8];
+    data[0] = (uint8_t)(motor[0].pos & 0xFF);
+    data[1] = (uint8_t)((motor[0].pos >> 8) & 0xFF);
+    data[2] = (uint8_t)((motor[0].pos >> 16) & 0xFF);
+    data[3] = (uint8_t)((motor[0].pos >> 24) & 0xFF);
+
+    data[4] = (uint8_t)(motor[1].pos & 0xFF);
+    data[5] = (uint8_t)((motor[1].pos >> 8) & 0xFF);
+    data[6] = (uint8_t)((motor[1].pos >> 16) & 0xFF);
+    data[7] = (uint8_t)((motor[1].pos >> 24) & 0xFF);
+
+    eepromClrSdData();
+    eepromAddSdData( 8, data );
 }
 
 static int nsqrt( int arg )
