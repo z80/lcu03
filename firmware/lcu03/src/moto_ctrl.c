@@ -65,6 +65,8 @@ typedef struct
 
 static TMotor motor[2];
 
+static void adjustPosition( TMotor * moto );
+
 /*
 static int moto_vmin = 300,
         moto_vmax = 2000,
@@ -82,6 +84,16 @@ static int steps_per_rev = 5120*8;
 static void extHall0( EXTDriver * extp, expchannel_t channel );
 static void extHall1( EXTDriver * extp, expchannel_t channel );
 static void extPowerOff( EXTDriver * extp, expchannel_t channel );
+
+static void adjustPosition( TMotor * moto )
+{
+    if ( moto->activated )
+    {
+        moto->pos -= moto->sensorPos;
+        moto->sensorPos = 0;
+    }
+}
+
 
 static void extHall0( EXTDriver * extp, expchannel_t channel )
 {
@@ -298,6 +310,7 @@ static msg_t motor0Thread( void *arg )
 
         chSysLock();
         	moto->in_motion = 0;
+        	adjustPosition( moto );
         chSysUnlock();
     }
     return 0;
@@ -393,6 +406,7 @@ static msg_t motor1Thread( void *arg )
 
         chSysLock();
             moto->in_motion = 0;
+            adjustPosition( moto );
         chSysUnlock();
     }
     return 0;
