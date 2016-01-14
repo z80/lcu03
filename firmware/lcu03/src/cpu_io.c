@@ -8,6 +8,7 @@
 #include "dfu_ctrl.h"
 #include "shutter_ctrl.h"
 #include "moto_ctrl.h"
+#include "eeprom_ctrl.h"
 
 #include "hdw_config.h"
 #include "funcs.h"
@@ -52,6 +53,46 @@ static void motor_pos( uint8_t * args )
     writeResult( (pos >> 24) & 0xFF );
     writeEom();
 }
+
+static void eeprom_write( uint8_t * args )
+{
+    uint8_t addr = args[0];
+    uint8_t cnt  = args[1];
+
+    int res = eepromWrite( addr, cnt, &args[2] );
+    uint8_t ret = (uint8_t)( (res >= 0) ? res : -res );
+
+    writeResult( ret );
+    writeEom();
+}
+
+static void eeprom_read( uint8_t * args )
+{
+    uint8_t addr = args[0];
+    uint8_t cnt  = args[1];
+
+    int res = eepromRead( addr, cnt, args );
+    uint8_t ret = (uint8_t)( (res >= 0) ? res : -res );
+
+    writeResult( ret );
+    uint8_t i;
+    for ( i=0; i<cnt; i++ )
+        writeResult( args[i] );
+    writeEom();
+}
+
+static void eeprom_clrSdData( uint8_t * args )
+{
+    (void)args;
+    eepromClrSdData();
+}
+
+static void eeprom_setSdAddr( uint8_t * args )
+{
+    uint8_t addr = args[0];
+    eepromSetSdAddr( addr );
+}
+
 
 
 void initCpuIo( void )
@@ -152,6 +193,12 @@ static void motor_set_pos( uint8_t * args );
 static void motor_set_params( uint8_t * args );
 static void motor_pos( uint8_t * args );
 
+static void eeprom_write( uint8_t * args );
+static void eeprom_read( uint8_t * args );
+static void eeprom_clrSdData( uint8_t * args );
+static void eeprom_setSdAddr( uint8_t * args );
+
+
 /*
 static void set_dac1( uint8_t * args );
 static void set_dac2( uint8_t * args );
@@ -188,7 +235,12 @@ static TFunc funcs[] =
     sensor,
     motor_set_pos,
     motor_set_params,
-    motor_pos
+    motor_pos,
+
+    eeprom_write,
+    eeprom_read,
+    eeprom_clrSdData,
+    eeprom_setSdAddr
 };
 
 static void exec_func( void )
