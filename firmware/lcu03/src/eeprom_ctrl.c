@@ -31,6 +31,58 @@ static const I2CConfig i2ccfg =
     STD_DUTY_CYCLE,
 };
 
+static void emergencyWrite( void )
+{
+    if ( eeprom_sd_size > 0 )
+    {
+        const systime_t tmo = MS2ST( I2C_TIMEOUT );
+        // First read CRC and compare it with current one.
+        // And overwrite only if CRC doesn't match.
+        uint8_t addr = eeprom_sd_buffer[0];
+        // Should check if it is possible read just one byte after writing 1 byte.
+        // As I remember there is a problem with it.
+        msg_t res = i2cMasterTransmitTimeout( &I2CD1, EEPROM_ADDR, &addr, 1, eeprom_buffer, eeprom_sd_size+1, tmo );
+        if ( ( res != RDY_OK ) || ( eeprom_buffer[eeprom_sd_size] != eeprom_sd_buffer[eeprom_sd_size+1] ) )
+        {
+            // Write control to low.
+            palClearPad( WC_PORT, WC_PAD );
+            // Here size+2 because 1) address goes first and 2) CRC goes after data.
+            res = i2cMasterTransmitTimeout( &I2CD1, EEPROM_ADDR, eeprom_sd_buffer, eeprom_sd_size+2, 0, 0, tmo );
+            // Write control to high.
+            palSetPad( WC_PORT, WC_PAD );
+        }
+    }
+}
+
+static msg_t eepromThread( void *arg )
+{
+    (void)arg;
+    chRegSetThreadName( "sh" );
+    while ( 1 )
+    {
+        msg_t msg;
+        msg = chIQGet( &eeprom_queue );
+
+        // If anything is received it means
+        // immediate write is needed.
+        emergencyWrite();
+    }
+
+    return 0;
+}
+
+void eepromAddSdData( uint8_t cnt, uint8_t * data )
+{
+    uint8_t i;
+    for ( i=0; i<cnt; i++ )
+    {
+        eeprom_sd_size += 1;
+        eeprom_sd_buffer[eeprom_sd_size] = data[i];
+    }
+    // The very next byte after data is CRC.
+    eeprom_sd_buffer[eeprom_sd_size+1] = crc( eeprom_sd_buffer, eeprom_sd_size );
+}
+
 
 void eepromInit( void )
 {
@@ -95,17 +147,7 @@ void eepromSetSdAddr( uint8_t addr )
     chSysUnlock();
 }
 
-void eepromAddSdData( uint8_t cnt, uint8_t * data )
-{
-    uint8_t i;
-    for ( i=0; i<cnt; i++ )
-    {
-        eeprom_sd_size += 1;
-        eeprom_sd_buffer[eeprom_sd_size] = data[cnt];
-    }
-    // The very next byte after data is CRC.
-    eeprom_sd_buffer[eeprom_sd_size+1] = crc( eeprom_sd_buffer, eeprom_sd_size );
-}
+
 
 void eepromEmergencyI( void )
 {
@@ -135,49 +177,13 @@ static uint8_t crc( uint8_t * data, uint8_t cnt )
     return val;
 }
 
-static void emergencyWrite( void )
-{
-    if ( eeprom_sd_size > 0 )
-    {
-        const systime_t tmo = MS2ST( I2C_TIMEOUT );
-        // First read CRC and compare it with current one.
-        // And overwrite only if CRC doesn't match.
-        uint8_t addr = eeprom_sd_buffer[0];
-        // Should check if it is possible read just one byte after writing 1 byte.
-        // As I remember there is a problem with it.
-        msg_t res = i2cMasterTransmitTimeout( &I2CD1, EEPROM_ADDR, &addr, 1, eeprom_buffer, eeprom_sd_size+1, tmo );
-        if ( ( res != RDY_OK ) || ( eeprom_buffer[eeprom_sd_size+1] != eeprom_sd_buffer[eeprom_sd_size+2] ) )
-        {
-            // Write control to low.
-            palClearPad( WC_PORT, WC_PAD );
-            // Here size+2 because 1) address goes first and 2) CRC goes after data.
-            res = i2cMasterTransmitTimeout( &I2CD1, EEPROM_ADDR, eeprom_sd_buffer, eeprom_sd_size+2, 0, 0, tmo );
-            // Write control to high.
-            palSetPad( WC_PORT, WC_PAD );
-        }
-    }
-}
 
 
 
 
 
 
-static msg_t eepromThread( void *arg )
-{
-    (void)arg;
-    chRegSetThreadName( "sh" );
-    while ( 1 )
-    {
-        msg_t msg;
-        msg = chIQGet( &eeprom_queue );
 
-        // If anything is received it means
-        // immediate write is needed.
-        emergencyWrite();
-    }
 
-    return 0;
-}
 
 

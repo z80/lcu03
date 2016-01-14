@@ -34,40 +34,28 @@ int main(void)
     setLeds( 3 );
 
 
-    //pwmStart( &PWMD3, &pwmcfgMotor0 );
-    //pwmDisableChannel( &PWMD3, 2 );
-    //palSetPadMode( GPIOB, 0, PAL_MODE_STM32_ALTERNATE_PUSHPULL );
-
-    int period;
-    period = PWM_FREQ / 100;
-    //pwmChangePeriod( &PWMD3, period );
-    //pwmEnableChannel( &PWMD3, 2, PWM_PERCENTAGE_TO_WIDTH( &PWMD3, 5000 ) );
 
 
-    /*
-    palSetPadMode( GPIOA, 1, PAL_MODE_OUTPUT_PUSHPULL );
-    int i;
-    for ( i=0; i<100; i++ )
-    {
-        palClearPad( GPIOA, 1 );
-        palSetPad( GPIOA, 1 );
-    }
+    uint8_t data[8];
+    int pos0 = 4321;
+    data[0] = (uint8_t)(pos0 & 0xFF);
+    data[1] = (uint8_t)((pos0 >> 8) & 0xFF);
+    data[2] = (uint8_t)((pos0 >> 16) & 0xFF);
+    data[3] = (uint8_t)((pos0 >> 24) & 0xFF);
 
+    int pos1 = -1234;
+    data[4] = (uint8_t)(pos1 & 0xFF);
+    data[5] = (uint8_t)((pos1 >> 8) & 0xFF);
+    data[6] = (uint8_t)((pos1 >> 16) & 0xFF);
+    data[7] = (uint8_t)((pos1 >> 24) & 0xFF);
 
-    pwmStart( &PWMD2, &pwmcfgMotor1 );
-    pwmDisableChannel( &PWMD2, 1 );
-    palSetPadMode( GPIOA, 1, PAL_MODE_STM32_ALTERNATE_PUSHPULL );
+    eepromClrSdData();
+    eepromAddSdData( 8, data );
 
-    pwmChangePeriod( &PWMD2, period );
-    pwmEnableChannel( &PWMD2, 0, PWM_PERCENTAGE_TO_WIDTH( &PWMD2, 5000 ) );
-    pwmEnableChannel( &PWMD2, 1, PWM_PERCENTAGE_TO_WIDTH( &PWMD2, 5000 ) );
-    pwmEnableChannel( &PWMD2, 2, PWM_PERCENTAGE_TO_WIDTH( &PWMD2, 5000 ) );
-    pwmEnableChannel( &PWMD2, 3, PWM_PERCENTAGE_TO_WIDTH( &PWMD2, 5000 ) );
-    */
-
-    // High current.
-    //palClearPad( GPIOB, 13 );
-
+    chSysLock();
+        // Invoke emergency EEPROM write.
+        eepromEmergencyI();
+    chSysUnlock();
 
     while ( 1 )
     {
