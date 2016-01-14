@@ -6,3 +6,4 @@ open now. Otherwise it couldn't open and stayed closed. (Or in saturation???)
 
 4) Step up converted doesn't work with values cqlculated as well. Changed it in the following way.
     a) Upper 470->0, capacitor is not needed. And left 1k pull down as in original scheme.
+    b) 1.2nF->2.4nF to reduce frequency to 150kHz. Otherwise MOSFET heats up.
