@@ -30,30 +30,21 @@ public:
     bool motorSetParams( int vmin, int vmax, int acc );
     bool motorPos( int index, int & at );
 
-    /*
-    bool setDac1( int dacA, int dacB );
-    bool setDac2( int dacA, int dacB );
-    bool instantAdc( int * data );
+    // EEPROM low level.
+    bool eepromWrite( quint8 addr, quint8 * data, quint8 size );
+    bool eepromRead( quint8 addr, quint8 * data, quint8 & size );
+    bool eepromSetSdAddr( quint8 addr );
 
-    bool setOscSignals( bool * en );
-    bool setOscPeriod( int ptsCnt, qreal periodMs );
-    bool oscData( QVector<int> & data );
-
-    bool temperature( qreal & temp );
-
-    bool setTriggerEn( bool en );
-
-    bool setSweepRange( int * dacTo );
-    bool setSweepTime( int ptsCnt, int period );
-    bool setSweepEn( bool en );
-    bool sweepEn( bool & en );
-    bool sweepData( QVector<int> & data );
-
-    bool setOutput( int o );
-    */
-
-
-
+    // EEPROM high level functions.
+    // Serial number.
+    bool setSerialNumber( quint16 sn, bool overwrite = false );
+    bool serialNumber( quint16 & sn );
+    // End positions.
+    bool writeEndPositions( int * pos );
+    bool readEndPositions( int * pos );
+    // Current positions.
+    bool writeCurrentPositions( int * pos );
+    bool readCurrentPositions( int * pos );
 
 
     bool bootloaderHardwareVersion( QString & stri );

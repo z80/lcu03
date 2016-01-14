@@ -417,6 +417,130 @@ bool VoltampIo::motorPos( int index, int & at )
     return true;
 }
 
+bool VoltampIo::eepromWrite( quint8 addr, quint8 * data, quint8 size )
+{
+    QMutexLocker lock( &pd->mutex );
+    
+    const int SZ = 28;
+
+    quint8 wdata[ SZ + 2 ];
+
+    wdata[0] = addr;
+    wdata[1] = size;
+
+    size = (size <= SZ) ? size : SZ;
+    for ( int i=0; i<size; i++ )
+        wdata[i+2] = data[i];
+
+    bool res;
+    res = setArgs( reinterpret_cast<quint8 *>(wdata), size+2 );
+    if ( !res )
+        return false;
+
+    quint8 funcInd = 12;
+    res = execFunc( funcInd );
+    if ( !res )
+        return false;
+
+    // Read result.
+    QByteArray & arr = pd->buffer;
+    arr.resize( PD::IN_BUFFER_SZ );
+    bool eom;
+    int cnt = read( reinterpret_cast<quint8 *>( arr.data() ), arr.size(), eom );
+    if ( ( !eom ) || ( cnt < 1 ) )
+        return false;
+
+    quint8 result = reinterpret_cast<quint8 *>( arr.data() )[0];
+    if ( result != 0 )
+        return false;
+
+    return true;
+}
+
+bool VoltampIo::eepromRead( quint8 addr, quint8 * data, quint8 & size )
+{
+    QMutexLocker lock( &pd->mutex );
+    
+    const int SZ = 28;
+
+    quint8 wdata = size;
+
+    wdata = ( wdata <= SZ ) ? wdata : SZ;
+
+    bool res;
+    res = setArgs( reinterpret_cast<quint8 *>(&wdata), 1 );
+    if ( !res )
+        return false;
+
+    quint8 funcInd = 13;
+    res = execFunc( funcInd );
+    if ( !res )
+        return false;
+
+    // Read result.
+    QByteArray & arr = pd->buffer;
+    arr.resize( PD::IN_BUFFER_SZ );
+    bool eom;
+    int cnt = read( reinterpret_cast<quint8 *>( arr.data() ), arr.size(), eom );
+    if ( ( !eom ) || ( cnt < 1 ) )
+        return false;
+
+    quint8 * results = reinterpret_cast<quint8 *>( arr.data() );
+    quint8 result = results[0];
+    if ( result != 0 )
+        return false;
+
+    for ( int i=0; i<wdata; i++ )
+        data[i] = results[i+1];
+
+    return true;
+}
+
+bool VoltampIo::eepromSetSdAddr( quint8 addr )
+{
+    quint8 wdata = addr;
+
+    const int POS = 256 - 9;
+    wdata = ( wdata <= POS ) ? wdata : POS;
+
+    bool res;
+    res = setArgs( reinterpret_cast<quint8 *>(&wdata), 1 );
+    if ( !res )
+        return false;
+
+    quint8 funcInd = 14;
+    res = execFunc( funcInd );
+    if ( !res )
+        return false;
+
+    return true;
+}
+
+bool VoltampIo::setSerialNumber( quint16 sn, bool overwrite )
+{
+}
+
+bool VoltampIo::serialNumber( quint16 & sn )
+{
+}
+
+bool VoltampIo::writeEndPositions( int * pos )
+{
+}
+
+bool VoltampIo::readEndPositions( int * pos )
+{
+}
+
+bool VoltampIo::writeCurrentPositions( int * pos )
+{
+}
+
+bool VoltampIo::readCurrentPositions( int * pos )
+{
+}
+
+
 
 
 
