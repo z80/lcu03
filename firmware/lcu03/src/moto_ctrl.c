@@ -122,10 +122,10 @@ static void extPowerOff( EXTDriver * extp, expchannel_t channel )
         // Invoke emergency EEPROM write.
         eepromEmergencyI();
         // Stop all timers.
-        gptStop( &GPTD1 );
-        gptStop( &GPTD2 );
-        gptStop( &GPTD3 );
-        gptStop( &GPTD4 );
+        gptStopTimerI( &GPTD1 );
+        gptStopTimerI( &GPTD2 );
+        gptStopTimerI( &GPTD3 );
+        gptStopTimerI( &GPTD4 );
     chSysUnlockFromIsr();
 }
 

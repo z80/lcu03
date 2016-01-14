@@ -35,7 +35,7 @@ int main(void)
 
 
 
-
+    /*
     uint8_t data[8];
     int pos0 = 4321;
     data[0] = (uint8_t)(pos0 & 0xFF);
@@ -56,6 +56,7 @@ int main(void)
         // Invoke emergency EEPROM write.
         eepromEmergencyI();
     chSysUnlock();
+    */
 
     while ( 1 )
     {
