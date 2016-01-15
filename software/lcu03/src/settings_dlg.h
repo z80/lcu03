@@ -29,6 +29,7 @@ protected:
 private:
     void bindSlots();
     void updateLabels();
+    void sleep();
 
     Ui_SettingsDlg ui;
     MainWnd * mainWnd;

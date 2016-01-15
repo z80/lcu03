@@ -80,6 +80,7 @@ if ( WIN32 )
     set( libs ${libs} Qt5::WinMain )
 endif ( WIN32 )
 target_link_libraries( lcu03 ${libs} )
+set_property( TARGET lcu03 PROPERTY COMPILE_DEFINITIONS SOFTWARE_VERSION="${SOFTWARE_VERSION}" )
 install( TARGETS lcu03 DESTINATION ./ )
 
 

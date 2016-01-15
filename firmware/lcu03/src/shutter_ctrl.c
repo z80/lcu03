@@ -12,7 +12,7 @@
 #define SH_SLEEP   700
 #define SH_REPEATS 3
 
-static WORKING_AREA( waShutter, 256 );
+static WORKING_AREA( waShutter, 512 );
 static msg_t shutterThread( void *arg );
 
 #define SH_QUEUE_SZ   (3)

@@ -22,8 +22,8 @@ public:
     MainWnd( HostTray * parent = 0 );
     ~MainWnd();
 
-    void loadSettings();
-    void saveSettings();
+    void loadSettings( bool hdw = false );
+    void saveSettings( bool hdw = false );
 
 public slots:
     void slotQuit();
@@ -50,6 +50,8 @@ protected:
     bool ensureOpen();
     int  powerToStep( qreal power );
     int  polarizationToStep( bool vert );
+    qreal stepToPower( int step );
+    bool stepToPloarization( int step );
     void bindSlots();
     void listen();
 

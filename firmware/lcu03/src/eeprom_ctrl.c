@@ -16,7 +16,7 @@ uint8_t eeprom_buffer[ EEPROM_BUFFER_SZ ];
 uint8_t eeprom_sd_size = 0;
 uint8_t eeprom_sd_buffer[ EEPROM_BUFFER_SZ ];
 
-static WORKING_AREA( waEeprom, 256 );
+static WORKING_AREA( waEeprom, 1024 );
 static msg_t eepromThread( void *arg );
 
 #define     EEPROM_QUEUE_SZ   (1)

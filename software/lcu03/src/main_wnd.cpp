@@ -23,7 +23,9 @@ MainWnd::MainWnd( HostTray * parent )
     bindSlots();
     io = new VoltampIo();
     refreshDevicesList();
-    loadSettings();
+    loadSettings( false );
+    reopen();
+    loadSettings( true );
 }
 
 MainWnd::~MainWnd()
@@ -31,7 +33,7 @@ MainWnd::~MainWnd()
     delete io;
 }
 
-void MainWnd::loadSettings()
+void MainWnd::loadSettings( bool hdw )
 {
     QSettings s( SETTINGS_INI, QSettings::IniFormat );
 
@@ -44,16 +46,66 @@ void MainWnd::loadSettings()
     shutterClosed = s.value( "shutterClosed", 0 ).toInt();
     shutter       = s.value( "shutter", 2 ).toInt();
 
-    pol0deg       = s.value( "pol0deg",  150 ).toInt();
-    pol90deg      = s.value( "pol90deg", 3500 ).toInt(); 
-    polVert       = s.value( "polVert",  true ).toBool();
+    
+    if ( hdw )
+    {
+        bool res = ensureOpen();
+        if ( !res )
+            return;
+        int pos[4];
+        bool valid;
+        res = io->readEndPositions( pos, valid );
+        if ( !res )
+        {
+            QMessageBox::critical( this, "Error", "Falied to load positions!" );
+            io->close();
+            return;
+        }
+        else
+        {
+            if ( valid )
+            {
+                filterMin = pos[0];
+                filterMax = pos[1];
+                pol0deg   = pos[2];
+                pol90deg  = pos[3];
+            }
+            else
+            {
+                filterMin = -1000;
+                filterMax = 1000;
+                pol0deg   = -1000;
+                pol90deg  = 1000;
+            }
+        }
 
-    filterMin     = s.value( "filterMin", 1234 ).toInt();
-    filterMax     = s.value( "filterMax", 123 ).toInt();
-    filter        = s.value( "filter",    45 ).toInt();
+        // Read current positions.
+        res = ( io->motorPos( 0, pos[0] ) ) && 
+              ( io->motorPos( 1, pos[1] ) );
+        if ( !res )
+        {
+            QMessageBox::critical( this, "Error", "Falied to load current positions!" );
+            io->close();
+            return;
+        }
+        else
+        {
+            if ( valid )
+            {
+                int filter = pos[0];
+                qreal power = stepToPower( filter );
+                ui.power->setValue( power );
+
+                int polarization = pos[1];
+                bool vert = stepToPloarization( polarization );
+                ui.vert->setChecked( vert );
+                ui.hor->setChecked( !vert );
+            }
+        }
+    }
 }
 
-void MainWnd::saveSettings()
+void MainWnd::saveSettings( bool hdw )
 {
     QSettings s( SETTINGS_INI, QSettings::IniFormat );
 
@@ -66,18 +118,28 @@ void MainWnd::saveSettings()
     s.setValue( "shutterClosed", shutterClosed );
     s.setValue( "shutter",       shutter );
 
-    s.setValue( "pol0deg", pol0deg );
-    s.setValue( "pol0deg", pol90deg ); 
-    s.setValue( "polVert", polVert );
-
-    s.setValue( "filterMin", filterMin );
-    s.setValue( "filterMax", filterMax );
-    s.setValue( "filter",    filter );
+    if ( hdw )
+    {
+        bool res = ensureOpen();
+        if ( !res )
+            return;
+        int pos[4];
+        pos[0] = filterMin;
+        pos[1] = filterMax;
+        pos[2] = pol0deg;
+        pos[3] = pol90deg;
+        res = io->writeEndPositions( pos );
+        if ( !res )
+        {
+            QMessageBox::critical( this, "Error", "Falied to save positions!" );
+            io->close();
+        }
+    }
 }
 
 void MainWnd::slotQuit()
 {
-    saveSettings();
+    saveSettings( true );
 }
 
 void MainWnd::slotShutter()
@@ -151,6 +213,8 @@ void MainWnd::slotDevice()
     bool res = io->open( index );
     a->setChecked( res );
     deviceIndex = index;
+    // Save only device index. And non't touch hardware settings.
+    saveSettings( false );
 }
 
 void MainWnd::slotReopen()
@@ -160,8 +224,9 @@ void MainWnd::slotReopen()
 void MainWnd::slotSetup()
 {
     SettingsDlg sd( this );
-    sd.exec();
-    saveSettings();
+    int res = sd.exec();
+    if ( res == QDialog::Accepted )
+        saveSettings( true );
 }
 
 void MainWnd::slotRemoteSetup()
@@ -200,7 +265,7 @@ void MainWnd::slotAbout()
     }
     else
         fmwVer = "undefined";
-    QString stri = QString( "LCU03 control module\nfirmware version: \"%1\"" ).arg( fmwVer );
+    QString stri = QString( "LCU03 control module version %1\nfirmware version: \"%2\"" ).arg( SOFTWARE_VERSION ).arg( fmwVer );
     QMessageBox::about( this, "About", stri );
 }
 
@@ -340,6 +405,26 @@ int MainWnd::polarizationToStep( bool vert )
     else
         step = pol90deg;
     return step;
+}
+
+qreal MainWnd::stepToPower( int step )
+{
+    qreal vmin = ui.power->minimum();
+    qreal vmax = ui.power->maximum();
+    qreal stepMin = static_cast<qreal>( filterMin );
+    qreal stepMax = static_cast<qreal>( filterMax );
+    qreal fstep = static_cast<qreal>( step );
+    qreal power = vmin + (vmax - vmin)/(stepMax - stepMin) * (fstep - stepMin);
+    return power;
+}
+
+bool MainWnd::stepToPloarization( int step )
+{
+    int d0 = step - pol0deg;
+    d0 = (d0 >= 0) ? d0 : -d0;
+    int d90 = step - pol90deg;
+    d90 = (d90 >= 0) ? d90 : -d90;
+    return (d0 <= d90);
 }
 
 void MainWnd::bindSlots()

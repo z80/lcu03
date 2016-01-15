@@ -104,6 +104,14 @@ void SettingsDlg::slotShutter()
 
 void SettingsDlg::slotFindMotorPos()
 {
+    int btn = QMessageBox::question( this, "Shutter state", 
+                                           "This procedure will make all " 
+                                           "drivers movement. Please, make "
+                                           "sure laser is off or shutter is "
+                                           "closed before proceeding! Proceed?", QMessageBox::Ok, QMessageBox::Cancel );
+    if ( btn != QMessageBox::Ok )
+        return;
+
     bool res = mainWnd->ensureOpen();
     if ( !res )
         return;
@@ -131,7 +139,6 @@ void SettingsDlg::slotFindMotorPos()
 
     const int ONE_REVOLUTION = 5120;
     const int TIMEOUT = 10000;
-    const int DT      = 200;
 
     res = io->moveMotor( 0, pos0 + ONE_REVOLUTION );
     if ( !res )
@@ -154,13 +161,9 @@ void SettingsDlg::slotFindMotorPos()
     int motor = ui.motor->currentIndex();
     QTime timeout;
     timeout.start();
-    QTime tsleep;
-    tsleep.start();
     while ( timeout.elapsed() < TIMEOUT )
     {
-        while ( tsleep.elapsed() < DT )
-            qApp->processEvents();
-        tsleep.restart();
+        sleep();
 
         bool running0;
         res = io->motorInMotion( 0, running0, pos0 );
@@ -171,6 +174,8 @@ void SettingsDlg::slotFindMotorPos()
             QMessageBox::critical( this, "Error", stri );
             return;
         }
+
+        sleep();
 
         bool running1;
         res = io->motorInMotion( 1, running1, pos1 );
@@ -192,72 +197,10 @@ void SettingsDlg::slotFindMotorPos()
             break;
     }
 
-    // Read sensor data.
-    bool triggered0;
-    int  senPos0;
-    res = io->sensor( 0, triggered0, senPos0 );
-    if ( !res )
-    {
-        io->close();
-        QString stri = QString( "Failed to query driver 0 sensor position!" );
-        QMessageBox::critical( this, "Error", stri );
-        return;
-    }
-
-    bool triggered1;
-    int  senPos1;
-    res = io->sensor( 1, triggered1, senPos1 );
-    if ( !res )
-    {
-        io->close();
-        QString stri = QString( "Failed to query driver 1 sensor position!" );
-        QMessageBox::critical( this, "Error", stri );
-        return;
-    }
-
-    // Read motor data.
-    res = io->motorPos( 0, pos0 );
-    if ( !res )
-    {
-        io->close();
-        QString stri = QString( "Failed to query driver 0 position!" );
-        QMessageBox::critical( this, "Error", stri );
-        return;
-    }
-
-    res = io->motorPos( 1, pos1 );
-    if ( !res )
-    {
-        io->close();
-        QString stri = QString( "Failed to query driver 1 position!" );
-        QMessageBox::critical( this, "Error", stri );
-        return;
-    }
-
-    pos0 = pos0 - senPos0;
-    res = io->motorSetPos( 0, pos0 );
-    if ( !res )
-    {
-        io->close();
-        QString stri = QString( "Failed to set driver 0 position!" );
-        QMessageBox::critical( this, "Error", stri );
-        return;
-    }
-
-    pos1 = pos1 - senPos1;
-    res = io->motorSetPos( 1, pos1 );
-    if ( !res )
-    {
-        io->close();
-        QString stri = QString( "Failed to set driver 1 position!" );
-        QMessageBox::critical( this, "Error", stri );
-        return;
-    }
-
-    if ( motor == 0 )
-        ui.pos->setValue( pos0 );
-    else
-        ui.pos->setValue( pos1 );
+    sleep();
+    int pos;
+    res = io->motorPos( motor, pos );
+    ui.pos->setValue( pos );
 }
 
 void SettingsDlg::slotFirmwareUpgrade()
@@ -268,7 +211,7 @@ void SettingsDlg::slotFirmwareUpgrade()
 void SettingsDlg::closeEvent( QCloseEvent * e )
 {
     //e->ignore();
-    accept();
+    reject();
 }
 
 void SettingsDlg::bindSlots()
@@ -287,6 +230,12 @@ void SettingsDlg::bindSlots()
 
     ui.firmwareUpgrade->setDefault( false );
     ui.firmwareUpgrade->setAutoDefault( false );
+
+    ui.ok->setDefault( false );
+    ui.ok->setAutoDefault( false );
+    ui.cancel->setDefault( false );
+    ui.cancel->setAutoDefault( false );
+
 
     connect( ui.motor, SIGNAL(currentIndexChanged(int)), this, SLOT(slotMotorSelected()) );
     connect( ui.pos,   SIGNAL(editingFinished()),        this, SLOT(slotPositionChanged()) );
@@ -308,6 +257,15 @@ void SettingsDlg::updateLabels()
     ui.minPowerLbl->setText( QString( "%1" ).arg( mainWnd->filterMin ) );
     ui.vertPolLbl->setText( QString( "%1" ).arg( mainWnd->pol0deg ) );
     ui.horPolLbl->setText( QString( "%1" ).arg( mainWnd->pol90deg ) );
+}
+
+void SettingsDlg::sleep()
+{
+    const int DT = 200;
+    QTime tsleep;
+    tsleep.start();
+    while ( tsleep.elapsed() < DT )
+        qApp->processEvents();
 }
 
 

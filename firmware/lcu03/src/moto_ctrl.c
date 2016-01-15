@@ -214,10 +214,10 @@ InputQueue  motor1_stop_queue;
 uint8_t     motor1_stop_queue_buffer[ MOTOR_QUEUE_SZ ];
 
 
-static WORKING_AREA( waMotor0, 1024 );
+static WORKING_AREA( waMotor0, 2048 );
 static msg_t motor0Thread( void *arg );
 
-static WORKING_AREA( waMotor1, 1024 );
+static WORKING_AREA( waMotor1, 2048 );
 static msg_t motor1Thread( void *arg );
 
 
