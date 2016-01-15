@@ -75,8 +75,8 @@ static int steps_per_rev = 5120;
 */
 
 static int moto_vmin = 300*8,
-        moto_vmax = 2000*8,
-        moto_acc = 2000*8;
+        moto_vmax = 1000*8,
+        moto_acc = 700*8;
 static int steps_per_rev = 5120*8;
 
 
