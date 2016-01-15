@@ -268,7 +268,7 @@ void MainWnd::slotAbout()
     }
     else
         fmwVer = "undefined";
-    QString stri = QString( "LCU03 control module version %1\nfirmware version: \"%2\"" ).arg( SOFTWARE_VERSION ).arg( fmwVer );
+    QString stri = QString( "LCU03 control software version: \"<b>%1</b>\". Firmware version: \"<b>%2</b>\"." ).arg( SOFTWARE_VERSION ).arg( fmwVer );
     QMessageBox::about( this, "About", stri );
 }
 
