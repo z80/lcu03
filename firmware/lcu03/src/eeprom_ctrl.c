@@ -31,6 +31,33 @@ static const I2CConfig i2ccfg =
     STD_DUTY_CYCLE,
 };
 
+int eepromWrite( uint8_t addr, uint8_t cnt, uint8_t * data )
+{
+    uint8_t i;
+    eeprom_buffer[0] = addr;
+    for ( i=0; i<cnt; i++ )
+        eeprom_buffer[i+1] = data[i];
+
+    const systime_t tmo = MS2ST( I2C_TIMEOUT );
+    // Write control to low.
+    palClearPad( WC_PORT, WC_PAD );
+    // Data exchange.
+    msg_t res = i2cMasterTransmitTimeout( &I2CD1, EEPROM_ADDR, eeprom_buffer, cnt+1, 0, 0, tmo );
+    // Write control high.
+    palSetPad( WC_PORT, WC_PAD );
+
+    return res;
+}
+
+int eepromRead( uint8_t addr, uint8_t cnt, uint8_t * data )
+{
+    eeprom_buffer[0] = addr;
+    const systime_t tmo = MS2ST( I2C_TIMEOUT );
+    msg_t res = i2cMasterTransmitTimeout( &I2CD1, EEPROM_ADDR, eeprom_buffer, 1, data, cnt, tmo );
+    return res;
+}
+
+
 static void emergencyWrite( void )
 {
     if ( eeprom_sd_size > 0 )
@@ -107,31 +134,6 @@ void eepromInit( void )
     chThdCreateStatic( waEeprom, sizeof(waEeprom), NORMALPRIO, eepromThread, NULL );
 }
 
-int eepromWrite( uint8_t addr, uint8_t cnt, uint8_t * data )
-{
-    uint8_t i;
-    eeprom_buffer[0] = addr;
-    for ( i=0; i<cnt; i++ )
-        eeprom_buffer[i+1] = data[i];
-
-    const systime_t tmo = MS2ST( I2C_TIMEOUT );
-    // Write control to low.
-    palClearPad( WC_PORT, WC_PAD );
-    // Data exchange.
-    msg_t res = i2cMasterTransmitTimeout( &I2CD1, EEPROM_ADDR, eeprom_buffer, cnt+1, 0, 0, tmo );
-    // Write control high.
-    palSetPad( WC_PORT, WC_PAD );
-
-    return res;
-}
-
-int eepromRead( uint8_t addr, uint8_t cnt, uint8_t * data )
-{
-    eeprom_buffer[0] = addr;
-    const systime_t tmo = MS2ST( I2C_TIMEOUT );
-    msg_t res = i2cMasterTransmitTimeout( &I2CD1, EEPROM_ADDR, eeprom_buffer, 1, data, cnt, tmo );
-    return res;
-}
 
 void eepromClrSdData( void )
 {

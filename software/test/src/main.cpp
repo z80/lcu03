@@ -41,6 +41,22 @@ int main( int argc, char * argv[] )
     res = io.hardware_version( stri );
     res = io.firmware_version( stri );
 
+    int x[4];
+    x[0] = -100;
+    x[1] = 1234;
+    x[2] = -4568;
+    x[3] = 12345;
+
+    int y[4];
+    bool valid;
+    res = io.readEndPositions( y, valid );
+
+    res = io.writeEndPositions( x );
+
+    res = io.readEndPositions( y, valid );
+
+
+    /*
     quint8 bdata[8];
     quint8 bsize = sizeof( bdata );
 
@@ -55,6 +71,7 @@ int main( int argc, char * argv[] )
     quint8 bdata2[8];
     bsize = sizeof( bdata );
     res = io.eepromRead( 0, bdata2, bsize );
+    */
 
     io.close();
     

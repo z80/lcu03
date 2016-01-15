@@ -468,13 +468,14 @@ bool VoltampIo::eepromRead( quint8 addr, quint8 * data, quint8 & size )
     QMutexLocker lock( &pd->mutex );
     
     const int SZ = 28;
+    size = ( size <= SZ ) ? size : SZ;
 
-    quint8 wdata = size;
-
-    wdata = ( wdata <= SZ ) ? wdata : SZ;
+    quint8 wdata[ 2 ];
+    wdata[0] = addr;
+    wdata[1] = size;
 
     bool res;
-    res = setArgs( reinterpret_cast<quint8 *>(&wdata), 1 );
+    res = setArgs( reinterpret_cast<quint8 *>(&wdata), 2 );
     if ( !res )
         return false;
 
@@ -488,7 +489,7 @@ bool VoltampIo::eepromRead( quint8 addr, quint8 * data, quint8 & size )
     arr.resize( PD::IN_BUFFER_SZ );
     bool eom;
     int cnt = read( reinterpret_cast<quint8 *>( arr.data() ), arr.size(), eom );
-    if ( ( !eom ) || ( cnt < wdata ) )
+    if ( ( !eom ) || ( cnt < (size+1) ) )
         return false;
 
     quint8 * results = reinterpret_cast<quint8 *>( arr.data() );
@@ -496,8 +497,9 @@ bool VoltampIo::eepromRead( quint8 addr, quint8 * data, quint8 & size )
     if ( result != 0 )
         return false;
 
-    for ( int i=0; i<wdata; i++ )
+    for ( int i=0; i<(cnt-1); i++ )
         data[i] = results[i+1];
+    size = cnt-1;
 
     return true;
 }
@@ -595,7 +597,7 @@ bool VoltampIo::writeEndPositions( int * pos )
 
 bool VoltampIo::readEndPositions( int * pos, bool & valid )
 {
-    const int SZ = 17;
+    const int SZ = 18;
     quint8 data[SZ];
     for ( int i=0; i<4; i++ )
     {
@@ -604,7 +606,7 @@ bool VoltampIo::readEndPositions( int * pos, bool & valid )
         if ( !res )
             return false;
     }
-    quint8 size = 1;
+    quint8 size = 2;
     bool res = eepromRead( END_POS_ADDR + 16, &data[16], size );
     if ( !res )
         return false;
@@ -664,7 +666,7 @@ bool VoltampIo::writeCurrentPositions( int * pos )
 
 bool VoltampIo::readCurrentPositions( int * pos, bool & valid )
 {
-    const int SZ = 9;
+    const int SZ = 10;
     quint8 data[SZ];
     for ( int i=0; i<2; i++ )
     {
@@ -673,7 +675,7 @@ bool VoltampIo::readCurrentPositions( int * pos, bool & valid )
         if ( !res )
             return false;
     }
-    quint8 size = 1;
+    quint8 size = 2;
     bool res = eepromRead( CUR_POS_ADDR + 8, &data[8], size );
     if ( !res )
         return false;

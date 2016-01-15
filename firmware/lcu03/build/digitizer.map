@@ -1607,22 +1607,22 @@ destructors     0x080000ec        0x0
                 0x080062d0                setShutter
  .text.shutterThread
                 0x08006320       0xb0 build/obj/shutter_ctrl.o
- .text.emergencyWrite
-                0x080063d0      0x100 build/obj/eeprom_ctrl.o
- .text.eepromThread
-                0x080064d0       0x40 build/obj/eeprom_ctrl.o
- .text.eepromAddSdData
-                0x08006510       0xa0 build/obj/eeprom_ctrl.o
-                0x08006510                eepromAddSdData
- .text.eepromInit
-                0x080065b0       0xc0 build/obj/eeprom_ctrl.o
-                0x080065b0                eepromInit
  .text.eepromWrite
-                0x08006670       0xc0 build/obj/eeprom_ctrl.o
-                0x08006670                eepromWrite
+                0x080063d0       0xc0 build/obj/eeprom_ctrl.o
+                0x080063d0                eepromWrite
  .text.eepromRead
-                0x08006730       0x60 build/obj/eeprom_ctrl.o
-                0x08006730                eepromRead
+                0x08006490       0x60 build/obj/eeprom_ctrl.o
+                0x08006490                eepromRead
+ .text.emergencyWrite
+                0x080064f0      0x100 build/obj/eeprom_ctrl.o
+ .text.eepromThread
+                0x080065f0       0x40 build/obj/eeprom_ctrl.o
+ .text.eepromAddSdData
+                0x08006630       0xa0 build/obj/eeprom_ctrl.o
+                0x08006630                eepromAddSdData
+ .text.eepromInit
+                0x080066d0       0xc0 build/obj/eeprom_ctrl.o
+                0x080066d0                eepromInit
  .text.eepromClrSdData
                 0x08006790       0x30 build/obj/eeprom_ctrl.o
                 0x08006790                eepromClrSdData
@@ -2073,7 +2073,7 @@ OUTPUT(build/digitizer.elf elf32-littlearm)
  .debug_info    0x0001c2d4       0xda c:/programs/yagarto/bin/../lib/gcc/arm-none-eabi/4.5.0/../../../../arm-none-eabi/lib/thumb/v7m\libc.a(lib_a-strspn.o)
  .debug_info    0x0001c3ae       0x87 c:/programs/yagarto/bin/../lib/gcc/arm-none-eabi/4.5.0/../../../../arm-none-eabi/lib/thumb/v7m\libc.a(lib_a-ctype_.o)
 
-.debug_line     0x00000000     0x9fa9
+.debug_line     0x00000000     0x9fa8
  .debug_line    0x00000000      0x129 build/obj/crt0.o
  .debug_line    0x00000129       0x6e build/obj/vectors.o
  .debug_line    0x00000197       0x63 build/obj/chcore.o
@@ -2158,12 +2158,12 @@ OUTPUT(build/digitizer.elf elf32-littlearm)
  .debug_line    0x0000914b      0x251 build/obj/led_ctrl.o
  .debug_line    0x0000939c      0x110 build/obj/dfu_ctrl.o
  .debug_line    0x000094ac      0x299 build/obj/shutter_ctrl.o
- .debug_line    0x00009745      0x3c1 build/obj/eeprom_ctrl.o
- .debug_line    0x00009b06      0x16f c:/programs/yagarto/bin/../lib/gcc/arm-none-eabi/4.5.0/../../../../arm-none-eabi/lib/thumb/v7m\libc.a(lib_a-memset.o)
- .debug_line    0x00009c75       0xd3 c:/programs/yagarto/bin/../lib/gcc/arm-none-eabi/4.5.0/../../../../arm-none-eabi/lib/thumb/v7m\libc.a(lib_a-strcasecmp.o)
- .debug_line    0x00009d48       0xdd c:/programs/yagarto/bin/../lib/gcc/arm-none-eabi/4.5.0/../../../../arm-none-eabi/lib/thumb/v7m\libc.a(lib_a-strpbrk.o)
- .debug_line    0x00009e25      0x121 c:/programs/yagarto/bin/../lib/gcc/arm-none-eabi/4.5.0/../../../../arm-none-eabi/lib/thumb/v7m\libc.a(lib_a-strspn.o)
- .debug_line    0x00009f46       0x63 c:/programs/yagarto/bin/../lib/gcc/arm-none-eabi/4.5.0/../../../../arm-none-eabi/lib/thumb/v7m\libc.a(lib_a-ctype_.o)
+ .debug_line    0x00009745      0x3c0 build/obj/eeprom_ctrl.o
+ .debug_line    0x00009b05      0x16f c:/programs/yagarto/bin/../lib/gcc/arm-none-eabi/4.5.0/../../../../arm-none-eabi/lib/thumb/v7m\libc.a(lib_a-memset.o)
+ .debug_line    0x00009c74       0xd3 c:/programs/yagarto/bin/../lib/gcc/arm-none-eabi/4.5.0/../../../../arm-none-eabi/lib/thumb/v7m\libc.a(lib_a-strcasecmp.o)
+ .debug_line    0x00009d47       0xdd c:/programs/yagarto/bin/../lib/gcc/arm-none-eabi/4.5.0/../../../../arm-none-eabi/lib/thumb/v7m\libc.a(lib_a-strpbrk.o)
+ .debug_line    0x00009e24      0x121 c:/programs/yagarto/bin/../lib/gcc/arm-none-eabi/4.5.0/../../../../arm-none-eabi/lib/thumb/v7m\libc.a(lib_a-strspn.o)
+ .debug_line    0x00009f45       0x63 c:/programs/yagarto/bin/../lib/gcc/arm-none-eabi/4.5.0/../../../../arm-none-eabi/lib/thumb/v7m\libc.a(lib_a-ctype_.o)
 
 .debug_pubnames
                 0x00000000     0x1d09
