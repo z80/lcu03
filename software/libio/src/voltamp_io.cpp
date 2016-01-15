@@ -4,6 +4,7 @@
 
 #define SN_ADDR      0
 #define END_POS_ADDR 2
+#define CUR_POS_ADDR (256 - 9)
 
 static quint8 crc( quint8 * data, quint8 cnt );
 
@@ -487,7 +488,7 @@ bool VoltampIo::eepromRead( quint8 addr, quint8 * data, quint8 & size )
     arr.resize( PD::IN_BUFFER_SZ );
     bool eom;
     int cnt = read( reinterpret_cast<quint8 *>( arr.data() ), arr.size(), eom );
-    if ( ( !eom ) || ( cnt < 1 ) )
+    if ( ( !eom ) || ( cnt < wdata ) )
         return false;
 
     quint8 * results = reinterpret_cast<quint8 *>( arr.data() );
@@ -548,13 +549,18 @@ bool VoltampIo::serialNumber( quint16 & sn )
     bool res = eepromRead( 0, snRead, sz );
     if ( !res )
         return false;
-    quint16 sn = static_cast<quint16>( snRead[0] ) + 
-                 ( static_cast<quint16>( snRead[1] ) << 8 );
+    sn = static_cast<quint16>( snRead[0] ) + 
+         ( static_cast<quint16>( snRead[1] ) << 8 );
     return true;
 }
 
 bool VoltampIo::writeEndPositions( int * pos )
 {
+    int origPos[4];
+    bool valid;
+    bool res = readEndPositions( reinterpret_cast<int *>(origPos), valid );
+    if ( !res )
+        return false;
     const int SZ = 17;
     quint8 data[SZ];
     for ( int i=0; i<4; i++ )
@@ -562,21 +568,130 @@ bool VoltampIo::writeEndPositions( int * pos )
         data[i*4]   = static_cast<quint8>(pos[i] & 0xFF);
         data[i*4+1] = static_cast<quint8>((pos[i] >> 8) & 0xFF);
         data[i*4+2] = static_cast<quint8>((pos[i] >> 16) & 0xFF);
-        data[i*4+3] = static_cast<quint8>((pos[i] >> 24) & 0xFF)
+        data[i*4+3] = static_cast<quint8>((pos[i] >> 24) & 0xFF);
     }
     data[16] = crc( data, 16 );
+    if ( ( !valid ) || 
+         ( origPos[0] != pos[0] ) || 
+         ( origPos[1] != pos[1] ) || 
+         ( origPos[2] != pos[2] ) || 
+         ( origPos[3] != pos[3] )  )
+    {
+        // Numbers one by one.
+        for ( int i=0; i<4; i++ )
+        {
+            res = eepromWrite( END_POS_ADDR + i*4, &data[i*4], 4 );
+            if ( !res )
+                return false;
+        }
+        // And CRC.
+        res = eepromWrite( END_POS_ADDR + 16, &data[16], 1 );
+        if ( !res )
+            return false;
+    }
+
+    return true;
 }
 
-bool VoltampIo::readEndPositions( int * pos )
+bool VoltampIo::readEndPositions( int * pos, bool & valid )
 {
+    const int SZ = 17;
+    quint8 data[SZ];
+    for ( int i=0; i<4; i++ )
+    {
+        quint8 size = 4;
+        bool res = eepromRead( END_POS_ADDR + i*4, &data[i*4], size );
+        if ( !res )
+            return false;
+    }
+    quint8 size = 1;
+    bool res = eepromRead( END_POS_ADDR + 16, &data[16], size );
+    if ( !res )
+        return false;
+
+    quint8 crc8 = crc( data, 16 );
+    valid = (data[16] == crc8);
+    if ( valid )
+    {
+        for ( int i=0; i<4; i++ )
+        {
+            pos[i] = static_cast<int>( data[i*4] ) + 
+                     ( static_cast<int>( data[i*4+1] ) << 8 ) + 
+                     ( static_cast<int>( data[i*4+2] ) << 16 ) + 
+                     ( static_cast<int>( data[i*4+3] ) << 24 );
+        }
+    }
+
+    return true;
 }
 
 bool VoltampIo::writeCurrentPositions( int * pos )
 {
+    int origPos[4];
+    bool valid;
+    bool res = readEndPositions( reinterpret_cast<int *>(origPos), valid );
+    if ( !res )
+        return false;
+    const int SZ = 9;
+    quint8 data[SZ];
+    for ( int i=0; i<2; i++ )
+    {
+        data[i*4]   = static_cast<quint8>(pos[i] & 0xFF);
+        data[i*4+1] = static_cast<quint8>((pos[i] >> 8) & 0xFF);
+        data[i*4+2] = static_cast<quint8>((pos[i] >> 16) & 0xFF);
+        data[i*4+3] = static_cast<quint8>((pos[i] >> 24) & 0xFF);
+    }
+    data[8] = crc( data, 8 );
+    if ( ( !valid ) || 
+         ( origPos[0] != pos[0] ) || 
+         ( origPos[1] != pos[1] ) )
+    {
+        // Numbers one by one.
+        for ( int i=0; i<4; i++ )
+        {
+            res = eepromWrite( CUR_POS_ADDR + i*4, &data[i*4], 4 );
+            if ( !res )
+                return false;
+        }
+        // And CRC.
+        res = eepromWrite( CUR_POS_ADDR + 8, &data[8], 1 );
+        if ( !res )
+            return false;
+    }
+
+    return true;
 }
 
-bool VoltampIo::readCurrentPositions( int * pos )
+bool VoltampIo::readCurrentPositions( int * pos, bool & valid )
 {
+    const int SZ = 9;
+    quint8 data[SZ];
+    for ( int i=0; i<2; i++ )
+    {
+        quint8 size = 4;
+        bool res = eepromRead( CUR_POS_ADDR + i*4, &data[i*4], size );
+        if ( !res )
+            return false;
+    }
+    quint8 size = 1;
+    bool res = eepromRead( CUR_POS_ADDR + 8, &data[8], size );
+    if ( !res )
+        return false;
+
+    quint8 crc8 = crc( data, 8 );
+    valid = (data[8] == crc8);
+    if ( valid )
+    {
+        for ( int i=0; i<2; i++ )
+        {
+            pos[i] = static_cast<int>( data[i*4] ) + 
+                     ( static_cast<int>( data[i*4+1] ) << 8 ) + 
+                     ( static_cast<int>( data[i*4+2] ) << 16 ) + 
+                     ( static_cast<int>( data[i*4+3] ) << 24 );
+        }
+    }
+
+    return true;
 }
 
 static quint8 crc( quint8 * data, quint8 cnt )
@@ -1041,6 +1156,12 @@ bool VoltampIo::bootloaderFirmwareVersion( QString & stri )
 
     return true;
 }
+
+void VoltampIo::delay()
+{
+    Sleep::msleep( 300 );
+}
+
 
 bool VoltampIo::bootloaderPush( int cnt, quint8 * data )
 {

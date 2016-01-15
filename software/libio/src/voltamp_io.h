@@ -41,14 +41,16 @@ public:
     bool serialNumber( quint16 & sn );
     // End positions.
     bool writeEndPositions( int * pos );
-    bool readEndPositions( int * pos );
+    bool readEndPositions( int * pos, bool & valid );
     // Current positions.
     bool writeCurrentPositions( int * pos );
-    bool readCurrentPositions( int * pos );
+    bool readCurrentPositions( int * pos, bool & valid );
 
 
     bool bootloaderHardwareVersion( QString & stri );
     bool bootloaderFirmwareVersion( QString & stri );
+
+    void delay();
 private:
     bool bootloaderPush( int cnt, quint8 * data );
     bool bootloaderWriteSector( int index );

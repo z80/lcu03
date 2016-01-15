@@ -41,28 +41,20 @@ int main( int argc, char * argv[] )
     res = io.hardware_version( stri );
     res = io.firmware_version( stri );
 
-    res = io.setLed( 1 );
-    res = io.setLed( 2 );
+    quint8 bdata[8];
+    quint8 bsize = sizeof( bdata );
 
-    int at;
-    res = io.motorPos( 0, at );
-    res = io.moveMotor( 0, 10000 ); 
-    res = io.motorPos( 0, at );
-    bool triggered;
-    int pos;
-    res = io.sensor( 0, triggered, pos ); 
-    res = io.sensor( 1, triggered, pos ); 
+    res = io.eepromRead( 0, bdata, bsize );
 
-    res = io.moveMotor( 0, -10000 );
-    res = io.motorPos( 0, at );
-    res = io.sensor( 0, triggered, pos ); 
-    res = io.sensor( 1, triggered, pos ); 
 
-    res = io.motorPos( 1, at );
-    res = io.moveMotor( 1, 10000 ); 
-    res = io.motorPos( 1, at );
-    res = io.moveMotor( 1, -10000 );
-    res = io.motorPos( 1, at );
+    for ( int i=0; i<sizeof( bdata ); i++ )
+        bdata[i] = i+1;
+    bsize = sizeof( bdata );
+    res = io.eepromWrite( 0, bdata, bsize );
+
+    quint8 bdata2[8];
+    bsize = sizeof( bdata );
+    res = io.eepromRead( 0, bdata2, bsize );
 
     io.close();
     
