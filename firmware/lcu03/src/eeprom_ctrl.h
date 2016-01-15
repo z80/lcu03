@@ -12,10 +12,13 @@ int eepromRead( uint8_t addr, uint8_t cnt, uint8_t * data );
 //
 void eepromClrSdData( void );
 void eepromSetSdAddr( uint8_t addr );
+uint8_t eepromSdAddr( void );
 void eepromAddSdData( uint8_t cnt, uint8_t * data );
 
 // Emergency EEPROM write.
 void eepromEmergencyI( void );
+// Read motor positions.
+void eepromReadMotorPos( int * pos0, int * pos1 );
 
 #endif
 

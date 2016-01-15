@@ -554,6 +554,8 @@ void motorInit( void )
     motor[1].activated  = 0;
     motor[1].in_motion  = 0;
     motor[1].dir        = 0;
+
+    eepromReadMotorPos( &(motor[0].pos), &(motor[1].pos) );
 }
 
 void motorSetPos( int index, int pos )

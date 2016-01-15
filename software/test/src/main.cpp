@@ -56,6 +56,14 @@ int main( int argc, char * argv[] )
     res = io.readEndPositions( y, valid );
 
 
+
+    res = io.readCurrentPositions( y, valid );
+
+    res = io.writeCurrentPositions( x );
+
+    res = io.readCurrentPositions( y, valid );
+
+
     /*
     quint8 bdata[8];
     quint8 bsize = sizeof( bdata );

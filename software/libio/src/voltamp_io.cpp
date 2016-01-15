@@ -567,10 +567,10 @@ bool VoltampIo::writeEndPositions( int * pos )
     quint8 data[SZ];
     for ( int i=0; i<4; i++ )
     {
-        data[i*4]   = static_cast<quint8>(pos[i] & 0xFF);
-        data[i*4+1] = static_cast<quint8>((pos[i] >> 8) & 0xFF);
-        data[i*4+2] = static_cast<quint8>((pos[i] >> 16) & 0xFF);
-        data[i*4+3] = static_cast<quint8>((pos[i] >> 24) & 0xFF);
+        data[i*4]   = static_cast<quint8>((pos[i]*8) & 0xFF);
+        data[i*4+1] = static_cast<quint8>(((pos[i]*8) >> 8) & 0xFF);
+        data[i*4+2] = static_cast<quint8>(((pos[i]*8) >> 16) & 0xFF);
+        data[i*4+3] = static_cast<quint8>(((pos[i]*8) >> 24) & 0xFF);
     }
     data[16] = crc( data, 16 );
     if ( ( !valid ) || 
@@ -621,6 +621,7 @@ bool VoltampIo::readEndPositions( int * pos, bool & valid )
                      ( static_cast<int>( data[i*4+1] ) << 8 ) + 
                      ( static_cast<int>( data[i*4+2] ) << 16 ) + 
                      ( static_cast<int>( data[i*4+3] ) << 24 );
+            pos[i] /= 8;
         }
     }
 
@@ -631,17 +632,17 @@ bool VoltampIo::writeCurrentPositions( int * pos )
 {
     int origPos[4];
     bool valid;
-    bool res = readEndPositions( reinterpret_cast<int *>(origPos), valid );
+    bool res = readCurrentPositions( reinterpret_cast<int *>(origPos), valid );
     if ( !res )
         return false;
     const int SZ = 9;
     quint8 data[SZ];
     for ( int i=0; i<2; i++ )
     {
-        data[i*4]   = static_cast<quint8>(pos[i] & 0xFF);
-        data[i*4+1] = static_cast<quint8>((pos[i] >> 8) & 0xFF);
-        data[i*4+2] = static_cast<quint8>((pos[i] >> 16) & 0xFF);
-        data[i*4+3] = static_cast<quint8>((pos[i] >> 24) & 0xFF);
+        data[i*4]   = static_cast<quint8>((pos[i]*8) & 0xFF);
+        data[i*4+1] = static_cast<quint8>(((pos[i]*8) >> 8) & 0xFF);
+        data[i*4+2] = static_cast<quint8>(((pos[i]*8) >> 16) & 0xFF);
+        data[i*4+3] = static_cast<quint8>(((pos[i]*8) >> 24) & 0xFF);
     }
     data[8] = crc( data, 8 );
     if ( ( !valid ) || 
@@ -649,7 +650,7 @@ bool VoltampIo::writeCurrentPositions( int * pos )
          ( origPos[1] != pos[1] ) )
     {
         // Numbers one by one.
-        for ( int i=0; i<4; i++ )
+        for ( int i=0; i<2; i++ )
         {
             res = eepromWrite( CUR_POS_ADDR + i*4, &data[i*4], 4 );
             if ( !res )
@@ -690,6 +691,7 @@ bool VoltampIo::readCurrentPositions( int * pos, bool & valid )
                      ( static_cast<int>( data[i*4+1] ) << 8 ) + 
                      ( static_cast<int>( data[i*4+2] ) << 16 ) + 
                      ( static_cast<int>( data[i*4+3] ) << 24 );
+            pos[i] /= 8;
         }
     }
 
