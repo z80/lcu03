@@ -1,54 +1,71 @@
 
-#include "digitizer_ice.h"
+#include "lcu03_ice.h"
 #include "main_wnd.h"
 
 
-DigitizerIce::DigitizerIce( MainWnd * mw )
-: Device::Digitizer()
+Lcu03Ice::Lcu03Ice( MainWnd * mw )
+: Device::Lcu03()
 {
     m_mainWnd = mw;
 }
 
-DigitizerIce::~DigitizerIce()
+Lcu03Ice::~Lcu03Ice()
 {
 }
 
-::std::string DigitizerIce::status( const ::Ice::Current& c )
+::std::string Lcu03Ice::status( const ::Ice::Current& c )
 {
     return "ok";
 }
 
-void DigitizerIce::release(const ::Ice::Current& c )
+void Lcu03Ice::release(const ::Ice::Current& c )
 {
 }
 
-bool DigitizerIce::instantValues(::Ice::Double & workV, ::Ice::Double & workI, ::Ice::Double & probeV, ::Ice::Double & probeI, const ::Ice::Current& )
+bool Lcu03Ice::setShutter( bool open, const ::Ice::Current& )
 {
-    bool res = m_mainWnd->iceInstantValues( workV, workI, probeV, probeI );
+    bool res;
+    res = m_mainWnd->setShutterIce( open );
     return res;
 }
 
-bool DigitizerIce::setTrigEn( bool en, const ::Ice::Current& )
+bool Lcu03Ice::shutter( bool & open, const ::Ice::Current& )
 {
-    bool res = m_mainWnd->iceSetTrigEn( en );
+    bool res;
+    res = m_mainWnd->shutterIce( open );
     return res;
 }
 
-bool DigitizerIce::values(::Factory::TDoubleArray & workV, ::Factory::TDoubleArray & workI, ::Factory::TDoubleArray & probeV, ::Factory::TDoubleArray & probeI, const ::Ice::Current& )
+bool Lcu03Ice::setPower( ::Ice::Double power, const ::Ice::Current& )
 {
-    bool res = m_mainWnd->iceValues( workV, workI, probeV, probeI );
+    bool res;
+    res = m_mainWnd->setPowerIce( power );
+    return res;
+}
+
+bool Lcu03Ice::power( ::Ice::Double & power, const ::Ice::Current& )
+{
+    bool res;
+    res = m_mainWnd->powerIce( power );
+    return res;
+}
+
+bool Lcu03Ice::setPolHor( bool hor, const ::Ice::Current& )
+{
+    bool res;
+    res = m_mainWnd->setPolHorIce( hor );
+    return res;
+}
+
+bool Lcu03Ice::polHor( bool & hor, const ::Ice::Current& )
+{
+    bool res;
+    res = m_mainWnd->polHorIce( hor );
     return res;
 }
 
 
-/*
-int HumidityIce::enumDevices( const ::Ice::Current& c )
-{
-    IceUtil::Mutex::Lock lock( m_mutex );
-    int cnt = m_hum->enumDevices();
-    return cnt;
-}
-*/
+
 
 
 

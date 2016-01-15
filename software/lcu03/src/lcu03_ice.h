@@ -3,21 +3,24 @@
 #define __DIGITIZER_ICE_H_
 
 #include <Ice/Ice.h>
-#include "digitizer.h"
+#include "lcu03.h"
 class MainWnd;
 
-class DigitizerIce: public Device::Digitizer
+class Lcu03Ice: public Device::Lcu03
 {
 public:
-    DigitizerIce( MainWnd * mw );
-    ~DigitizerIce();
+    Lcu03Ice( MainWnd * mw );
+    ~Lcu03Ice();
     
     ::std::string status( const ::Ice::Current& = ::Ice::Current() );
     void release(const ::Ice::Current& = ::Ice::Current() );
 
-    bool instantValues( ::Ice::Double&, ::Ice::Double&, ::Ice::Double&, ::Ice::Double&, const ::Ice::Current& = ::Ice::Current() );
-    bool setTrigEn( bool, const ::Ice::Current& = ::Ice::Current() );
-    bool values( ::Factory::TDoubleArray&, ::Factory::TDoubleArray&, ::Factory::TDoubleArray&, ::Factory::TDoubleArray&, const ::Ice::Current& = ::Ice::Current() );
+    bool setShutter( bool open, const ::Ice::Current& = ::Ice::Current() );
+    bool shutter( bool & open, const ::Ice::Current& = ::Ice::Current() );
+    bool setPower( ::Ice::Double power, const ::Ice::Current& = ::Ice::Current() );
+    bool power( ::Ice::Double & power, const ::Ice::Current& = ::Ice::Current() );
+    bool setPolHor( bool hor, const ::Ice::Current& = ::Ice::Current() );
+    bool polHor( bool & hor, const ::Ice::Current& = ::Ice::Current() );
 
 private:
     MainWnd * m_mainWnd;

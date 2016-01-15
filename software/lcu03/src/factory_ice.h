@@ -15,8 +15,8 @@ public:
     ::Factory::TStringArray interfaces(const ::Ice::Current& = ::Ice::Current() );
     ::Factory::DeviceAbsPrx query(const ::std::string&, const ::Ice::Current& = ::Ice::Current() );
 private:
-    ::Factory::DeviceAbsPtr m_digit;
-    ::Factory::DeviceAbsPrx m_digitPrx;
+    ::Factory::DeviceAbsPtr m_lcu03;
+    ::Factory::DeviceAbsPrx m_lcu03Prx;
 };
 
 

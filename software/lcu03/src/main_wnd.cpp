@@ -3,7 +3,7 @@
 
 #include "main_wnd.h"
 #include <QFileDialog>
-//#include "setup_dlg.h"
+#include "setup_dlg.h"
 #include "settings_dlg.h"
 #include "host_tray.h"
 
@@ -18,7 +18,8 @@
 const QString MainWnd::SETTINGS_INI = "./settings.ini";
 
 MainWnd::MainWnd( HostTray * parent )
-    : QMainWindow( 0 )
+    : QMainWindow( 0 ), 
+      m_hostTray( parent )
 {
     ui.setupUi( this );
 
@@ -28,6 +29,8 @@ MainWnd::MainWnd( HostTray * parent )
     loadSettings( false );
     reopen();
     loadSettings( true );
+
+    listen();
 }
 
 MainWnd::~MainWnd()
@@ -40,9 +43,9 @@ void MainWnd::loadSettings( bool hdw )
     QSettings s( SETTINGS_INI, QSettings::IniFormat );
 
     deviceIndex  = s.value( "deviceIndex",  "0" ).toInt();
-    //m_host   = s.value( "host", "" ).toString();
-    //m_port   = s.value( "port", 21345 ).toInt();
-    //m_doListen = s.value( "listen", false ).toBool();
+    m_host   = s.value( "host", "" ).toString();
+    m_port   = s.value( "port", 21346 ).toInt();
+    m_doListen = s.value( "listen", false ).toBool();
 
     shutterOpened = s.value( "shutterOpened", 1 ).toInt();
     shutterClosed = s.value( "shutterClosed", 0 ).toInt();
@@ -113,9 +116,9 @@ void MainWnd::saveSettings( bool hdw )
     QSettings s( SETTINGS_INI, QSettings::IniFormat );
 
     s.setValue( "deviceIndex",  deviceIndex );
-    //m_host   = s.value( "host", "" ).toString();
-    //m_port   = s.value( "port", 21345 ).toInt();
-    //m_doListen = s.value( "listen", false ).toBool();
+    m_host   = s.value( "host", "" ).toString();
+    m_port   = s.value( "port", 21345 ).toInt();
+    m_doListen = s.value( "listen", false ).toBool();
 
     s.setValue( "shutterOpened", shutterOpened );
     s.setValue( "shutterClosed", shutterClosed );
@@ -234,25 +237,25 @@ void MainWnd::slotSetup()
 
 void MainWnd::slotRemoteSetup()
 {
-    //SetupDlg sd;
-    //sd.setPort( m_port );
-    //sd.setListen( m_doListen );
-    //if ( sd.exec() )
-    //{
-    //    m_host = sd.host();
-    //    if ( m_host == "All interfaces" )
-    //        m_host = "";
-    //    m_port = sd.port();
-    //    m_doListen = sd.listen();
-    //    
-    //    if ( m_doListen )
-    //        this->listen();
-    //    else
-    //    {
-    //        if ( m_thread )
-    //            m_thread->shutdown();
-    //    }
-    //}    
+    SetupDlg sd;
+    sd.setPort( m_port );
+    sd.setListen( m_doListen );
+    if ( sd.exec() )
+    {
+        m_host = sd.host();
+        if ( m_host == "All interfaces" )
+            m_host = "";
+        m_port = sd.port();
+        m_doListen = sd.listen();
+        
+        if ( m_doListen )
+            this->listen();
+        else
+        {
+            if ( m_thread )
+                m_thread->shutdown();
+        }
+    }    
 }
 
 void MainWnd::slotAbout()
@@ -452,35 +455,107 @@ void MainWnd::bindSlots()
     connect( ui.hor,  SIGNAL(clicked()), this, SLOT(slotPolarization()) );
 }
 
+bool MainWnd::setShutterIce( bool open )
+{
+    int sh = ( open ) ? shutterOpened : shutterClosed;
+
+    bool res = ensureOpen();
+    if ( !res )
+        return false;
+    res = io->setShutter( sh );
+    if ( !res )
+        return false;
+
+    ui.shutterOpen->setChecked( open );
+    return true;
+}
+
+bool MainWnd::shutterIce( bool & open )
+{
+    open = ui.shutterOpen->isChecked();
+    return true;
+}
+
+bool MainWnd::setPowerIce( double power )
+{
+    int step = powerToStep( power );
+    bool res = ensureOpen();
+    if ( !res )
+        return false;
+    res = io->moveMotor( 0, step );
+    if ( !res )
+        return false;
+
+    ui.power->setValue( power );
+    return true;
+}
+
+bool MainWnd::powerIce( double & power )
+{
+    power = ui.power->value();
+    return true;
+}
+
+bool MainWnd::setPolHorIce( bool hor )
+{
+    int step;
+    step = polarizationToStep( hor );
+    
+    bool res = ensureOpen();
+    if ( !res )
+        return false;
+    res = io->moveMotor( 1, step );
+    if ( !res )
+        return false;
+
+    ui.hor->setChecked( hor );
+    return true;
+}
+
+bool MainWnd::polHorIce( bool & hor )
+{
+    hor = ui.hor->isChecked();
+    return true;
+}
+
+
 void MainWnd::listen()
 {
-    //if ( m_thread )
-    //{
-    //    bool started = m_thread->isAlive();
-    //    if ( started )
-    //        m_thread->shutdown();
-    //}
-    //if ( m_doListen )
-    //{
-    //    std::ostringstream os;
-    //    if ( m_host.length() > 0 )
-    //        os << "tcp -h " << m_host.toStdString() << " -p " << m_port;
-    //    else
-    //        os << "tcp" << " -p " << m_port;
-    //    m_thread = new ThreadIce( os.str() );
-    //    if ( !m_thread->listen( this ) )
-    //        setTrayToolTip( "Not in service" );
-    //    else
-    //    {
-    //        QString stri;
-    //        if ( m_host.length() > 0 )
-    //            stri = QString( "Listening interface %1, port %2" ).arg( m_host ).arg( m_port );
-    //        else
-    //            stri = QString( "Listening port %1" ).arg( m_port );
-    //        setTrayToolTip( stri );
-    //    }
-    //}
+    if ( m_thread )
+    {
+        bool started = m_thread->isAlive();
+        if ( started )
+            m_thread->shutdown();
+    }
+    if ( m_doListen )
+    {
+        std::ostringstream os;
+        if ( m_host.length() > 0 )
+            os << "tcp -h " << m_host.toStdString() << " -p " << m_port;
+        else
+            os << "tcp" << " -p " << m_port;
+        m_thread = new ThreadIce( os.str() );
+        if ( !m_thread->listen( this ) )
+            setTrayToolTip( "Not in service" );
+        else
+        {
+            QString stri;
+            if ( m_host.length() > 0 )
+                stri = QString( "Listening interface %1, port %2" ).arg( m_host ).arg( m_port );
+            else
+                stri = QString( "Listening port %1" ).arg( m_port );
+            setTrayToolTip( stri );
+        }
+    }
 }
+
+void MainWnd::setTrayToolTip( const QString & stri )
+{
+    m_hostTray->setToolTip( stri );
+}
+
+
+
 
 
 

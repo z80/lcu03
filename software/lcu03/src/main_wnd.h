@@ -10,10 +10,11 @@
 #include "exec.h"
 #include "voltamp_io.h"
 
-//#include "thread_ice.h"
+#include "thread_ice.h"
 
 class HostTray;
 class SettingsDlg;
+class Lcu03Ice;
 
 class MainWnd: public QMainWindow
 {
@@ -53,8 +54,19 @@ protected:
     qreal stepToPower( int step );
     bool stepToPloarization( int step );
     void bindSlots();
-    void listen();
 
+    // Ice procedures.
+    bool setShutterIce( bool open );
+    bool shutterIce( bool & open );
+    bool setPowerIce( double power );
+    bool powerIce( double & power );
+    bool setPolHorIce( bool hor );
+    bool polHorIce( bool & hor );
+
+    void listen();
+    void setTrayToolTip( const QString & stri );
+
+    HostTray * m_hostTray;
 
     // Shutte driver.
     int shutterOpened, 
@@ -72,10 +84,10 @@ protected:
     int filter;
 
     // Remore control.
-    //::IceUtil::Handle<ThreadIce> m_thread;
-    //QString m_host;
-    //int     m_port;
-    //bool    m_doListen;
+    ::IceUtil::Handle<ThreadIce> m_thread;
+    QString m_host;
+    int     m_port;
+    bool    m_doListen;
 
 
     // Device servicing.
@@ -89,6 +101,7 @@ protected:
     static const QString SETTINGS_INI;
 
     friend class SettingsDlg;
+    friend class Lcu03Ice;
 };
 
 
