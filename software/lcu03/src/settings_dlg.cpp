@@ -208,6 +208,68 @@ void SettingsDlg::slotFirmwareUpgrade()
     mainWnd->slotFirmwareUpdate();
 }
 
+void SettingsDlg::slotMore()
+{
+    int motor = ui.motor->currentIndex();
+
+    bool res = mainWnd->ensureOpen();
+    if ( !res )
+        return;
+    VoltampIo * io = mainWnd->io;
+
+    int pos;
+    res = io->motorPos( motor, pos );
+    if ( !res )
+    {
+        io->close();
+        QString stri = QString( "Failed to query driver position from hardware!" );
+        QMessageBox::critical( this, "Error", stri );            
+        return;
+    }
+
+    pos += ui.step->value();
+    res = io->moveMotor( motor, pos );
+    if ( !res )
+    {
+        io->close();
+        QString stri = QString( "Failed to run driver!" );
+        QMessageBox::critical( this, "Error", stri );
+        return;
+    }
+    ui.pos->setValue( pos );
+}
+
+void SettingsDlg::slotLess()
+{
+    int motor = ui.motor->currentIndex();
+
+    bool res = mainWnd->ensureOpen();
+    if ( !res )
+        return;
+    VoltampIo * io = mainWnd->io;
+
+    int pos;
+    res = io->motorPos( motor, pos );
+    if ( !res )
+    {
+        io->close();
+        QString stri = QString( "Failed to query driver position from hardware!" );
+        QMessageBox::critical( this, "Error", stri );            
+        return;
+    }
+
+    pos -= ui.step->value();
+    res = io->moveMotor( motor, pos );
+    if ( !res )
+    {
+        io->close();
+        QString stri = QString( "Failed to run driver!" );
+        QMessageBox::critical( this, "Error", stri );
+        return;
+    }
+    ui.pos->setValue( pos );
+}
+
 void SettingsDlg::closeEvent( QCloseEvent * e )
 {
     //e->ignore();
@@ -236,6 +298,11 @@ void SettingsDlg::bindSlots()
     ui.cancel->setDefault( false );
     ui.cancel->setAutoDefault( false );
 
+    ui.more->setDefault( false );
+    ui.more->setAutoDefault( false );
+    ui.less->setDefault( false );
+    ui.less->setAutoDefault( false );
+
 
     connect( ui.motor, SIGNAL(currentIndexChanged(int)), this, SLOT(slotMotorSelected()) );
     connect( ui.pos,   SIGNAL(editingFinished()),        this, SLOT(slotPositionChanged()) );
@@ -249,6 +316,9 @@ void SettingsDlg::bindSlots()
 
     connect( ui.findPos,         SIGNAL(clicked()), this, SLOT(slotFindMotorPos()) );
     connect( ui.firmwareUpgrade, SIGNAL(clicked()), this, SLOT(slotFirmwareUpgrade()) );
+
+    connect( ui.more,  SIGNAL(clicked()), this, SLOT(slotMore()) );
+    connect( ui.less,  SIGNAL(clicked()), this, SLOT(slotLess()) );
 }
 
 void SettingsDlg::updateLabels()

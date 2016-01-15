@@ -109,7 +109,7 @@
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>77</width>
+           <width>55</width>
            <height>20</height>
           </size>
          </property>
@@ -121,13 +121,16 @@
           <set>Qt::AlignCenter</set>
          </property>
          <property name="decimals">
-          <number>0</number>
+          <number>3</number>
+         </property>
+         <property name="maximum">
+          <double>100.000000000000000</double>
          </property>
          <property name="singleStep">
-          <double>5.000000000000000</double>
+          <double>0.001000000000000</double>
          </property>
          <property name="value">
-          <double>10.000000000000000</double>
+          <double>0.000000000000000</double>
          </property>
         </widget>
        </item>

@@ -1,8 +1,8 @@
 
+set( SOFTWARE_VERSION "\"1.0.0\"" )
+
 project( lcu03 )
 cmake_minimum_required(VERSION 2.8)
-
-set( SOFTWARE_VERSION, "1.0.0" )
 
 set( ROOT ${CMAKE_CURRENT_SOURCE_DIR} )
 #set( CMAKE_INSTALL_PREFIX ${ROOT}/.build.app )
@@ -23,3 +23,6 @@ add_subdirectory( "./test" )
 add_subdirectory( "./lcu03" )
 #add_subdirectory( "./libextctrl" )
 #add_subdirectory( "./libluafactory" )
+
+CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/version.h.in ${CMAKE_BINARY_DIR}/version.h )
+

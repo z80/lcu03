@@ -13,6 +13,8 @@
 #include <boost/bind/arg.hpp>
 #include <boost/bind/placeholders.hpp>
 
+#include "version.h"
+
 const QString MainWnd::SETTINGS_INI = "./settings.ini";
 
 MainWnd::MainWnd( HostTray * parent )
@@ -44,7 +46,8 @@ void MainWnd::loadSettings( bool hdw )
 
     shutterOpened = s.value( "shutterOpened", 1 ).toInt();
     shutterClosed = s.value( "shutterClosed", 0 ).toInt();
-    shutter       = s.value( "shutter", 2 ).toInt();
+    shutter       = s.value( "shutter", false ).toBool();
+    ui.shutterOpen->setChecked( shutter );
 
     
     if ( hdw )

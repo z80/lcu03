@@ -17,6 +17,7 @@ include_directories( "./src"
                      ${ROOT}/libio/src
                      ${ROOT}/3dparty/qwt-6.1.2/src
                      ${CMAKE_CURRENT_BINARY_DIR}
+                     ${CMAKE_BINARY_DIR} # This one is for "version.h"
                      ${ICE_PATH}/include )
 if ( WIN32 )
     include_directories( ${BOOST_PATH} )
@@ -80,7 +81,7 @@ if ( WIN32 )
     set( libs ${libs} Qt5::WinMain )
 endif ( WIN32 )
 target_link_libraries( lcu03 ${libs} )
-set_property( TARGET lcu03 PROPERTY COMPILE_DEFINITIONS SOFTWARE_VERSION="${SOFTWARE_VERSION}" )
+#set_property( TARGET lcu03 PROPERTY COMPILE_DEFINITIONS SOFTWARE_VERSION="${SOFTWARE_VERSION}" )
 install( TARGETS lcu03 DESTINATION ./ )
 
 

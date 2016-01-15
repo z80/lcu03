@@ -24,6 +24,8 @@ public slots:
     void slotShutter();
     void slotFindMotorPos();
     void slotFirmwareUpgrade();
+    void slotMore();
+    void slotLess();
 protected:
     void closeEvent( QCloseEvent * e );
 private:
