@@ -137,9 +137,7 @@ void eepromInit( void )
 
 void eepromClrSdData( void )
 {
-    chSysLock();
-        eeprom_sd_size = 0;
-    chSysUnlock();
+    eeprom_sd_size = 0;
 }
 
 void eepromSetSdAddr( uint8_t addr )

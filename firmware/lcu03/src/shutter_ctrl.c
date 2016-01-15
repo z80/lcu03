@@ -6,7 +6,11 @@
 #define SH_PIN_0  0
 #define SH_PORT_1 GPIOC
 #define SH_PIN_1  15
-#define SH_SLEEP  5
+
+
+#define SH_ACTIVE  5
+#define SH_SLEEP   700
+#define SH_REPEATS 3
 
 static WORKING_AREA( waShutter, 256 );
 static msg_t shutterThread( void *arg );
@@ -52,20 +56,26 @@ static msg_t shutterThread( void *arg )
     	msg_t msg;
     	msg = chIQGet( &sh_queue );
 
-    	// Set Appropriate direction.
-    	if ( msg & 1 )
-    		palSetPad( SH_PORT_0, SH_PIN_0 );
-    	else
-    		palClearPad( SH_PORT_0, SH_PIN_0 );
-    	if ( msg & 2 )
-    		palSetPad( SH_PORT_1, SH_PIN_1 );
-    	else
-    		palClearPad( SH_PORT_1, SH_PIN_1 );
-    	// Wait till mtor moves shutter.
-    	chThdSleepMilliseconds( SH_SLEEP );
-    	// Turn motor driver to sleep mode (both outputs are zero).
-    	palClearPad( SH_PORT_0, SH_PIN_0 );
-    	palClearPad( SH_PORT_1, SH_PIN_1 );
+    	uint8_t i;
+    	for ( i=0; i<SH_REPEATS; i++ )
+    	{
+            // Set Appropriate direction.
+            if ( msg & 1 )
+                palSetPad( SH_PORT_0, SH_PIN_0 );
+            else
+                palClearPad( SH_PORT_0, SH_PIN_0 );
+            if ( msg & 2 )
+                palSetPad( SH_PORT_1, SH_PIN_1 );
+            else
+                palClearPad( SH_PORT_1, SH_PIN_1 );
+            // Wait till mtor moves shutter.
+            chThdSleepMilliseconds( SH_ACTIVE );
+            // Turn motor driver to sleep mode (both outputs are zero).
+            palClearPad( SH_PORT_0, SH_PIN_0 );
+            palClearPad( SH_PORT_1, SH_PIN_1 );
+            // And wait for sleep interval.
+            chThdSleepMilliseconds( SH_SLEEP );
+    	}
     }
 
     return 0;

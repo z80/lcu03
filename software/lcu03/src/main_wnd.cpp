@@ -98,15 +98,11 @@ void MainWnd::slotShutter()
     bool res = ensureOpen();
     if ( !res )
         return;
-    for ( int i=0; i<3; i++ )
+    res = io->setShutter( sh );
+    if ( !res )
     {
-        res = io->setShutter( sh );
-        if ( !res )
-        {
-            QMessageBox::critical( this, "Error", "Falied to set shutter!" );
-            io->close();
-        }
-        io->delay();
+        QMessageBox::critical( this, "Error", "Falied to set shutter!" );
+        io->close();
     }
 }
 
