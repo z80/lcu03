@@ -50,29 +50,29 @@ endif ( WIN32 )
 
 
 
-#ADD_CUSTOM_COMMAND( 
-#    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/src/icee/factory.cpp 
-#    COMMAND ${ICE_PATH}/bin/slice2cpp -I${ICE_PATH}/slice factory.ice 
-#    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/icee )
-#list( APPEND src ${CMAKE_CURRENT_SOURCE_DIR}/src/icee/factory.cpp )
+ADD_CUSTOM_COMMAND( 
+    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/src/icee/factory.cpp 
+    COMMAND ${ICE_PATH}/bin/slice2cpp -I${ICE_PATH}/slice factory.ice 
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/icee )
+list( APPEND src ${CMAKE_CURRENT_SOURCE_DIR}/src/icee/factory.cpp )
 
-#ADD_CUSTOM_COMMAND( 
-#    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/src/icee/digitizer.cpp
-#    COMMAND ${ICE_PATH}/bin/slice2cpp -I${ICE_PATH}/slice digitizer.ice 
-#    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/icee )
-#list( APPEND src ${CMAKE_CURRENT_SOURCE_DIR}/src/icee/digitizer.cpp )
+ADD_CUSTOM_COMMAND( 
+    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/src/icee/lcu03.cpp
+    COMMAND ${ICE_PATH}/bin/slice2cpp -I${ICE_PATH}/slice lcu03.ice 
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/icee )
+list( APPEND src ${CMAKE_CURRENT_SOURCE_DIR}/src/icee/lcu03.cpp )
 
-#include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/src/icee )
+include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/src/icee )
 
-#find_library( ice      NAMES ice.lib      PATHS "${ICE_LIB_PATH}" )
-#find_library( iceutil  NAMES iceutil.lib  PATHS "${ICE_LIB_PATH}" )
-#find_library( iced     NAMES iced.lib     PATHS "${ICE_LIB_PATH}" )
-#find_library( iceutild NAMES iceutild.lib PATHS "${ICE_LIB_PATH}" )
-#set( libs debug ${iced} 
-#          optimized ${ice} 
-#          debug ${iceutild} 
-#          optimized ${iceutil} 
-#    )
+find_library( ice      NAMES ice.lib      PATHS "${ICE_LIB_PATH}" )
+find_library( iceutil  NAMES iceutil.lib  PATHS "${ICE_LIB_PATH}" )
+find_library( iced     NAMES iced.lib     PATHS "${ICE_LIB_PATH}" )
+find_library( iceutild NAMES iceutild.lib PATHS "${ICE_LIB_PATH}" )
+set( libs debug ${iced} 
+          optimized ${ice} 
+          debug ${iceutild} 
+          optimized ${iceutil} 
+    )
 
 add_executable( lcu03 ${BLD_TYPE} ${src} )
 qt5_use_modules( lcu03 Widgets Core Network )
