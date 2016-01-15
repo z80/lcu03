@@ -87,7 +87,8 @@ static void extPowerOff( EXTDriver * extp, expchannel_t channel );
 
 static void adjustPosition( TMotor * moto )
 {
-    if ( moto->activated )
+    // Choose dir as well because sensor profile has the following shape: ---|_|---. E.i. falling edge position depends on motion direction.
+    if ( ( moto->activated ) && ( moto->dir > 0 ) )
     {
         moto->pos -= moto->sensorPos;
         moto->sensorPos = 0;

@@ -124,7 +124,7 @@ void eepromInit( void )
     palSetPadMode( WC_PORT, WC_PAD, PAL_MODE_OUTPUT_PUSHPULL );
 
     // Default position for shutdown (SD) data.
-    eeprom_sd_buffer[0] = 256 - 9; // two sizeof(int) plus CRC.
+    eeprom_sd_buffer[0] = 256 - 16; // The very last page start address. Data to be written is two sizeof(int) plus 1 byte CRC.
     // Default data size is zero.
     eeprom_sd_size = 0;
 

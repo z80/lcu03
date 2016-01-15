@@ -3,8 +3,8 @@
 #include "io.h"
 
 #define SN_ADDR      0
-#define END_POS_ADDR 2
-#define CUR_POS_ADDR (256 - 9)
+#define END_POS_ADDR 16 // To start form another page.
+#define CUR_POS_ADDR (256 - 16)
 
 static quint8 crc( quint8 * data, quint8 cnt );
 
