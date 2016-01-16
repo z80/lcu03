@@ -41,7 +41,6 @@
 
 // This is my overwriting of default value for placing bootloader
 // in front of regular firmware.
-//#define CORTEX_VTOR_INIT (0x800000 + 10000)
 
 /*
  * HAL driver system settings.
