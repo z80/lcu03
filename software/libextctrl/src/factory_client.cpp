@@ -39,9 +39,9 @@ const std::string & FactoryClient::version()
     return PD::version;
 }
 
-DigitizerPrx * FactoryClient::digitizer()
+Lcu03Prx * FactoryClient::lcu03()
 {
-    DigitizerPrx * res = pd->factory->digitizer();
+    Lcu03Prx * res = pd->factory->lcu03();
     return res;
 }
 

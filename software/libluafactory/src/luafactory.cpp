@@ -1,10 +1,10 @@
 
 #include "luafactory.h"
-#include "luadigitizer.h"
+#include "lualcu03.h"
 #include "factory_client.h"
 
-static const char lmMeta[]    = "LUAFACTORY_META";
-static const char lmLibName[] = "luafactory";
+static const char lmMeta[]    = "LUALCU03_META";
+static const char lmLibName[] = "lualcu03";
 
 static int version( lua_State * L )
 {
@@ -58,17 +58,17 @@ static int status( lua_State * L )
     return 1;
 }
 
-static int digitizer( lua_State * L )
+static int lcu03( lua_State * L )
 {
     FactoryClient * f = *reinterpret_cast<FactoryClient * *>( lua_touserdata( L, 1 ) );
     if ( f )
     {
-        DigitizerPrx * d = f->digitizer();
-        DigiEnvelope * de = new DigiEnvelope();
+        Lcu03Prx * d = f->lcu03();
+        Lcu03Envelope * de = new Lcu03Envelope();
         de->d = d;
-        DigiEnvelope * * ppde = reinterpret_cast< DigiEnvelope * * >( lua_newuserdata( L, sizeof( DigiEnvelope * ) ) );
+        Lcu03Envelope * * ppde = reinterpret_cast< Lcu03Envelope * * >( lua_newuserdata( L, sizeof( Lcu03Envelope * ) ) );
         *ppde = de;
-        applyDigitizerMeta( L );
+        applyLcu03Meta( L );
         return 1;
     }
     else
@@ -78,7 +78,7 @@ static int digitizer( lua_State * L )
 
 static const struct luaL_reg lmMetaFunctions[] = {
     { "status",    status }, 
-    { "digitizer", digitizer }, 
+    { "lcu03",     lcu03 }, 
     { 0,           0 }, 
 };
 
@@ -113,9 +113,9 @@ static void registerFunctions( lua_State * L )
 
 
 
-extern "C" int EXT_FACTORY luaopen_luafactory( lua_State * L )
+extern "C" int EXT_FACTORY luaopen_lualcu03( lua_State * L )
 {
-    createDigitizerMeta( L );
+    createLcu03Meta( L );
 
     createMeta( L );
     registerFunctions( L );

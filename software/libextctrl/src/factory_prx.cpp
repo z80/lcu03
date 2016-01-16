@@ -1,6 +1,6 @@
 
 #include "factory_prx.h"
-#include "digitizer_prx.h"
+#include "lcu03_prx.h"
 #include <sstream>
 
 class FactoryPrx::PD
@@ -10,7 +10,7 @@ public:
     //Ice::ObjectAdapterPtr       adapter;
     
     ::Factory::DeviceFactoryPrx factory;
-    ::Device::DigitizerPrx      digitizer;
+    ::Device::Lcu03Prx          lcu03;
     std::string                 status;
 
     IceUtil::Mutex  mutex;
@@ -38,11 +38,11 @@ FactoryPrx::Factory FactoryPrx::factory( const std::string & host, int port )
             return 0;
         ::Factory::DeviceAbsPrx dev;
 
-        dev = factory->query( "digitizer" );
+        dev = factory->query( "lcu03" );
         if ( !dev )
             return 0;
-        ::Device::DigitizerPrx digi = ::Device::DigitizerPrx::uncheckedCast( dev );
-        if ( !digi )
+        ::Device::Lcu03Prx lcu03 = ::Device::Lcu03Prx::uncheckedCast( dev );
+        if ( !lcu03 )
             return 0;
 
 
@@ -51,7 +51,7 @@ FactoryPrx::Factory FactoryPrx::factory( const std::string & host, int port )
         //f->pd->adapter = adapter;
         f->pd->factory = factory;
 
-        f->pd->digitizer = digi;
+        f->pd->lcu03 = lcu03;
 
         f->pd->status = "connected";
 
@@ -75,9 +75,9 @@ FactoryPrx::~FactoryPrx()
     delete pd;
 }
 
-DigitizerPrx * FactoryPrx::digitizer()
+Lcu03Prx * FactoryPrx::lcu03()
 {
-    DigitizerPrx * d = new DigitizerPrx( this );
+    Lcu03Prx * d = new Lcu03Prx( this );
     return d;
 }
 
@@ -98,9 +98,9 @@ void FactoryPrx::setStatus( const std::string & stri )
     return pd->mutex;
 }
 
-::Device::DigitizerPrx FactoryPrx::digitizerPrx()
+::Device::Lcu03Prx FactoryPrx::lcu03Prx()
 {
-    return pd->digitizer;
+    return pd->lcu03;
 }
 
 

@@ -21,8 +21,8 @@ add_subdirectory( "./3dparty" )
 add_subdirectory( "./libio" )
 add_subdirectory( "./test" )
 add_subdirectory( "./lcu03" )
-#add_subdirectory( "./libextctrl" )
-#add_subdirectory( "./libluafactory" )
+add_subdirectory( "./libextctrl" )
+add_subdirectory( "./libluafactory" )
 
 CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/version.h.in ${CMAKE_BINARY_DIR}/version.h )
 

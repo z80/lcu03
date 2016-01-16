@@ -11,7 +11,7 @@ extern "C"
 
 #define EXT_FACTORY __declspec(dllexport)
 
-extern "C" int EXT_FACTORY luaopen_luafactory( lua_State * L );
+extern "C" int EXT_FACTORY luaopen_lualcu03( lua_State * L );
 
 
 

@@ -3,7 +3,7 @@
 #define __FACTORY_CLIENT_H_
 
 #include <string>
-class DigitizerPrx;
+class Lcu03Prx;
 
 class FactoryClient
 {
@@ -13,7 +13,7 @@ public:
 
     std::string status();
     static const std::string & version();
-    DigitizerPrx * digitizer();
+    Lcu03Prx * lcu03();
 
 private:
     FactoryClient();

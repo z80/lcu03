@@ -13,13 +13,13 @@ include_directories( "./src"
                      
 set( src ${src} )
 
-add_library( luafactory SHARED ${src} )
-list( APPEND libs liblua-5.1.5 libdigitremote )
-qt5_use_modules( luafactory Widgets Core )
+add_library( lualcu03 SHARED ${src} )
+list( APPEND libs liblua-5.1.5 libremote )
+qt5_use_modules( lualcu03 Widgets Core )
 
-target_link_libraries( luafactory ${libs} ${QT_LIBRARIES} )
+target_link_libraries( lualcu03 ${libs} ${QT_LIBRARIES} )
 
 
-install( TARGETS luafactory DESTINATION "./bin" )
+install( TARGETS lualcu03 DESTINATION "./bin" )
 install( DIRECTORY "./lua/" DESTINATION "./.lua" )
 

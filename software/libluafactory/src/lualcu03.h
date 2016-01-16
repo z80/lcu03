@@ -1,6 +1,6 @@
 
-#ifndef __LUA_DIGITIZER_H_
-#define __LUA_DIGITIZER_H_
+#ifndef __LUA_LCU03_H_
+#define __LUA_LCU03_H_
 
 #include <vector>
 #include <QtCore>
@@ -12,31 +12,31 @@ extern "C"
     #include "lauxlib.h"
 }
 
-#include "digitizer_prx.h"
+#include "lcu03_prx.h"
 
-class DigiEnvelope
+class Lcu03Envelope
 {
 public:
-    DigitizerPrx * d;
+    Lcu03Prx * d;
     std::vector<qreal> workV;
     std::vector<qreal> workI;
     std::vector<qreal> probeV;
     std::vector<qreal> probeI;
 
-    DigiEnvelope()
+    Lcu03Envelope()
     {
         d = 0;
     }
 
-    ~DigiEnvelope()
+    ~Lcu03Envelope()
     {
         if ( d )
             delete d;
     }
 };
 
-void createDigitizerMeta( lua_State * L );
-void applyDigitizerMeta( lua_State * L );
+void createLcu03Meta( lua_State * L );
+void applyLcu03Meta( lua_State * L );
 
 
 #endif

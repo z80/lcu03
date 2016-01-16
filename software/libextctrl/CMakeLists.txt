@@ -40,18 +40,18 @@ set( src ${src} ${qrc_src} )
 
 
 ADD_CUSTOM_COMMAND( 
-    OUTPUT ${ROOT}/digitizer/src/icee/factory.cpp 
+    OUTPUT ${ROOT}/lcu03/src/icee/factory.cpp 
     COMMAND ${ICE_PATH}/bin/slice2cpp -I${ICE_PATH}/slice factory.ice 
     WORKING_DIRECTORY ${ROOT}/digitizer/src/icee )
-list( APPEND src ${ROOT}/digitizer/src/icee/factory.cpp )
+list( APPEND src ${ROOT}/lcu03/src/icee/factory.cpp )
 
 ADD_CUSTOM_COMMAND( 
-    OUTPUT ${ROOT}/digitizer/src/icee/digitizer.cpp
-    COMMAND ${ICE_PATH}/bin/slice2cpp -I${ICE_PATH}/slice digitizer.ice 
-    WORKING_DIRECTORY ${ROOT}/digitizer/src/icee )
-list( APPEND src ${ROOT}/digitizer/src/icee/digitizer.cpp )
+    OUTPUT ${ROOT}/lcu03/src/icee/lcu03.cpp
+    COMMAND ${ICE_PATH}/bin/slice2cpp -I${ICE_PATH}/slice lcu03.ice 
+    WORKING_DIRECTORY ${ROOT}/lcu03/src/icee )
+list( APPEND src ${ROOT}/lcu03/src/icee/lcu03.cpp )
 
-include_directories( ${ROOT}/digitizer/src/icee )
+include_directories( ${ROOT}/lcu03/src/icee )
 
 find_library( ice      NAMES ice.lib      PATHS "${ICE_LIB_PATH}" )
 find_library( iceutil  NAMES iceutil.lib  PATHS "${ICE_LIB_PATH}" )
@@ -63,12 +63,12 @@ set( libs debug ${iced}
           optimized ${iceutil} 
     )
 
-add_library( libdigitremote STATIC ${src} )
-qt5_use_modules( libdigitremote Widgets Core Network )
+add_library( libremote STATIC ${src} )
+qt5_use_modules( libremote Widgets Core Network )
 set( libs ${libs} ${QT_LIBRARIES} )
-target_link_libraries( libdigitremote ${libs} )
-#set_property( TARGET libdigitremote PROPERTY COMPILE_DEFINITIONS ICEE_STATIC_LIBS )
-install( TARGETS libdigitremote DESTINATION ./ )
+target_link_libraries( libremote ${libs} )
+#set_property( TARGET libremote PROPERTY COMPILE_DEFINITIONS ICEE_STATIC_LIBS )
+install( TARGETS libremote DESTINATION ./ )
 
 
 
