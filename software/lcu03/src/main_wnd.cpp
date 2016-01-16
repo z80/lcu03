@@ -42,10 +42,10 @@ void MainWnd::loadSettings( bool hdw )
 {
     QSettings s( SETTINGS_INI, QSettings::IniFormat );
 
-    deviceIndex  = s.value( "deviceIndex",  "0" ).toInt();
-    m_host   = s.value( "host", "" ).toString();
-    m_port   = s.value( "port", 21346 ).toInt();
-    m_doListen = s.value( "listen", false ).toBool();
+    deviceIndex = s.value( "deviceIndex",  "0" ).toInt();
+    m_host      = s.value( "host",   "" ).toString();
+    m_port      = s.value( "port",   21346 ).toInt();
+    m_doListen  = s.value( "listen", false ).toBool();
 
     shutterOpened = s.value( "shutterOpened", 1 ).toInt();
     shutterClosed = s.value( "shutterClosed", 0 ).toInt();
@@ -115,10 +115,10 @@ void MainWnd::saveSettings( bool hdw )
 {
     QSettings s( SETTINGS_INI, QSettings::IniFormat );
 
-    s.setValue( "deviceIndex",  deviceIndex );
-    m_host   = s.value( "host", "" ).toString();
-    m_port   = s.value( "port", 21345 ).toInt();
-    m_doListen = s.value( "listen", false ).toBool();
+    s.setValue( "deviceIndex", deviceIndex );
+    s.setValue( "host",        m_host );
+    s.setValue( "port",        m_port );
+    s.setValue( "listen",      m_doListen );
 
     s.setValue( "shutterOpened", shutterOpened );
     s.setValue( "shutterClosed", shutterClosed );

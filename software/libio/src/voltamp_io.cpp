@@ -535,7 +535,7 @@ bool VoltampIo::setSerialNumber( quint16 sn, bool overwrite )
     if ( overwrite || ( ( snRead[0] == 0xFF ) && ( snRead[1] == 0xFF ) ) )
     {
         snRead[0] = static_cast<quint8>(sn & 0xFF);
-        snRead[0] = static_cast<quint8>((sn >> 8) & 0xFF);
+        snRead[1] = static_cast<quint8>((sn >> 8) & 0xFF);
         res = eepromWrite( SN_ADDR, snRead, 2 );
         if ( !res ) 
             return false;

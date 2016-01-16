@@ -21,6 +21,7 @@ add_subdirectory( "./3dparty" )
 add_subdirectory( "./libio" )
 add_subdirectory( "./test" )
 add_subdirectory( "./lcu03" )
+add_subdirectory( "./ser_num_assigner" )
 add_subdirectory( "./libextctrl" )
 add_subdirectory( "./libluafactory" )
 

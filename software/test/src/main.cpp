@@ -55,7 +55,9 @@ int main( int argc, char * argv[] )
 
     res = io.readEndPositions( y, valid );
 
+    res = io.motorPos( 0, x[0] );
 
+    res = io.motorPos( 1, x[1] );
 
     res = io.readCurrentPositions( y, valid );
 
