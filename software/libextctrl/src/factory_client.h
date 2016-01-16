@@ -8,7 +8,7 @@ class Lcu03Prx;
 class FactoryClient
 {
 public:
-    static FactoryClient * factory( const std::string & host = "", int port = 21345 );
+    static FactoryClient * factory( const std::string & host = "", int port = 21346 );
     ~FactoryClient();
 
     std::string status();
