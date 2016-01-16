@@ -26,7 +26,7 @@ static int setShutter( lua_State * L )
 {
     Lcu03Envelope * de = *reinterpret_cast<Lcu03Envelope * *>( lua_touserdata( L, 1 ) );
     bool sh;
-    sh = ( lua_toboolean( L, 1 ) > 0 );
+    sh = ( lua_toboolean( L, 2 ) > 0 );
     bool res = de->d->setShutter( sh );
     lua_pushboolean( L, res ? 1 : 0 );
     return 1;
@@ -46,7 +46,7 @@ static int setPower( lua_State * L )
 {
     Lcu03Envelope * de = *reinterpret_cast<Lcu03Envelope * *>( lua_touserdata( L, 1 ) );
     qreal power;
-    power = lua_tonumber( L, 1 );
+    power = lua_tonumber( L, 2 );
     bool res = de->d->setPower( power );
     lua_pushboolean( L, res ? 1 : 0 );
     return 1;
@@ -66,7 +66,7 @@ static int setPolHor( lua_State * L )
 {
     Lcu03Envelope * de = *reinterpret_cast<Lcu03Envelope * *>( lua_touserdata( L, 1 ) );
     bool hor;
-    hor = ( lua_toboolean( L, 1 ) > 0 );
+    hor = ( lua_toboolean( L, 2 ) > 0 );
     bool res = de->d->setPolHor( hor );
     lua_pushboolean( L, res ? 1 : 0 );
     return 1;

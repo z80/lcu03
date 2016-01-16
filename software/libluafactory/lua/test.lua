@@ -1,12 +1,11 @@
 
-require( "luafactory" )
+require( "lualcu03" )
 
-factory = luafactory.create()
-digit = factory:digitizer()
-workV, workI, probeV, probeI = digit:instantValues()
-if ( workV ) then
-    print( string.format( "workV: %.3f, workI: %.3f, probeV: %.3f, probeI: %.3f", workV, workI, probeV, probeI ) )
-end
+factory = lualcu03.create()
+lcu03 = factory:lcu03()
+lcu03:setPower( 30 )
+lcu03:setPower( 100 )
+lcu03:setPower( 8 )
 digit = nil
 factory = nil
 collectgarbage()
