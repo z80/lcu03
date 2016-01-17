@@ -17,7 +17,7 @@ public:
 
     ~FactoryPrx();
 
-    static Factory factory( const std::string & host = "", int port = 31415 );
+    static Factory factory( const std::string & host = "", int port = 31416 );
     Lcu03Prx * lcu03();
 
     std::string status();

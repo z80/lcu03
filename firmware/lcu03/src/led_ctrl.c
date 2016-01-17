@@ -3,7 +3,6 @@
 #include "hal.h"
 
 #include "iwdg.h"
-//#include "temp_ctrl.h"
 #include "hdw_config.h"
 
 static Mutex    mutex;
@@ -15,12 +14,21 @@ static uint32_t value = 0;
 #define LED_1_PORT   GPIOC
 #define LED_1_PIN    13
 
+IWDGConfig iwdgCfg = {
+    40000 / 256, // It is driven from LSI which is 40kHz. Divider is 256. So one second is 40k/256.
+    IWDG_DIV_256
+};
+
 
 static WORKING_AREA( waLeds, 256 );
 static msg_t ledsThread( void *arg )
 {
     (void)arg;
     chRegSetThreadName( "ld" );
+
+    iwdgInit();
+    iwdgStart( &IWDGD, &iwdgCfg );
+    iwdgReset( &IWDGD );
     while ( 1 )
     {
         static uint32_t arg;
@@ -37,8 +45,7 @@ static msg_t ledsThread( void *arg )
             	palClearPad( LED_1_PORT, LED_1_PIN );
         chMtxUnlock();
         chThdSleepMilliseconds( 500 );
-
-        //processTemp();
+        iwdgReset( &IWDGD );
     }
 
     return 0;

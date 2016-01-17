@@ -96,6 +96,7 @@ CSRC = $(PORTSRC) \
        ./src/shutter_ctrl.c \
        ./src/eeprom_ctrl.c
        
+                    
        #./src/cpal_usercallback.c \
        #./cpal_i2c/cpal_hal.c \
        #./cpal_i2c/cpal_i2c.c \
