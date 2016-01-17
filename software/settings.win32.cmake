@@ -8,3 +8,5 @@ set( ICE_INC_PATH  "${ICE_PATH}/include" )
 set( ICE_UTIL_PATH "${ICE_PATH}/include" )
 set( BOOST_PATH     "../../../gui/gui.git/3dparty/boost_1_44_0" )
 
+set( BOOST_LIBRARYDIR "C:/projects/Boost/boost-1.49.0/boost/bin.v2/libs" )
+set( BOOST_INCLUDEDIR "C:/projects/Boost/boost_1_49_0" )
