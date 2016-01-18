@@ -3,7 +3,7 @@
 
 [Setup]
 AppName=LCU03
-AppVerName=LCU03-0.0.1-alpha
+AppVerName=LCU03-1.0.0
 AppPublisher=Aist-NT
 AppPublisherURL=http://www.aist-nt.com/
 AppSupportURL=http://www.aist-nt.com/
@@ -11,7 +11,7 @@ AppUpdatesURL=http://www.aist-nt.com/
 DefaultDirName=c:\Aist\LCU03-0.0.1-alpha
 DefaultGroupName=LCU03
 AllowNoIcons=yes
-OutputBaseFilename=LCU03-0.0.1-alpha
+OutputBaseFilename=LCU03-1.0.0
 SetupIconFile=./icon.ico
 Compression=lzma
 SolidCompression=yes
@@ -29,10 +29,10 @@ Source: "..\app\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs create
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{group}\LCU03-0.0.1-alpha"; Filename: "{app}\lcu03.exe"; WorkingDir: "{app}"
+Name: "{group}\LCU03-1.0.0"; Filename: "{app}\lcu03.exe"; WorkingDir: "{app}"
 Name: "{group}\{cm:ProgramOnTheWeb,aist}"; Filename: "http://www.aist-nt.com/"
 Name: "{group}\{cm:UninstallProgram,aist}"; Filename: "{uninstallexe}"
-Name: "{commondesktop}\LCU03-0.0.1-alpha"; Filename: "{app}\lcu03.exe"; WorkingDir: "{app}"; Tasks: desktopicon
+Name: "{commondesktop}\LCU03-1.0.0"; Filename: "{app}\lcu03.exe"; WorkingDir: "{app}"; Tasks: desktopicon
 
 [Run]
 Filename: "{app}\vcredist_x86.exe"; Description: "x86 runtime envirinment install. It's necessary to install it at least once."; Check: not Is64BitInstallMode
