@@ -46,14 +46,14 @@ protected:
     void closeEvent( QCloseEvent * e );
 
 protected:
-    void refreshDevicesList();
-    void reopen();
-    bool ensureOpen();
-    int  powerToStep( qreal power );
-    int  polarizationToStep( bool vert );
+    void  refreshDevicesList();
+    void  reopen();
+    bool  ensureOpen();
+    int   powerToStep( qreal power );
+    int   polarizationToStep( bool vert );
     qreal stepToPower( int step );
-    bool stepToPloarization( int step );
-    void bindSlots();
+    bool  stepToPloarization( int step );
+    void  bindSlots();
 
     // Ice procedures.
     bool setShutterIce( bool open );
@@ -62,6 +62,28 @@ protected:
     bool powerIce( double & power );
     bool setPolHorIce( bool hor );
     bool polHorIce( bool & hor );
+    // Ice slots.
+private slots:
+    void slotSetShutterIce();
+    void slotShutterIce();
+    void slotSetPowerIce();
+    void slotPowerIce();
+    void setPolHorIce();
+    void slotPolHorIce();
+    // Ice signals.
+signals:
+    void sigSetShutterIce();
+    void sigShutterIce();
+    void sigSetPowerIce();
+    void sigPowerIce();
+    void sigSetPolHorIce();
+    void sigPolHorIce();
+public:
+    // Ice arguments.
+    QQueue<QVariant> iceArgs;
+    QMutex           iceMutex;
+    QSemaphore       iceSemaphore;
+
 
     void listen();
     void setTrayToolTip( const QString & stri );

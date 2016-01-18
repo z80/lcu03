@@ -453,70 +453,222 @@ void MainWnd::bindSlots()
     // Polarization controls.
     connect( ui.vert, SIGNAL(clicked()), this, SLOT(slotPolarization()) );
     connect( ui.hor,  SIGNAL(clicked()), this, SLOT(slotPolarization()) );
+
+    // Ice slots.
+    connect( this, SIGNAL(sigSetShutterIce()), this, SLOT(slotSetShutterIce()) );
+    connect( this, SIGNAL(sigShutterIce()),    this, SLOT(slotShutterIce()) );
+    connect( this, SIGNAL(sigSetPowerIce()),   this, SLOT(slotSetPowerIce()) );
+    connect( this, SIGNAL(sigPowerIce()),      this, SLOT(slotPowerIce()) );
+    connect( this, SIGNAL(sigSetPolHorIce()),  this, SLOT(slotSetPolHorIce()) );
+    connect( this, SIGNAL(sigPolHorIce()),     this, SLOT(slotPolHorIce()) );
 }
 
 bool MainWnd::setShutterIce( bool open )
 {
-    int sh = ( open ) ? shutterOpened : shutterClosed;
+    QMutexLocker lock( &iceMutex );
 
-    bool res = ensureOpen();
-    if ( !res )
-        return false;
-    res = io->setShutter( sh );
-    if ( !res )
-        return false;
+    iceSemaphore.acquire();
 
-    ui.shutterOpen->setChecked( open );
-    return true;
+    iceArgs.clear();
+    iceArgs.enqueue( open );
+    emit sigSetShutterIce();
+
+    iceSemaphore.acquire();
+    iceSemaphore.release();
+
+    bool res = iceArgs.dequeue().toBool();
+    return res;
 }
 
 bool MainWnd::shutterIce( bool & open )
 {
-    open = ui.shutterOpen->isChecked();
-    return true;
+    QMutexLocker lock( &iceMutex );
+
+    iceSemaphore.acquire();
+
+    emit sigShutterIce();
+
+    iceSemaphore.acquire();
+    iceSemaphore.release();
+
+    open = iceArgs.dequeue().toBool();
+    bool res = iceArgs.dequeue().toBool();
+    return res;
 }
 
 bool MainWnd::setPowerIce( double power )
 {
-    int step = powerToStep( power );
-    bool res = ensureOpen();
-    if ( !res )
-        return false;
-    res = io->moveMotor( 0, step );
-    if ( !res )
-        return false;
+    QMutexLocker lock( &iceMutex );
 
-    ui.power->setValue( power );
-    return true;
+    iceSemaphore.acquire();
+
+    iceArgs.clear();
+    iceArgs.enqueue( power );
+
+    emit sigSetShutterIce();
+
+    iceSemaphore.acquire();
+    iceSemaphore.release();
+
+    bool res = iceArgs.dequeue().toBool();
+    return res;
 }
 
 bool MainWnd::powerIce( double & power )
 {
-    power = ui.power->value();
-    return true;
+    QMutexLocker lock( &iceMutex );
+
+    iceSemaphore.acquire();
+
+    emit sigPowerIce();
+
+    iceSemaphore.acquire();
+    iceSemaphore.release();
+
+    power = iceArgs.dequeue().toDouble();
+    bool res = iceArgs.dequeue().toBool();
+    return res;
 }
 
 bool MainWnd::setPolHorIce( bool hor )
 {
+    QMutexLocker lock( &iceMutex );
+
+    iceSemaphore.acquire();
+
+    iceArgs.clear();
+    iceArgs.enqueue( hor );
+
+    emit sigSetPolHorIce();
+
+    iceSemaphore.acquire();
+    iceSemaphore.release();
+
+    bool res = iceArgs.dequeue().toBool();
+    return res;
+}
+
+bool MainWnd::polHorIce( bool & hor )
+{
+    QMutexLocker lock( &iceMutex );
+
+    iceSemaphore.acquire();
+
+    emit sigPolHorIce();
+
+    iceSemaphore.acquire();
+    iceSemaphore.release();
+
+    hor = iceArgs.dequeue().toDouble();
+    bool res = iceArgs.dequeue().toBool();
+    return res;
+}
+
+void MainWnd::slotSetShutterIce()
+{
+    bool open = iceArgs.dequeue().toBool();
+
+    int sh = ( open ) ? shutterOpened : shutterClosed;
+
+    bool res = ensureOpen();
+    if ( !res )
+    {
+        iceArgs.enqueue( false );
+        iceSemaphore.release();
+        return;
+    }
+    res = io->setShutter( sh );
+    if ( !res )
+    {
+        iceArgs.enqueue( false );
+        iceSemaphore.release();
+        return;
+    }
+
+    ui.shutterOpen->setChecked( open );
+
+    iceArgs.enqueue( true );
+    iceSemaphore.release();
+ }
+
+void MainWnd::slotShutterIce()
+{
+    bool open = ui.shutterOpen->isChecked();
+    iceArgs.enqueue( open );
+    iceArgs.enqueue( true );
+    iceSemaphore.release();
+}
+
+void MainWnd::slotSetPowerIce()
+{
+    qreal power = iceArgs.dequeue().toDouble();
+
+    int step = powerToStep( power );
+    bool res = ensureOpen();
+    if ( !res )
+    {
+        iceArgs.enqueue( false );
+        iceSemaphore.release();
+        return;
+    }
+    res = io->moveMotor( 0, step );
+    if ( !res )
+    {
+        iceArgs.enqueue( false );
+        iceSemaphore.release();
+        return;
+    }
+
+    ui.power->setValue( power );
+    iceArgs.enqueue( true );
+
+    iceSemaphore.release();
+}
+
+void MainWnd::slotPowerIce()
+{
+    qreal power = ui.power->value();
+    iceArgs.enqueue( power );
+    iceArgs.enqueue( true );
+    
+    iceSemaphore.release();
+}
+
+void MainWnd::setPolHorIce()
+{
+    bool hor = iceArgs.dequeue().toBool();
+
     int step;
     step = polarizationToStep( hor );
     
     bool res = ensureOpen();
     if ( !res )
-        return false;
+    {
+        iceArgs.enqueue( false );
+        iceSemaphore.release();
+        return;
+    }
     res = io->moveMotor( 1, step );
     if ( !res )
-        return false;
+    {
+        iceArgs.enqueue( false );
+        iceSemaphore.release();
+        return;
+    }
 
     ui.hor->setChecked( hor );
-    return true;
+
+    iceArgs.enqueue( true );
+    iceSemaphore.release();
 }
 
-bool MainWnd::polHorIce( bool & hor )
+void MainWnd::slotPolHorIce()
 {
-    hor = ui.hor->isChecked();
-    return true;
+    bool hor = ui.hor->isChecked();
+    iceArgs.enqueue( hor );
+    iceArgs.enqueue( true );
 }
+
 
 
 void MainWnd::listen()
