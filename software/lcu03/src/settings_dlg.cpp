@@ -17,10 +17,17 @@ SettingsDlg::SettingsDlg( MainWnd * mainWnd )
     ui.shutterClosed->setChecked( !mainWnd->shutter );
 
     updateLabels();
+
+    m_save = false;
 }
 
 SettingsDlg::~SettingsDlg()
 {
+}
+
+bool SettingsDlg::save() const
+{
+    return m_save;
 }
 
 void SettingsDlg::slotMotorSelected()
@@ -270,6 +277,23 @@ void SettingsDlg::slotLess()
     ui.pos->setValue( pos );
 }
 
+void SettingsDlg::slotOk()
+{
+    m_save = true;
+    accept();
+}
+
+void SettingsDlg::slotOkNo()
+{
+    m_save = false;
+    accept();
+}
+
+void SettingsDlg::slotCancel()
+{
+    reject();
+}
+
 void SettingsDlg::closeEvent( QCloseEvent * e )
 {
     //e->ignore();
@@ -319,6 +343,10 @@ void SettingsDlg::bindSlots()
 
     connect( ui.more,  SIGNAL(clicked()), this, SLOT(slotMore()) );
     connect( ui.less,  SIGNAL(clicked()), this, SLOT(slotLess()) );
+
+    connect( ui.ok,     SIGNAL(clicked()), this, SLOT(slotOk()) );
+    connect( ui.ok_no,  SIGNAL(clicked()), this, SLOT(slotOkNo()) );
+    connect( ui.cancel, SIGNAL(clicked()), this, SLOT(slotCancel()) );
 }
 
 void SettingsDlg::updateLabels()

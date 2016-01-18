@@ -52,7 +52,14 @@ void MainWnd::loadSettings( bool hdw )
     shutter       = s.value( "shutter", false ).toBool();
     ui.shutterOpen->setChecked( shutter );
 
+    qreal   vmin   = s.value( "laserMin",   0.04 ).toDouble();
+    qreal   vmax   = s.value( "laserMax",   100.0 ).toDouble();
+    QString vunits = s.value( "laserUnits", "%" ).toString();
     
+    ui.power->setMinimum( vmin );
+    ui.power->setMaximum( vmax );
+    ui.powerUnits->setText( vunits );
+
     if ( hdw )
     {
         bool res = ensureOpen();
@@ -123,6 +130,10 @@ void MainWnd::saveSettings( bool hdw )
     s.setValue( "shutterOpened", shutterOpened );
     s.setValue( "shutterClosed", shutterClosed );
     s.setValue( "shutter",       shutter );
+
+    s.setValue( "laserMin",   ui.power->minimum() );
+    s.setValue( "laserMax",   ui.power->maximum() );
+    s.setValue( "laserUnits", ui.powerUnits->text() );
 
     if ( hdw )
     {
@@ -232,7 +243,12 @@ void MainWnd::slotSetup()
     SettingsDlg sd( this );
     int res = sd.exec();
     if ( res == QDialog::Accepted )
-        saveSettings( true );
+    {
+        if ( sd.save() )
+            saveSettings( true );
+    }
+    else
+        loadSettings( true );
 }
 
 void MainWnd::slotRemoteSetup()
@@ -261,17 +277,22 @@ void MainWnd::slotRemoteSetup()
 void MainWnd::slotAbout()
 {
     QString fmwVer;
+    quint16 sn;
     if ( io->isOpen() )
     {
         bool res = io->firmware_version( fmwVer );
         if ( !res )
-        {
             fmwVer = "undefined";
-        }
+        res = io->serialNumber( sn );
+        if ( !res )
+            sn = 0xFFFF;
     }
     else
+    {
         fmwVer = "undefined";
-    QString stri = QString( "LCU03 control software version: \"<b>%1</b>\". Firmware version: \"<b>%2</b>\"." ).arg( SOFTWARE_VERSION ).arg( fmwVer );
+        sn = 0xFFFF;
+    }
+    QString stri = QString( "LCU03 control software version: \"<b>%1</b>\".\n Firmware version: \"<b>%2</b>\".\n Serial number: \"<b>%3</b>\"." ).arg( SOFTWARE_VERSION ).arg( fmwVer ).arg( sn );
     QMessageBox::about( this, "About", stri );
 }
 
@@ -398,7 +419,12 @@ int MainWnd::powerToStep( qreal power )
     qreal vmax = ui.power->maximum();
     qreal stepMin = static_cast<qreal>( filterMin );
     qreal stepMax = static_cast<qreal>( filterMax );
-    qreal step = stepMin + (stepMax - stepMin) * (power - vmin)/(vmax - vmin);
+
+    qreal a = vmin;
+    qreal b = log( vmax/vmin )/( stepMax - stepMin );
+    qreal step = stepMin + log( power/vmin )/b;
+
+    //qreal step = stepMin + (stepMax - stepMin) * (power - vmin)/(vmax - vmin);
     int   istep =static_cast<int>( step );
     return istep;
 }
@@ -419,8 +445,14 @@ qreal MainWnd::stepToPower( int step )
     qreal vmax = ui.power->maximum();
     qreal stepMin = static_cast<qreal>( filterMin );
     qreal stepMax = static_cast<qreal>( filterMax );
+
+    qreal a = vmin;
+    qreal b = log( vmax/vmin )/( stepMax - stepMin );
+
     qreal fstep = static_cast<qreal>( step );
-    qreal power = vmin + (vmax - vmin)/(stepMax - stepMin) * (fstep - stepMin);
+    qreal power = a*exp( b*(fstep - stepMin) );
+
+    //qreal power = vmin + (vmax - vmin)/(stepMax - stepMin) * (fstep - stepMin);
     return power;
 }
 

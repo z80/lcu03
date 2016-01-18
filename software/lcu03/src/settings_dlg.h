@@ -14,6 +14,8 @@ public:
     SettingsDlg( MainWnd * parent );
     ~SettingsDlg();
 
+    bool save() const;
+
 public slots:
     void slotMotorSelected();
     void slotPositionChanged();
@@ -26,6 +28,10 @@ public slots:
     void slotFirmwareUpgrade();
     void slotMore();
     void slotLess();
+
+    void slotOk();
+    void slotOkNo();
+    void slotCancel();
 protected:
     void closeEvent( QCloseEvent * e );
 private:
@@ -35,6 +41,7 @@ private:
 
     Ui_SettingsDlg ui;
     MainWnd * mainWnd;
+    bool m_save;
 };
 
 

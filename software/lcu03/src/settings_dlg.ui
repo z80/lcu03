@@ -536,7 +536,14 @@
      <item>
       <widget class="QPushButton" name="ok">
        <property name="text">
-        <string>Ok</string>
+        <string>Ok (save)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ok_no">
+       <property name="text">
+        <string>Ok (don't save)</string>
        </property>
       </widget>
      </item>
@@ -554,40 +561,7 @@
  <resources>
   <include location="images.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>ok</sender>
-   <signal>clicked()</signal>
-   <receiver>SettingsDlg</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>211</x>
-     <y>298</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>169</x>
-     <y>159</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>cancel</sender>
-   <signal>clicked()</signal>
-   <receiver>SettingsDlg</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>292</x>
-     <y>298</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>169</x>
-     <y>159</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
  <buttongroups>
   <buttongroup name="buttonGroup_2"/>
  </buttongroups>
