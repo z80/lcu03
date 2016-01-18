@@ -202,7 +202,7 @@
        <item>
         <widget class="QStackedWidget" name="pager">
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="power">
           <layout class="QVBoxLayout" name="verticalLayout">
@@ -219,16 +219,16 @@
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout">
              <item>
-              <widget class="QPushButton" name="saveMaxPwr">
+              <widget class="QPushButton" name="saveMinPwr">
                <property name="text">
-                <string>Set max power</string>
+                <string>Set min power</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="saveMinPwr">
+              <widget class="QPushButton" name="saveMaxPwr">
                <property name="text">
-                <string>Set min power</string>
+                <string>Set max power</string>
                </property>
               </widget>
              </item>
@@ -250,9 +250,9 @@
               </spacer>
              </item>
              <item>
-              <widget class="QLabel" name="maxPowerLbl">
+              <widget class="QLabel" name="minPowerLbl">
                <property name="text">
-                <string>Max power</string>
+                <string>Min power</string>
                </property>
               </widget>
              </item>
@@ -270,9 +270,9 @@
               </spacer>
              </item>
              <item>
-              <widget class="QLabel" name="minPowerLbl">
+              <widget class="QLabel" name="maxPowerLbl">
                <property name="text">
-                <string>Min power</string>
+                <string>Max power</string>
                </property>
               </widget>
              </item>
