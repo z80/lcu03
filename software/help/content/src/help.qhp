@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<QtHelpProject version="1.0">
+    <virtualFolder>help</virtualFolder>
+    <namespace>Aist-NT.com.1-0-0</namespace>
+    <filterSection>
+        <keywords>
+            <keyword name="plants" id="plants" ref="plants.html"/>
+            <keyword name="temperature" id="temperature" ref="temperature.html"/>
+            <keyword name="rain" id="rain" ref="rain.html"/>
+            <keyword name="time" id="time" ref="time.html"/>
+            <keyword name="amount" id="amount" ref="amount.html"/>
+            <keyword name="source" id="source" ref="source.html"/>
+            <keyword name="filtering" id="filtering" ref="filter.html"/>
+        </keywords>
+        <files>
+            <file>html/plants.html</file>
+            <file>html/temperature.html</file>
+            <file>html/rain.html</file>
+            <file>html/time.html</file>
+            <file>html/amount.html</file>
+            <file>html/source.html</file>
+            <file>html/filter.html</file>
+        </files>
+    </filterSection>
+</QtHelpProject>
