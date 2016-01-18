@@ -11,24 +11,21 @@ int main( int argc, char * argv[] )
 {
     QApplication app( argc, argv );
 
-    if ( argc < 2 )
-    {
-        std::cout << "Usage: [<COM PORT>] <SN> [<OVERWRITE>]" << std::endl;
-        return 0;
-    }
-
-    int portIndex;
-    if ( argc < 3 )
-        portIndex = 4;
-    else
-        portIndex = QString( argv[1] ).toInt();
     VoltampIo io;
     bool res;
     QStringList l = io.enumDevices();
-    //qDebug() << l;
+    qDebug() << l;
+
+    int portIndex;
+    std::cout << "Serial port index: ";
+    std::cin >> portIndex;
+
     res = io.open( portIndex );
     if ( !res )
+    {
+        std::cout << "Failed to open port!\n";
         return -1;
+    }
 
     std::cout << std::endl;
     std::cout << std::endl;
@@ -39,20 +36,17 @@ int main( int argc, char * argv[] )
     res = io.serialNumber( sn );
     qDebug() << QString( "Read serial number: %1" ).arg( sn );
 
-    sn = (argc < 3) ? QString( argv[1] ).toInt() : QString( argv[2] ).toInt();
+    int newSerial;
+    std::string choise;
+    std::cout << "New serial number (<=0 to do nothing): ";
+    std::cin >> newSerial;
 
-    bool overwrite = ( argc <= 3 ) ? false : ( QString( argv[3] ).toInt() > 0 );
+    bool overwrite = ( newSerial > 0 );
+    if ( !overwrite )
+        return 0;
+    sn = static_cast<quint16>( newSerial );
 
-    if ( overwrite )
-    {
-        std::string choise;
-        std::cout << "Really overwrite serial number? (yes/no): ";
-        std::cin >> choise;
-        if ( choise != "yes" )
-            overwrite = false;
-    }
-
-    res = io.setSerialNumber( sn, overwrite );
+    res = io.setSerialNumber( sn, true );
     qDebug() << ( ( res ) ? "Write ok" : "Error" );
 
     res = io.serialNumber( sn );
