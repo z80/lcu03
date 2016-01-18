@@ -319,6 +319,8 @@ void SettingsDlg::bindSlots()
 
     ui.ok->setDefault( false );
     ui.ok->setAutoDefault( false );
+    ui.ok_no->setDefault( false );
+    ui.ok_no->setAutoDefault( false );
     ui.cancel->setDefault( false );
     ui.cancel->setAutoDefault( false );
 
