@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <QtHelpProject version="1.0">
     <virtualFolder>help</virtualFolder>
-    <namespace>Aist-NT.com.1-0-0</namespace>
+    <namespace>lcu03.aist-nt.com.1-0-0</namespace>
     <filterSection>
         <keywords>
-            <keyword name="plants" id="plants" ref="plants.html"/>
+            <keyword name="Main window" id="main_wnd" ref="html/main_wnd.html"/>
+            <keyword name="plants" id="plants" ref="html/main_wnd.html"/>
             <keyword name="temperature" id="temperature" ref="temperature.html"/>
             <keyword name="rain" id="rain" ref="rain.html"/>
             <keyword name="time" id="time" ref="time.html"/>
@@ -13,6 +14,10 @@
             <keyword name="filtering" id="filtering" ref="filter.html"/>
         </keywords>
         <files>
+            <file>html/bs/bootstrap.min.css</file>
+            <file>html/bs/bootstrap.min.js</file>
+            <file>html/bs/jquery-2.1.4.min.js</file>
+            <file>html/main_wnd.html</file>
             <file>html/plants.html</file>
             <file>html/temperature.html</file>
             <file>html/rain.html</file>
