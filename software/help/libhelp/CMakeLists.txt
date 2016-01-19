@@ -5,6 +5,7 @@ FIND_PACKAGE(Qt5Widgets)
 FIND_PACKAGE(Qt5Core)
 FIND_PACKAGE(Qt5Network)
 FIND_PACKAGE(Qt5Help)
+find_package(Qt5PrintSupport REQUIRED)
 SET(CMAKE_AUTOMOC ON)
 
 include_directories( "./src" )
@@ -28,6 +29,6 @@ set( src ${src} ${qrc_src} )
 
 
 include_directories( ${CMAKE_CURRENT_BINARY_DIR} )
-add_library( libhelp STATIC ${help_src} )
-qt5_use_modules( libhelp Widgets Core Network Help )
+add_library( libhelp STATIC ${src} )
+qt5_use_modules( libhelp Widgets Core Network Help PrintSupport )
 

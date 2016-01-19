@@ -1,11 +1,11 @@
 
 #include "main_wnd.h"
 
-#include "main_wnd.h"
 #include <QFileDialog>
 #include "setup_dlg.h"
 #include "settings_dlg.h"
 #include "host_tray.h"
+#include "help_main_wnd.h"
 
 #include "qwt_text_label.h"
 
@@ -19,7 +19,8 @@ const QString MainWnd::SETTINGS_INI = "./settings.ini";
 
 MainWnd::MainWnd( HostTray * parent )
     : QMainWindow( 0 ), 
-      m_hostTray( parent )
+      m_hostTray( parent ), 
+      m_helpBrowser( 0 )
 {
     ui.setupUi( this );
 
@@ -274,6 +275,13 @@ void MainWnd::slotRemoteSetup()
     }    
 }
 
+void MainWnd::slotHelp()
+{
+    if ( !m_helpBrowser )
+        m_helpBrowser = new HelpMainWnd( "./help.qhc" );
+    m_helpBrowser->show();
+}
+
 void MainWnd::slotAbout()
 {
     QString fmwVer;
@@ -472,6 +480,7 @@ void MainWnd::bindSlots()
     connect( ui.actionRemote_control_setup, SIGNAL(triggered()), this, SLOT(slotRemoteSetup()) );
 
     // Help section.
+    connect( ui.actionHelp,     SIGNAL(triggered()), this, SLOT(slotHelp()) );
     connect( ui.actionAbout,    SIGNAL(triggered()), this, SLOT(slotAbout()) );
     connect( ui.actionFirmware_upgrade, SIGNAL(triggered()), this, SLOT(slotFirmwareUpdate()) );
 

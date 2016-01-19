@@ -15,6 +15,7 @@
 class HostTray;
 class SettingsDlg;
 class Lcu03Ice;
+class HelpMainWnd;
 
 class MainWnd: public QMainWindow
 {
@@ -39,6 +40,7 @@ public slots:
     void slotSetup();
     void slotRemoteSetup();
     // Help slots.
+    void slotHelp();
     void slotAbout();
     void slotFirmwareUpdate();
 
@@ -119,6 +121,8 @@ public:
 
 
     Ui_MainWnd ui;
+
+    HelpMainWnd * m_helpBrowser;
     
     static const QString SETTINGS_INI;
 

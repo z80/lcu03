@@ -15,6 +15,7 @@
 
 include_directories( "./src"
                      ${ROOT}/libio/src
+                     ${ROOT}/help/libhelp/src
                      ${ROOT}/3dparty/qwt-6.1.2/src
                      ${CMAKE_CURRENT_BINARY_DIR}
                      ${CMAKE_BINARY_DIR} # This one is for "version.h"
@@ -76,7 +77,7 @@ set( libs debug ${iced}
 
 add_executable( lcu03 ${BLD_TYPE} ${src} )
 qt5_use_modules( lcu03 Widgets Core Network )
-set( libs ${libs} libio qwt-6.1.2 ${QT_LIBRARIES} )
+set( libs ${libs} libio libhelp ${QT_LIBRARIES} )
 if ( WIN32 )
     set( libs ${libs} Qt5::WinMain )
 endif ( WIN32 )

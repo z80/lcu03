@@ -1,2 +1,2 @@
 #add_subdirectory( "./content" )
-#add_subdirectory( "./libhelp" )
+add_subdirectory( "./libhelp" )
