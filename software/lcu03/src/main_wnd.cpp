@@ -157,7 +157,7 @@ void MainWnd::saveSettings( bool hdw )
 
 void MainWnd::slotQuit()
 {
-    saveSettings( true );
+    saveSettings( false );
 }
 
 void MainWnd::slotShutter()
@@ -233,6 +233,8 @@ void MainWnd::slotDevice()
     deviceIndex = index;
     // Save only device index. And non't touch hardware settings.
     saveSettings( false );
+    // Read just saved device index n all hardware settings from EEPROM.
+    loadSettings( true );
 }
 
 void MainWnd::slotReopen()

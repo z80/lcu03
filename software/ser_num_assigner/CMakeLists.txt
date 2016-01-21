@@ -19,7 +19,7 @@ aux_source_directory( "./src" src )
 add_executable( set_num_assigner ${src} )
 qt5_use_modules( set_num_assigner Widgets Core )
 target_link_libraries( set_num_assigner libio ${QT_LIBRARIES} )
-install( TARGETS set_num_assigner DESTINATION ./ )
+#install( TARGETS set_num_assigner DESTINATION ./ )
 
 
 

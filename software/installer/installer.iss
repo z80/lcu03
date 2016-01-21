@@ -26,6 +26,8 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "..\app\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\driver\*"; DestDir: "{app}/driver"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\driver-default\*"; DestDir: "{app}/driver-default"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

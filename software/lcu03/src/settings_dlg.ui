@@ -496,6 +496,9 @@
            <height>64</height>
           </size>
          </property>
+         <property name="toolTip">
+          <string>Firmware upgrade</string>
+         </property>
          <property name="statusTip">
           <string>Firmware upgrade</string>
          </property>

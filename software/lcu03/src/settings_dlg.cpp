@@ -111,13 +111,13 @@ void SettingsDlg::slotShutter()
 
 void SettingsDlg::slotFindMotorPos()
 {
-    int btn = QMessageBox::question( this, "Shutter state", 
-                                           "This procedure will make all " 
-                                           "drivers movement. Please, make "
-                                           "sure laser is off or shutter is "
-                                           "closed before proceeding! Proceed?", QMessageBox::Ok, QMessageBox::Cancel );
-    if ( btn != QMessageBox::Ok )
-        return;
+    //int btn = QMessageBox::question( this, "Shutter state", 
+    //                                       "This procedure will make all " 
+    //                                       "drivers movement. Please, make "
+    //                                       "sure laser is off or shutter is "
+    //                                       "closed before proceeding! Proceed?", QMessageBox::Ok, QMessageBox::Cancel );
+    //if ( btn != QMessageBox::Ok )
+    //    return;
 
     bool res = mainWnd->ensureOpen();
     if ( !res )
