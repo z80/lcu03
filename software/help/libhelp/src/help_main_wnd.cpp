@@ -40,7 +40,7 @@ HelpMainWnd::HelpMainWnd( const QString & fileName )
     connect( m_helpEngine->contentWidget(), SIGNAL( linkActivated(const QUrl &) ),
              ui->helpBrowser, SLOT(setSource(const QUrl &)));
 
-    ui->helpBrowser->setSource( QUrl( "lcu03.aist-nt.com.1-0-0/doc/html/main_wnd.html" ) );
+    ui->helpBrowser->setSource( QUrl( "qthelp://lcu03.aist-nt.com.1-0-0/doc/html/main_wnd.html" ) );
 
     connect( m_helpEngine->contentWidget(),
              SIGNAL(linkActivated(QUrl)),
