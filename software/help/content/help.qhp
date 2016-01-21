@@ -3,9 +3,14 @@
     <virtualFolder>help</virtualFolder>
     <namespace>lcu03.aist-nt.com.1-0-0</namespace>
     <filterSection>
+        <toc>
+            <section title="Main window" ref="./html/main_wnd.html"></section>
+            <section title="Setup dialog" ref="./html/main_wnd.html"></section>
+            <section title="Remote access dialog" ref="./html/main_wnd.html"></section>
+        </toc>
         <keywords>
-            <keyword name="Main window" id="main_wnd" ref="html/main_wnd.html"/>
-            <keyword name="plants" id="plants" ref="html/main_wnd.html"/>
+            <keyword name="Main window" id="main_wnd" ref="./html/main_wnd.html"/>
+            <keyword name="plants" id="plants" ref="./html/main_wnd.html"/>
             <keyword name="temperature" id="temperature" ref="temperature.html"/>
             <keyword name="rain" id="rain" ref="rain.html"/>
             <keyword name="time" id="time" ref="time.html"/>
@@ -14,10 +19,8 @@
             <keyword name="filtering" id="filtering" ref="filter.html"/>
         </keywords>
         <files>
-            <file>html/bs/bootstrap.min.css</file>
-            <file>html/bs/bootstrap.min.js</file>
-            <file>html/bs/jquery-2.1.4.min.js</file>
             <file>html/main_wnd.html</file>
+            
             <file>html/plants.html</file>
             <file>html/temperature.html</file>
             <file>html/rain.html</file>
@@ -25,6 +28,15 @@
             <file>html/amount.html</file>
             <file>html/source.html</file>
             <file>html/filter.html</file>
+            
+            <file>html/bootstrap.min.css</file>
+            <file>html/bootstrap.min.js</file>
+            <file>html/jquery-2.1.4.min.js</file>
+            <file>html/glyphicons-halflings-regular.eot</file>
+            <file>html/glyphicons-halflings-regular.svg</file>
+            <file>html/glyphicons-halflings-regular.ttf</file>
+            <file>html/glyphicons-halflings-regular.woff</file>
+            <file>html/glyphicons-halflings-regular.woff2</file>
         </files>
     </filterSection>
 </QtHelpProject>
