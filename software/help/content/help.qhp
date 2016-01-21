@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <QtHelpProject version="1.0">
-    <virtualFolder>help</virtualFolder>
+    <virtualFolder>doc</virtualFolder>
     <namespace>lcu03.aist-nt.com.1-0-0</namespace>
     <filterSection>
         <toc>
@@ -28,6 +28,9 @@
             <file>html/glyphicons-halflings-regular.ttf</file>
             <file>html/glyphicons-halflings-regular.woff</file>
             <file>html/glyphicons-halflings-regular.woff2</file>
+
+            <file>html/*.png</file>
+
         </files>
     </filterSection>
 </QtHelpProject>

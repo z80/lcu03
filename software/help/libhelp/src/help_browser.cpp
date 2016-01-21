@@ -1,6 +1,7 @@
 
 #include "help_browser.h"
 #include <QHelpEngineCore>
+#include <QDebug>
 
 HelpBrowser::HelpBrowser( QWidget * parent )
     : QTextBrowser( parent )
@@ -20,11 +21,14 @@ void HelpBrowser::setHelpEngine( QHelpEngineCore * engine )
 QVariant HelpBrowser::loadResource( int type,
                                      const QUrl & url )
 {
-    if ( url.scheme() == "qthelp" )
+    qDebug() << type << ", " << url;
+    if (url.scheme() == "qthelp")
     {
-        Q_ASSERT( m_core != 0 );
-        return QVariant( m_core->fileData( url ) );
+        QByteArray ba = m_core->fileData(url);
+        qDebug() << "file size: " << ba.size();
+
+        return QVariant( ba );
     }
     else
-        return QTextBrowser::loadResource( type, url );
+        return QTextBrowser::loadResource(type, url);
 }

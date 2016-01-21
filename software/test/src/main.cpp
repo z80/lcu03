@@ -12,7 +12,7 @@ int main( int argc, char * argv[] )
 {
     QApplication app( argc, argv );
 
-    HelpMainWnd * hmw = new HelpMainWnd( "./help/help.qhc" );
+    HelpMainWnd * hmw = new HelpMainWnd( "./help.qhc" );
     hmw->show();
 
     int res = app.exec();

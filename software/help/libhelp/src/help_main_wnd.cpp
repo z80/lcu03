@@ -40,12 +40,8 @@ HelpMainWnd::HelpMainWnd( const QString & fileName )
     connect( m_helpEngine->contentWidget(), SIGNAL( linkActivated(const QUrl &) ),
              ui->helpBrowser, SLOT(setSource(const QUrl &)));
 
-    //m_helpEngine->contentWidget()->reset();
+    ui->helpBrowser->setSource( QUrl( "lcu03.aist-nt.com.1-0-0/doc/html/main_wnd.html" ) );
 
-    m_helpEngine->fileData( QUrl( "lcu03.aist-nt.com.1-0-0/html/main_wnd.html" ) );
-    //ui->helpBrowser->setSource(
-    //               QUrl("qthelp://walletfox.qt.helpexample/doc/index.html"));
-    ui->helpBrowser->setSource( QUrl( "lcu03.aist-nt.com.1-0-0/html/main_wnd.html" ) );
     connect( m_helpEngine->contentWidget(),
              SIGNAL(linkActivated(QUrl)),
              ui->helpBrowser, SLOT(setSource(QUrl)) );
