@@ -31,4 +31,3 @@ set( src ${src} ${qrc_src} )
 include_directories( ${CMAKE_CURRENT_BINARY_DIR} )
 add_library( libhelp STATIC ${src} )
 qt5_use_modules( libhelp Widgets Core Network Help PrintSupport )
-

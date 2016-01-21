@@ -15,6 +15,7 @@ public:
 protected slots:
     void print();
     void about();
+    void setupFinished();
     void indexingStarted();
     void indexingFinished();
 private:

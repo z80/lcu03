@@ -10,8 +10,8 @@ public:
 
     void setHelpEngine( QHelpEngineCore * engine );
 
-    QVariant HelpBrowser::loadResource( int type,
-                                         const QUrl & url );
+    QVariant loadResource( int type,
+                           const QUrl & url );
 private:
     QHelpEngineCore * m_core;
 };

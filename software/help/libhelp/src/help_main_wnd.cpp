@@ -12,30 +12,56 @@ HelpMainWnd::HelpMainWnd( const QString & fileName )
 {
     ui = new Ui_MainWindow();
     ui->setupUi( this );
-    ui->splitter->setStretchFactor( 0, 1 );
-    ui->splitter->setStretchFactor( 1, 4 );
+    //ui->splitter->setStretchFactor( 0, 1 );
+    //ui->splitter->setStretchFactor( 1, 4 );
     
-    m_helpEngine   = new QHelpEngine( fileName );
+    QFileInfo fileInfo( fileName );
+    QString absFile = fileInfo.absoluteFilePath();
+
+    qDebug() << fileName;
+    qDebug() << absFile;
+
+    m_helpEngine   = new QHelpEngine( absFile );
+    m_helpEngine->contentWidget()->setModel( m_helpEngine->contentModel() );
+    m_helpEngine->indexWidget()->setModel( m_helpEngine->indexModel() );
+    connect( m_helpEngine, SIGNAL(setupFinished()), this, SLOT(setupFinished()) );
+    bool res = m_helpEngine->setupData();
+    qDebug() << "res = " << (res ? "true" : "false");
+
     ui->helpBrowser->setHelpEngine( m_helpEngine );
     m_searchEngine = m_helpEngine->searchEngine();
     connect( m_searchEngine, SIGNAL( indexingStarted() ),  this, SLOT(indexingStarted()) );
     connect( m_searchEngine, SIGNAL( indexingFinished() ), this, SLOT(indexingFinished()) );
-    bool res = m_helpEngine->setupData();
 
-    ui->contentsLt->addWidget( m_helpEngine->contentWidget() );
+
+    ui->tabWidget->addTab( m_helpEngine->contentWidget(), "Content" );
+    ui->tabWidget->addTab( m_helpEngine->indexWidget(), "Index" );
 
     connect( m_helpEngine->contentWidget(), SIGNAL( linkActivated(const QUrl &) ),
              ui->helpBrowser, SLOT(setSource(const QUrl &)));
 
-    m_helpEngine->contentWidget()->reset();
+    //m_helpEngine->contentWidget()->reset();
 
-    // Связи действий со слотами.
+    m_helpEngine->fileData( QUrl( "lcu03.aist-nt.com.1-0-0/html/main_wnd.html" ) );
+    //ui->helpBrowser->setSource(
+    //               QUrl("qthelp://walletfox.qt.helpexample/doc/index.html"));
+    ui->helpBrowser->setSource( QUrl( "lcu03.aist-nt.com.1-0-0/html/main_wnd.html" ) );
+    connect( m_helpEngine->contentWidget(),
+             SIGNAL(linkActivated(QUrl)),
+             ui->helpBrowser, SLOT(setSource(QUrl)) );
+
+    connect( m_helpEngine->indexWidget(),
+             SIGNAL(linkActivated(QUrl, QString)),
+             ui->helpBrowser, SLOT(setSource(QUrl)) );
+
+    // Actions.
     connect( ui->actionQuit,     SIGNAL( triggered() ), this,            SLOT( close() ) );
     connect( ui->actionPrint,    SIGNAL( triggered() ), this,            SLOT( print() ) );
     connect( ui->actionNext,     SIGNAL( triggered() ), ui->helpBrowser, SLOT( forward() ) );
     connect( ui->actionPrevious, SIGNAL( triggered() ), ui->helpBrowser, SLOT( backward() ) );
     connect( ui->actionHome,     SIGNAL( triggered() ), ui->helpBrowser, SLOT( home() ) );
     connect( ui->actionAbout,    SIGNAL( triggered() ), this,            SLOT( about() ) );
+
 }
 
 HelpMainWnd::~HelpMainWnd()
@@ -63,6 +89,11 @@ void HelpMainWnd::about()
     QMessageBox box;
     box.setText( "Lcu03 help window." );
     box.exec();
+}
+
+void HelpMainWnd::setupFinished()
+{
+
 }
 
 void HelpMainWnd::indexingStarted()

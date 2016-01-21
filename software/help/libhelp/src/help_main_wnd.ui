@@ -34,7 +34,7 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>-1</number>
        </property>
        <property name="usesScrollButtons">
         <bool>true</bool>
@@ -48,19 +48,6 @@
        <property name="movable">
         <bool>false</bool>
        </property>
-       <widget class="QWidget" name="tabContents">
-        <property name="accessibleName">
-         <string/>
-        </property>
-        <attribute name="title">
-         <string>Contents</string>
-        </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
-         <item>
-          <layout class="QVBoxLayout" name="contentsLt"/>
-         </item>
-        </layout>
-       </widget>
       </widget>
      </widget>
     </item>
@@ -75,7 +62,7 @@
      <x>0</x>
      <y>0</y>
      <width>927</width>
-     <height>21</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
