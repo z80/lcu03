@@ -53,7 +53,7 @@ void MainWnd::loadSettings( bool hdw )
     shutter       = s.value( "shutter", false ).toBool();
     ui.shutterOpen->setChecked( shutter );
 
-    qreal   vmin   = s.value( "laserMin",   0.04 ).toDouble();
+    qreal   vmin   = s.value( "laserMin",   0.01 ).toDouble();
     qreal   vmax   = s.value( "laserMax",   100.0 ).toDouble();
     QString vunits = s.value( "laserUnits", "%" ).toString();
     

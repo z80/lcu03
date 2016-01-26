@@ -3,15 +3,15 @@
 
 [Setup]
 AppName=LCU03
-AppVerName=LCU03-1.0.0
+AppVerName=LCU03-1.0.1
 AppPublisher=Aist-NT
 AppPublisherURL=http://www.aist-nt.com/
 AppSupportURL=http://www.aist-nt.com/
 AppUpdatesURL=http://www.aist-nt.com/
-DefaultDirName=c:\Aist\LCU03-1.0.0
+DefaultDirName=c:\Aist\LCU03-1.0.1
 DefaultGroupName=LCU03
 AllowNoIcons=yes
-OutputBaseFilename=LCU03-1.0.0
+OutputBaseFilename=LCU03-1.0.1
 SetupIconFile=./icon.ico
 Compression=lzma
 SolidCompression=yes

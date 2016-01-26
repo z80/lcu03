@@ -120,20 +120,23 @@
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
+         <property name="correctionMode">
+          <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+         </property>
          <property name="decimals">
-          <number>3</number>
+          <number>2</number>
          </property>
          <property name="minimum">
-          <double>0.040000000000000</double>
+          <double>0.010000000000000</double>
          </property>
          <property name="maximum">
           <double>100.000000000000000</double>
          </property>
          <property name="singleStep">
-          <double>0.001000000000000</double>
+          <double>0.010000000000000</double>
          </property>
          <property name="value">
-          <double>0.040000000000000</double>
+          <double>0.500000000000000</double>
          </property>
         </widget>
        </item>
@@ -286,7 +289,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="polarizationGroup"/>
   <buttongroup name="shutterGroup"/>
+  <buttongroup name="polarizationGroup"/>
  </buttongroups>
 </ui>
