@@ -1,4 +1,4 @@
-(module JST_B4B-PH-SM4-TB (layer F.Cu) (tedit 56BB9FC6)
+(module my-JST_B4B-PH-SM4-TB (layer F.Cu) (tedit 56BB9FC6)
   (descr "JST PH series connector, B4B-PH-SM4-TB")
   (tags "connector jst ph")
   (attr smd)

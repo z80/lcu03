@@ -36,4 +36,5 @@
   (lib (name TO_SOT_Packages_SMD)(type KiCad)(uri c:/projects/lcu03.git/electrical/footprints/TO_SOT_Packages_SMD.pretty)(options "")(descr ""))
   (lib (name TO_SOT_Packages_THT)(type KiCad)(uri c:/projects/lcu03.git/electrical/footprints/TO_SOT_Packages_THT.pretty)(options "")(descr ""))
   (lib (name Transformers_SMPS_ThroughHole)(type KiCad)(uri c:/projects/lcu03.git/electrical/footprints/Transformers_SMPS_ThroughHole.pretty)(options "")(descr ""))
+  (lib (name Resistors_ThroughHole)(type KiCad)(uri C:\projects\lcu03.git\electrical\footprints\Resistors_ThroughHole.pretty-master)(options "")(descr ""))
 )
