@@ -3245,7 +3245,7 @@ U 1 1 56BCDDEA
 P 15975 16975
 F 0 "U10" H 15975 16925 60  0000 C CNN
 F 1 "MCP1703T-3302E/CB" H 15975 17275 60  0000 C CNN
-F 2 "" H 15975 16975 60  0000 C CNN
+F 2 "TO_SOT_Packages_SMD:SOT-23" H 15975 16975 60  0001 C CNN
 F 3 "" H 15975 16975 60  0000 C CNN
 	1    15975 16975
 	1    0    0    -1  
@@ -3271,4 +3271,8 @@ F 3 "" H 15975 17725 60  0000 C CNN
 $EndComp
 Wire Wire Line
 	15975 17625 15975 17725
+Wire Notes Line
+	16450 17175 17800 17900
+Text Notes 17875 18150 0    60   ~ 0
+This one is for backward compatibility. \nAs it is known that with it board worked. \nIf new stabilizer causes problems it could \nbe replaced with this one without PCB \nredesign.
 $EndSCHEMATC
