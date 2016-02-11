@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source C:/projects/lcu03.git/electrical/lcu03/lcu03.sch)
-    (date "2/11/2016 9:52:24 AM")
+    (date "2/11/2016 1:17:11 PM")
     (tool "Eeschema 4.0.0-stable")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -164,7 +164,7 @@
       (sheetpath (names /) (tstamps /))
       (tstamp 56676BF7))
     (comp (ref C19)
-      (value 2n4)
+      (value 2n2)
       (footprint Capacitors_SMD:C_0805)
       (libsource (lib device) (part C))
       (sheetpath (names /) (tstamps /))
@@ -1173,10 +1173,10 @@
         (pin (num 4) (name in-) (type input))
         (pin (num 5) (name Vcc+) (type passive)))))
   (libraries
-    (library (logical device)
-      (uri C:\Programs\KiCad-4.0.0\share\kicad\library\device.lib))
     (library (logical conn)
       (uri C:\Programs\KiCad-4.0.0\share\kicad\library\conn.lib))
+    (library (logical device)
+      (uri C:\Programs\KiCad-4.0.0\share\kicad\library\device.lib))
     (library (logical cp2102)
       (uri C:\projects\lcu03.git\electrical\components\cp2102.lib))
     (library (logical crystal-4pin)

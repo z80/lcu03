@@ -3271,4 +3271,8 @@ F 3 "" H 15975 17725 60  0000 C CNN
 $EndComp
 Wire Wire Line
 	15975 17625 15975 17725
+Wire Notes Line
+	16450 17175 17800 17900
+Text Notes 17875 18150 0    60   ~ 0
+This one is for backward compatibility. \nAs it is known that with it board worked. \nIf new stabilizer causes problems it could \nbe replaced with this one without PCB \nredesign.
 $EndSCHEMATC
