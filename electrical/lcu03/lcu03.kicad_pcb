@@ -1627,7 +1627,7 @@
     (fp_text reference L2 (at 0 7.50062 90) (layer F.SilkS)
       (effects (font (size 0.5 0.5) (thickness 0.075)))
     )
-    (fp_text value 22uH (at 0 -7.50062 90) (layer F.SilkS)
+    (fp_text value 100uH (at 0 -7.50062 90) (layer F.SilkS)
       (effects (font (size 0.5 0.5) (thickness 0.075)))
     )
     (fp_line (start 0.50038 4.0005) (end 0.50038 5.25018) (layer F.SilkS) (width 0.381))

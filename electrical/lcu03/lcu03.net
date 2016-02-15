@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source C:/projects/lcu03.git/electrical/lcu03/lcu03.sch)
-    (date "2/11/2016 1:17:11 PM")
+    (date "2/15/2016 11:32:58 AM")
     (tool "Eeschema 4.0.0-stable")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -194,7 +194,7 @@
       (sheetpath (names /) (tstamps /))
       (tstamp 56676C01))
     (comp (ref L2)
-      (value 22uH)
+      (value 100uH)
       (footprint my-lib:my_inductance)
       (libsource (lib device) (part INDUCTOR))
       (sheetpath (names /) (tstamps /))
@@ -1173,10 +1173,10 @@
         (pin (num 4) (name in-) (type input))
         (pin (num 5) (name Vcc+) (type passive)))))
   (libraries
-    (library (logical conn)
-      (uri C:\Programs\KiCad-4.0.0\share\kicad\library\conn.lib))
     (library (logical device)
       (uri C:\Programs\KiCad-4.0.0\share\kicad\library\device.lib))
+    (library (logical conn)
+      (uri C:\Programs\KiCad-4.0.0\share\kicad\library\conn.lib))
     (library (logical cp2102)
       (uri C:\projects\lcu03.git\electrical\components\cp2102.lib))
     (library (logical crystal-4pin)

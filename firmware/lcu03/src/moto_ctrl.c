@@ -535,8 +535,8 @@ void motorInit( void )
     chThdCreateStatic( waMotor1, sizeof(waMotor1), NORMALPRIO, motor1Thread, NULL );
 
     // Turn drivers on.
-    setMotoReset( 0 );
-    setMotoSleep( 0 );
+    setMotoReset( 1 );
+    setMotoSleep( -1 );
     setMotoEnable( 1 );
 
     motor[0].pos         = 0;
@@ -672,9 +672,15 @@ static void setMoto1Dir( int dir )
 static void setHighCurrent( int en )
 {
     if ( en > 0 )
+    {
         palClearPad( HIGH_CURRENT_PORT, HIGH_CURRENT_PAD );
+        setMotoReset( -1 );
+    }
     else
+    {
+        setMotoReset( 1 );
         palSetPad( HIGH_CURRENT_PORT, HIGH_CURRENT_PAD );
+    }
 
 }
 
