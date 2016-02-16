@@ -211,6 +211,7 @@ void SettingsDlg::slotFindMotorPos()
     while ( pos0 < -ONE_REVOLUTION )
         pos0 += ONE_REVOLUTION;
     res = io->motorSetPos( 0, pos0 );
+    res = io->motorPos( 0, pos0 );
 
     res = io->motorPos( 1, pos1 );
     while ( pos1 > ONE_REVOLUTION )
@@ -218,6 +219,7 @@ void SettingsDlg::slotFindMotorPos()
     while ( pos1 < -ONE_REVOLUTION )
         pos1 += ONE_REVOLUTION;
     res = io->motorSetPos( 1, pos1 );
+    res = io->motorPos( 1, pos1 );
 
     motor = ui.motor->currentIndex();
     int pos = ( motor == 0 ) ? pos0 : pos1;
