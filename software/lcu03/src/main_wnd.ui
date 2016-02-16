@@ -279,7 +279,7 @@
   </action>
   <action name="actionHelp">
    <property name="text">
-    <string>Help F1</string>
+    <string>Help</string>
    </property>
    <property name="shortcut">
     <string>F1</string>
@@ -289,7 +289,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="shutterGroup"/>
   <buttongroup name="polarizationGroup"/>
+  <buttongroup name="shutterGroup"/>
  </buttongroups>
 </ui>
