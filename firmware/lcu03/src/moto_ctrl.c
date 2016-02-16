@@ -74,9 +74,9 @@ static int moto_vmin = 300,
 static int steps_per_rev = 5120;
 */
 
-static int moto_vmin = 300*8,
-        moto_vmax = 1000*8,
-        moto_acc = 700*8;
+static int moto_vmin = 150*8,
+        moto_vmax = 500*8,
+        moto_acc = 300*8;
 static int steps_per_rev = 5120*8;
 
 
@@ -302,7 +302,8 @@ static msg_t motor0Thread( void *arg )
         chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
         // In the other motor doesn't work turn high current off.
         chSysLock();
-            if ( !motor[1].in_motion )
+            int sz = chQSpaceI( &motor0_queue ) + chQSpaceI( &motor1_queue );
+            if ( ( !motor[1].in_motion ) && ( sz == 0 ) )
             {
                 setHighCurrent( -1 );
                 saveEmergencyData();
@@ -398,7 +399,8 @@ static msg_t motor1Thread( void *arg )
         chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
         // In the other motor doesn't work turn high current off.
         chSysLock();
-            if ( !motor[0].in_motion )
+            int sz = chQSpaceI( &motor0_queue ) + chQSpaceI( &motor1_queue );
+            if ( ( !motor[0].in_motion ) && ( sz == 0 ) )
             {
                 setHighCurrent( -1 );
                 saveEmergencyData();
