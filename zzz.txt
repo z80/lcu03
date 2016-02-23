@@ -7,3 +7,10 @@ open now. Otherwise it couldn't open and stayed closed. (Or in saturation???)
 4) Step up converted doesn't work with values cqlculated as well. Changed it in the following way.
     a) Upper 470->0, capacitor is not needed. And left 1k pull down as in original scheme.
     b) 1.2nF->2.4nF to reduce frequency to 150kHz. Otherwise MOSFET heats up.
+
+It appears that then the system is in idle state (current is drawn by MCU and steppers 
+in waiting mode with reduced current) something happens with voltage DC-DC converter. 
+And as soon as it statrs spinning motors voltage drops to ~5V. MOSFET heats up significantly. 
+But something again happens and voltage converted starts working properly with time. 
+If motors are spent a few times voltage doesn;t drop anymore. Or just a few mV under 9V. 
+So there is definitely a problem with boost converter with exernal MOSFET.
