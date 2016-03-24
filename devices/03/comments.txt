@@ -3,3 +3,5 @@ Burned MCU. Replaced with new one.
 Found that the reason of power line high noise is power supply inductance.
 Probably, it was in resonance with filtering capacitor circuit.
 Replaced inductance with 100uH one. And noise's gone.
+
+Broke Power MOSFET during experimenting. Resoldered with new one.
