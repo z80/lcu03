@@ -16,13 +16,16 @@
 #include "version.h"
 
 const QString MainWnd::SETTINGS_INI = "./settings.ini";
+const int     MainWnd::MAX_STEP_DIFF = 5;
 
 MainWnd::MainWnd( HostTray * parent )
     : QMainWindow( 0 ), 
       m_hostTray( parent ), 
-      m_helpBrowser( 0 )
+      m_helpBrowser( 0 ), 
+      focusEvent( false )
 {
     ui.setupUi( this );
+    ui.power->installEventFilter( this );
 
     bindSlots();
     io = new VoltampIo();
@@ -188,17 +191,38 @@ void MainWnd::slotShutter()
 
 void MainWnd::slotPower()
 {
+    // Don't process focusOut events.
+    if ( focusEvent )
+        return;
+
     qreal pwr = ui.power->value();
     int step = powerToStep( pwr );
     bool res = ensureOpen();
     if ( !res )
         return;
+
+    int at;
+    res = io->motorPos( 0, at );
+    if ( !res )
+    {
+        QMessageBox::critical( this, "Error", "Falied to query motor position!" );
+        io->close();
+        return;
+    }
+    at = at - step;
+    at = ( at > 0 ) ? at : (-at);
+    if ( at <= MAX_STEP_DIFF )
+        return;
+
     res = io->moveMotor( 0, step );
     if ( !res )
     {
         QMessageBox::critical( this, "Error", "Falied to set power!" );
         io->close();
     }
+
+    // Remove focus from this window.
+    ui.power->clearFocus();
 }
 
 void MainWnd::slotPolarization()
@@ -214,6 +238,20 @@ void MainWnd::slotPolarization()
     bool res = ensureOpen();
     if ( !res )
         return;
+
+    int at;
+    res = io->motorPos( 1, at );
+    if ( !res )
+    {
+        QMessageBox::critical( this, "Error", "Falied to query motor position!" );
+        io->close();
+        return;
+    }
+    at = at - step;
+    at = ( at > 0 ) ? at : (-at);
+    if ( at <= MAX_STEP_DIFF )
+        return;
+
     res = io->moveMotor( 1, step );
     if ( !res )
     {
@@ -382,6 +420,12 @@ void MainWnd::closeEvent( QCloseEvent * e )
 {
     hide();
     e->ignore();
+}
+
+bool MainWnd::eventFilter( QObject * watched, QEvent * e )
+{
+    focusEvent = ( e->type() == QEvent::FocusOut );
+    return false;
 }
 
 void MainWnd::refreshDevicesList()
