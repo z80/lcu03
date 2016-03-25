@@ -220,9 +220,6 @@ void MainWnd::slotPower()
         QMessageBox::critical( this, "Error", "Falied to set power!" );
         io->close();
     }
-
-    // Remove focus from this window.
-    ui.power->clearFocus();
 }
 
 void MainWnd::slotPolarization()
