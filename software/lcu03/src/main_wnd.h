@@ -46,6 +46,7 @@ public slots:
 
 protected:
     void closeEvent( QCloseEvent * e );
+    bool eventFilter( QObject * watched, QEvent * e );
 
 protected:
     void  refreshDevicesList();
@@ -106,6 +107,7 @@ public:
     int filterMin, 
         filterMax;
     int filter;
+    bool focusEvent;
 
     // Remore control.
     ::IceUtil::Handle<ThreadIce> m_thread;
@@ -125,6 +127,7 @@ public:
     HelpMainWnd * m_helpBrowser;
     
     static const QString SETTINGS_INI;
+    static const int     MAX_STEP_DIFF;
 
     friend class SettingsDlg;
     friend class Lcu03Ice;
