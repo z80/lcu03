@@ -28,6 +28,32 @@ static uint8_t buffer[ BUFFER_SZ ];
 static uint8_t args[ ARGS_SZ ];
 
 
+static uint8_t i2cInBuffer[ BUFFER_SZ ];
+static uint8_t i2cOutBuffer[ BUFFER_SZ ];
+InputQueue  i2cInQueue;
+OutputQueue i2cOutQueue;
+
+#ifndef SLAVE_ADDR
+	static WORKING_AREA( waSerial, 256 );
+	static msg_t serialThread( void *arg )
+	{
+		(void)arg;
+		chRegSetThreadName( "se" );
+
+		while ( 1 )
+		{
+			msg_t msg = sdGet( &SERIAL );
+			// If serial arrived pretend as if it came via I2C.
+			chSysLock();
+				chIQPutI( &i2cInQueue, msg );
+			chSysUnlock();
+		}
+
+		return 0;
+	}
+#endif
+
+
 static void process_command( uint8_t * buf, int sz );
 static void writeResult( uint8_t v );
 static void writeEom( void );
@@ -94,20 +120,46 @@ static void eeprom_setSdAddr( uint8_t * args )
 }
 
 
+static const I2CConfig i2ccfg =
+{
+    OPMODE_I2C,
+    100000,
+    STD_DUTY_CYCLE,
+};
 
 void initCpuIo( void )
 {
-	// Setup pad settings.
-	palSetPadMode( GPIOA, 9, PAL_MODE_STM32_ALTERNATE_PUSHPULL );
-	palSetPadMode( GPIOA, 10, PAL_MODE_INPUT );
-	// Setup RTS.
-	palSetPadMode( GPIOA, 11, PAL_MODE_STM32_ALTERNATE_PUSHPULL );
-	// Setup CTS.
-	palSetPadMode( GPIOA, 12, PAL_MODE_INPUT );
+	chIQInit( &i2cInQueue,  i2cInBuffer,  BUFFER_SZ, NULL );
+	chIQInit( &i2cOutQueue, i2cOutBuffer, BUFFER_SZ, NULL );
 
-	// Initialize serial driver.
-	//sdStart( &SERIAL, &serial_cfg );
-	sdStart( &SERIAL, 0 );
+	// Initialize serial only in master mode.
+	#ifndef SLAVE_ADDR
+		// Setup pad settings.
+		palSetPadMode( GPIOA, 9, PAL_MODE_STM32_ALTERNATE_PUSHPULL );
+		palSetPadMode( GPIOA, 10, PAL_MODE_INPUT );
+		// Setup RTS.
+		palSetPadMode( GPIOA, 11, PAL_MODE_STM32_ALTERNATE_PUSHPULL );
+		// Setup CTS.
+		palSetPadMode( GPIOA, 12, PAL_MODE_INPUT );
+
+		// Initialize serial driver.
+		//sdStart( &SERIAL, &serial_cfg );
+		sdStart( &SERIAL, 0 );
+
+		chThdCreateStatic( waSerial, sizeof(waSerial), NORMALPRIO, serialThread, NULL );
+	#endif
+
+	// Init I2C bus.
+	i2cStart( &I2CD1, &i2ccfg );
+
+	// Tune ports for I2C1.
+	palSetPadMode( GPIOB, 6, PAL_MODE_STM32_ALTERNATE_OPENDRAIN );
+	palSetPadMode( GPIOB, 7, PAL_MODE_STM32_ALTERNATE_OPENDRAIN );
+
+	// Only in slave mode initialize queued data exchange.
+	#ifdef SLAVE_ADDR
+		i2cSlaveQueueIo( &I2CD1, SLAVE_ADDR, &i2cInQueue, &i2cOutQueue, 0, 0 );
+	#endif
 }
 
 void processCpuIo( void )
@@ -124,33 +176,30 @@ void processCpuIo( void )
 	*/
 
 
-	msg = sdGetTimeout( &SERIAL, TIME_INFINITE );
-	uint8_t noData = ( ( msg == Q_TIMEOUT ) || ( msg == Q_RESET ) ) ? 1 : 0;
-	if ( !noData )
+	msg = chIQGet( &i2cInQueue );
+
+	uint8_t v = (uint8_t)msg;
+	//shift = serial_decode_byte( msg, &(buffer[out_index]), &eom );
+	if ( !slash )
 	{
-		uint8_t v = (uint8_t)msg;
-		//shift = serial_decode_byte( msg, &(buffer[out_index]), &eom );
-		if ( !slash )
+		if ( v == '\0' )
 		{
-			if ( v == '\0' )
-			{
-				// Execute command
-				process_command( buffer, out_index );
-				out_index = 0;
-			}
-			else if ( v != '\\' )
-				buffer[ out_index++ ] = v;
-			else
-				slash = 1;
+			// Execute command
+			process_command( buffer, out_index );
+			out_index = 0;
 		}
-		else
-		{
-			slash = 0;
+		else if ( v != '\\' )
 			buffer[ out_index++ ] = v;
-		}
-		// Just in case of crazy command
-		out_index = ( out_index < BUFFER_SZ ) ? out_index : BUFFER_SZ;
+		else
+			slash = 1;
 	}
+	else
+	{
+		slash = 0;
+		buffer[ out_index++ ] = v;
+	}
+	// Just in case of crazy command
+	out_index = ( out_index < BUFFER_SZ ) ? out_index : BUFFER_SZ;
 }
 
 uint8_t * funcArgs( void )

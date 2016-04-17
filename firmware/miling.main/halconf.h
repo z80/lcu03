@@ -92,6 +92,7 @@
 #define HAL_USE_I2C                 TRUE
 #endif
 #define I2C_USE_SLAVE_MODE TRUE
+#define I2C_USE_QUEUES     TRUE
 
 /**
  * @brief   Enables the ICU subsystem.
