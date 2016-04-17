@@ -419,14 +419,19 @@ struct I2CDriver{
   I2C_TypeDef               *i2c;
 #if I2C_USE_SLAVE_MODE
   uint8_t                   slave_mode;
+#ifndef I2C_USE_QUEUES
   uint8_t                   *rxbuf;
   size_t                    rxbytes;
   size_t                    rxind;
-  TI2cSlaveCb               rxcb;
 
   uint8_t                   *txbuf;
   size_t                    txbytes;
   size_t                    txind;
+#else /* I2C_USE_QUEUES */
+  InputQueue  * inQueue;
+  OutputQueue * outQueue;
+#endif /* I2C_USE_QUEUES */
+  TI2cSlaveCb               rxcb;
   TI2cSlaveCb               txcb;
 #endif
 };
@@ -476,12 +481,18 @@ extern "C" {
                                        uint8_t *rxbuf, size_t rxbytes,
                                        systime_t timeout);
 #if I2C_USE_SLAVE_MODE
-    msg_t i2c_lld_slave_io_timeout( I2CDriver * i2cp, i2caddr_t addr, 
-                                    uint8_t * rxbuf, size_t rxbytes, 
-                                    uint8_t * txbuf, size_t txbytes,
-                                    TI2cSlaveCb rxcb,
-                                    TI2cSlaveCb txcb,
-                                    systime_t timeout );
+    #ifndef I2C_USE_QUEUES /* I2C_USE_QUEUES */
+		msg_t i2c_lld_slave_io_timeout( I2CDriver * i2cp, i2caddr_t addr,
+										uint8_t * rxbuf, size_t rxbytes,
+										uint8_t * txbuf, size_t txbytes,
+										TI2cSlaveCb rxcb,
+										TI2cSlaveCb txcb,
+										systime_t timeout );
+	#else /* I2C_USE_QUEUES */
+		msg_t i2c_lld_queue_io( I2CDriver * i2cp, i2caddr_t addr,
+				                InputQueue * inQueue, OutputQueue * outQueue,
+								TI2cSlaveCb rxcb, TI2cSlaveCb txcb );
+	#endif /* I2C_USE_QUEUES */
 #endif
 #ifdef __cplusplus
 }

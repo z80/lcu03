@@ -347,46 +347,91 @@ static void i2c_lld_serve_event_interrupt(I2CDriver *i2cp) {
     }
     else
     {
-        if  (event & (I2C_SR1_ADDR | I2C_SR1_ADD10))
-        {
-            // When transaction begins reset byte counters.
-            i2cp->rxind = 0;
-            i2cp->txind = 0;
+		#ifndef I2C_USE_QUEUES
+			if  (event & (I2C_SR1_ADDR | I2C_SR1_ADD10))
+			{
+				// When transaction begins reset byte counters.
+				i2cp->rxind = 0;
+				i2cp->txind = 0;
 
-            // Clear Addr Flag
-            event = dp->SR1;
-            regSR = dp->SR2;
-        }
-        if ( event & I2C_SR1_TXE )
-        {
-            dp->DR = i2cp->txbuf[ i2cp->txind++ ];
-            if ( i2cp->txind >= i2cp->txbytes )
-                i2cp->txind = 0;
-        }
-        if ( event & I2C_SR1_RXNE )
-        {
-            i2cp->rxbuf[ i2cp->rxind++ ] = dp->DR;
-            if ( i2cp->rxind >= i2cp->rxbytes )
-                i2cp->rxind = 0;
-        }
-        if ( event & I2C_SR1_STOPF )
-        {
-            // Clear STOPF bit by writing to CR1.
-            event = dp->SR1;
-            dp->CR1 |= I2C_CR1_PE;
+				// Clear Addr Flag
+				event = dp->SR1;
+				regSR = dp->SR2;
+			}
+			if ( event & I2C_SR1_TXE )
+			{
+				dp->DR = i2cp->txbuf[ i2cp->txind++ ];
+				if ( i2cp->txind >= i2cp->txbytes )
+					i2cp->txind = 0;
+			}
+			if ( event & I2C_SR1_RXNE )
+			{
+				i2cp->rxbuf[ i2cp->rxind++ ] = dp->DR;
+				if ( i2cp->rxind >= i2cp->rxbytes )
+					i2cp->rxind = 0;
+			}
+			if ( event & I2C_SR1_STOPF )
+			{
+				// Clear STOPF bit by writing to CR1.
+				event = dp->SR1;
+				dp->CR1 |= I2C_CR1_PE;
 
-            // Notify user about receive finish.
-            if ( i2cp->rxcb )
-                i2cp->rxcb( i2cp );
-        }
-        if ( event & I2C_SR1_AF )
-        {
-            dp->SR1 &= ~I2C_SR1_AF;
+				// Notify user about receive finish.
+				if ( i2cp->rxcb )
+					i2cp->rxcb( i2cp );
+			}
+			if ( event & I2C_SR1_AF )
+			{
+				dp->SR1 &= ~I2C_SR1_AF;
 
-            // Notify user about transfer finish.
-            if ( i2cp->txcb )
-                i2cp->txcb( i2cp );
-        }
+				// Notify user about transfer finish.
+				if ( i2cp->txcb )
+					i2cp->txcb( i2cp );
+			}
+		#else /* I2C_USE_QUEUES */
+			if  (event & (I2C_SR1_ADDR | I2C_SR1_ADD10))
+			{
+				// Clear Addr Flag by reading registers.
+				event = dp->SR1;
+				regSR = dp->SR2;
+			}
+			if ( event & I2C_SR1_TXE )
+			{
+				chSysLockFromIsr();
+					msg_t msg = (i2cp->outQueue) ? chOQGetI( i2cp->outQueue ) : 0;
+				chSysUnlockFromIsr();
+				dp->DR = ( msg != Q_EMPTY ) ? (uint8_t)msg : 0;
+			}
+			if ( event & I2C_SR1_RXNE )
+			{
+				uint8_t dataByte = dp->DR;
+				if ( i2cp->inQueue )
+				{
+					chSysLockFromIsr();
+						chIQPutI( i2cp->inQueue, dataByte );
+					chSysUnlockFromIsr();
+				}
+			}
+			if ( event & I2C_SR1_STOPF )
+			{
+				// Notify user about receive finish.
+				if ( i2cp->rxcb )
+					i2cp->rxcb( i2cp );
+
+				// Clear STOPF bit by writing to CR1.
+				event = dp->SR1;
+				dp->CR1 |= I2C_CR1_PE;
+			}
+			if ( event & I2C_SR1_AF )
+			{
+				// Notify user about transfer finish.
+				if ( i2cp->txcb )
+					i2cp->txcb( i2cp );
+
+				// Clear Acknowledge failure.
+				dp->SR1 &= ~I2C_SR1_AF;
+			}
+		#endif /* I2C_USE_QUEUES */
     }
     #endif // I2C_USE_SLAVE_MODE
 }
@@ -986,6 +1031,8 @@ msg_t i2c_lld_master_transmit_timeout(I2CDriver *i2cp, i2caddr_t addr,
 
 #if I2C_USE_SLAVE_MODE
 
+#ifndef I2C_USE_QUEUES /* I2C_USE_QUEUES */
+
 msg_t i2c_lld_slave_io_timeout( I2CDriver *i2cp, i2caddr_t addr,
                                 uint8_t * rxbuf, size_t rxbytes,
                                 uint8_t * txbuf, size_t txbytes,
@@ -1057,8 +1104,59 @@ msg_t i2c_lld_slave_io_timeout( I2CDriver *i2cp, i2caddr_t addr,
     return RDY_OK;
 }
 
+#else /* I2C_USE_QUEUES */
 
-#endif
+msg_t i2c_lld_queue_io( I2CDriver * i2cp, i2caddr_t addr,
+                        InputQueue * inQueue, OutputQueue * outQueue,
+                        TI2cSlaveCb rxcb, TI2cSlaveCb txcb )
+{
+    I2C_TypeDef *dp = i2cp->i2c;
+
+    // Global timeout for the whole operation.
+    i2cp->thread = chThdSelf();
+
+    // Waits until BUSY flag is reset and the STOP from the previous operation
+    // is completed, alternatively for a timeout condition.
+
+    // This lock will be released in high level driver.
+    chSysLock();
+
+    if ( (dp->SR2 & I2C_SR2_BUSY) || ( dp->CR1 & I2C_CR1_STOP ) )
+        return RDY_TIMEOUT;
+
+
+    // Initializes driver fields, LSB = 1 -> read.
+    i2cp->addr    = (addr << 1);
+    i2cp->errors  = 0;
+
+    i2cp->inQueue   = inQueue;
+    i2cp->rxcb  = rxcb;
+
+    i2cp->outQueue = outQueue;
+    i2cp->txcb     = txcb;
+
+    i2cp->slave_mode = 1;
+    // Starts the operation.
+    // No start - slave mode.
+    dp->CR1 &= ~( I2C_CR1_START );
+    // Turn off ISR and DMA.
+    dp->CR2 &= ~( I2C_CR2_DMAEN );
+    // Own address.
+    dp->OAR1 = ((addr << 1) & (0xFE));
+    // Turn interrupts and buffer interrupts on.
+    dp->CR2 |= (I2C_CR2_ITEVTEN | I2C_CR2_ITBUFEN);
+    // Generate Ack on address match and IOs.
+    dp->CR1 |= I2C_CR1_ACK;
+
+    i2cp->thread = chThdSelf();
+
+	return RDY_OK;
+}
+
+
+#endif /* I2C_USE_QUEUES */
+
+#endif /* I2C_USE_SLAVE_MODE */
 
 
 #endif /* HAL_USE_I2C */

@@ -152,7 +152,16 @@ extern "C" {
                            TI2cSlaveCb rxcb,
                            TI2cSlaveCb txcb,
                            systime_t timeout );
+    #ifdef I2C_USE_QUEUES
+  	  // Data exchange in serial-like way using queues.
+	  msg_t i2cSlaveQueueIo( I2CDriver * i2cp,
+		                     i2caddr_t addr,
+							 InputQueue * inQueue,
+							 OutputQueue * outQueue,
+							 TI2cSlaveCb rxcb,
+							 TI2cSlaveCb txcb );
 
+    #endif /* I2C_USE_QUEUES */
 #endif /* I2C_ISE_SLAVE_MODE */
 
 #ifdef __cplusplus

@@ -307,6 +307,8 @@ void i2cReleaseBus(I2CDriver *i2cp) {
 
 
 #if I2C_USE_SLAVE_MODE
+
+#ifndef I2C_USE_QUEUES
 msg_t i2cSlaveIoTimeout( I2CDriver * i2cp,
                          i2caddr_t addr,
                          uint8_t * rxbuf, size_t rxbytes,
@@ -335,6 +337,37 @@ msg_t i2cSlaveIoTimeout( I2CDriver * i2cp,
     return rdymsg;
 
 }
+
+#else /* I2C_USE_QUEUES */
+	  // Data exchange in serial-like way using queues.
+  msg_t i2cSlaveQueueIo( I2CDriver * i2cp,
+	                     i2caddr_t addr,
+						 InputQueue * inQueue,
+						 OutputQueue * outQueue,
+						 TI2cSlaveCb rxcb,
+						 TI2cSlaveCb txcb )
+  {
+	    msg_t rdymsg;
+
+	    chSysLock();
+	    i2cp->errors = I2CD_NO_ERROR;
+	    i2cp->state = 0;
+	    rdymsg = i2c_lld_queue_io( i2cp,
+	                               addr,
+	                               inQueue,
+	                               outQueue,
+	                               rxcb,
+	                               txcb );
+	    if (rdymsg == RDY_TIMEOUT)
+	        i2cp->state = I2C_LOCKED;
+	    else
+	        i2cp->state = I2C_READY;
+	    chSysUnlock();
+	    return rdymsg;
+
+  }
+#endif /* I2C_USE_QUEUES */
+
 
 #endif /* I2C_ISE_SLAVE_MODE */
 
