@@ -360,7 +360,7 @@ static void i2c_lld_serve_event_interrupt(I2CDriver *i2cp) {
         if ( event & I2C_SR1_TXE )
         {
             dp->DR = i2cp->txbuf[ i2cp->txind++ ];
-            if ( i2cp->rxind >= i2cp->txbytes )
+            if ( i2cp->txind >= i2cp->txbytes )
                 i2cp->txind = 0;
         }
         if ( event & I2C_SR1_RXNE )
