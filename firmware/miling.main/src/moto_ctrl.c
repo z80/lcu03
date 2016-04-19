@@ -244,20 +244,14 @@ static const GPTConfig gpt4cfg = {
 
 #define MOTOR_QUEUE_SZ 3
 
-#define MOTOR_BUFFER_SZ ( MOTOR_QUEUE_SZ * sizeof( int ) )
+#define MOTOR_BUFFER_SZ ( MOTOR_QUEUE_SZ * sizeof( int8_t ) * 4 ) // 4 motors, up to 127 steps each in each direction.
 
-InputQueue  motor0_queue;
-uint8_t     motor0_queue_buffer[ MOTOR_BUFFER_SZ ];
 
-InputQueue  motor0_stop_queue;
-uint8_t     motor0_stop_queue_buffer[ MOTOR_QUEUE_SZ ];
+InputQueue  motor_queue;
+uint8_t     motor_queue_buffer[ MOTOR_BUFFER_SZ ];
 
-InputQueue  motor1_queue;
-uint8_t     motor1_queue_buffer[ MOTOR_BUFFER_SZ ];
-
-InputQueue  motor1_stop_queue;
-uint8_t     motor1_stop_queue_buffer[ MOTOR_QUEUE_SZ ];
-
+InputQueue  motor_stop_queue;
+uint8_t     motor_stop_queue_buffer[ MOTOR_QUEUE_SZ ];
 
 static WORKING_AREA( waMotor, 2048 );
 static msg_t motorThread( void *arg );
@@ -268,22 +262,38 @@ static msg_t motorThread( void *arg )
     (void)arg;
     while ( 1 )
     {
-        int dest;
-        uint8_t * args = (uint8_t *)( &dest );
-        args[0] = chIQGet( &motor0_queue );
-        args[1] = chIQGet( &motor0_queue );
-        args[2] = chIQGet( &motor0_queue );
-        args[3] = chIQGet( &motor0_queue );
+        int8_t dist[4];
+        uint8_t * args = (uint8_t *)( &dist );
+        args[0] = chIQGet( &motor_queue );
+        args[1] = chIQGet( &motor_queue );
+        args[2] = chIQGet( &motor_queue );
+        args[3] = chIQGet( &motor_queue );
 
         // Choose direction and steps number.
-        TMotor * moto = &(motor[0]);
-        chSysLock();
-            int distance = dest - moto->pos;
-        chSysUnlock();
-        int dir = ( distance > 0 ) ? 1 : -1;
-        distance = ( distance > 0 ) ? distance : -distance;
-        // Set rotation direction.
-        setMoto0Dir( dir );
+        TMotor * moto = motor;
+        int i;
+        for ( i=0; i<4; i++ )
+        	motor[i].dir = (dist[i] > 0) ? 1 : 0;
+        	motor[i].steps_left = (dist[i]>0) ? dist[i] : (-dist[i]);
+        	// Set rotation direction.
+        	setMoto0Dir( motor[i].dir );
+        }
+    	// Calculate distance in steps.
+    	int L = motor[0].steps_left * motor[0].steps_left +
+    			motor[1].steps_left * motor[1].steps_left +
+				motor[2].steps_left * motor[2].steps_left +
+				motor[3].steps_left * motor[3].steps_left;
+    	L = nsqrt( L );
+    	// For each motor calculate period.
+    	// Total movement time is.
+    	int T = L / moto_vmin;
+    	// Each period is.
+    	for (i=0; i<4; i++)
+    	{
+    		// t[i] = T / dist[i] / 2; // Over 2 is because I hold step pad high half time.
+    		motor[i].period = T/motor[i].steps_left/2;
+    	}
+
         // Set high current.
         setHighCurrent( 1 );
         chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
@@ -416,6 +426,7 @@ static void offMotor1( GPTDriver *gptp )
 }
 
 
+/*
 void motorMove( int index, int pos )
 {
     uint8_t * arg = (uint8_t *)(&pos);
@@ -430,7 +441,7 @@ void motorMove( int index, int pos )
         chIQPutI( motor_queue, arg[3] );
     chSysUnlock();
 }
-
+*/
 
 
 void motorInit( void )
@@ -494,23 +505,19 @@ void motorInit( void )
     setMotoSleep( -1 );
     setMotoEnable( 1 );
 
-    motor[0].pos         = 0;
-    motor[0].sensorPos   = 0;
-    motor[0].steps_left  = 0;
-    motor[0].period      = 0;
-    motor[0].activated   = 0;
-    motor[0].in_motion   = 0;
-    motor[0].dir         = 0;
+    int i;
+    for ( i=0; i<4; i++ )
+    {
+		motor[i].pos         = 0;
+		motor[i].sensorPos   = 0;
+		motor[i].steps_left  = 0;
+		motor[i].period      = 0;
+		motor[i].activated   = 0;
+		motor[i].in_motion   = 0;
+		motor[i].dir         = 0;
+    }
 
-    motor[1].pos        = 0;
-    motor[1].sensorPos  = 0;
-    motor[1].steps_left = 0;
-    motor[0].period     = 0;
-    motor[1].activated  = 0;
-    motor[1].in_motion  = 0;
-    motor[1].dir        = 0;
-
-    eepromReadMotorPos( &(motor[0].pos), &(motor[1].pos) );
+    //eepromReadMotorPos( &(motor[0].pos), &(motor[1].pos) );
 }
 
 void motorSetPos( int index, int pos )
@@ -571,10 +578,43 @@ int motorPos( int index )
 
 void motorStop( int index )
 {
-    InputQueue * motor_queue = ( index > 0 ) ? (&motor1_stop_queue) : (&motor0_stop_queue);
+    InputQueue * motor_queue = &motor_stop_queue;
     chSysLock();
         chIQPutI( motor_queue, 0 );
     chSysUnlock();
+}
+
+void motorMove( int8_t * s )
+{
+	chSysLock();
+		int sz = chIQSpaceI( &motor_queue );
+		if ( sz >= 4 )
+		{
+			uint8_t v = *(uint8_t *)s[0];
+			chIQPutI( &motor_queue, v );
+
+			v = *(uint8_t *)s[1];
+			chIQPutI( &motor_queue, v );
+
+			v = *(uint8_t *)s[2];
+			chIQPutI( &motor_queue, v );
+
+			v = *(uint8_t *)s[3];
+			chIQPutI( &motor_queue, v );
+
+	    	motor[0].activated = 0;
+	    	motor[0].in_motion = 1;
+
+	    	motor[1].activated = 0;
+	    	motor[1].in_motion = 1;
+
+	    	motor[2].activated = 0;
+	    	motor[2].in_motion = 1;
+
+	    	motor[3].activated = 0;
+	    	motor[3].in_motion = 1;
+		}
+	chSysUnlock();
 }
 
 
