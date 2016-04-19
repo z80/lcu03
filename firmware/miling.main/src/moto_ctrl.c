@@ -71,6 +71,8 @@ static void setMotoReset( int en );
 static void setMotoEnable( int en );
 static void setMoto0Dir( int dir );
 static void setMoto1Dir( int dir );
+static void setMoto2Dir( int dir );
+static void setMoto3Dir( int dir );
 static void setHighCurrent( int en );
 
 static void saveEmergencyData( void );
@@ -82,9 +84,10 @@ typedef struct
 
     int     steps_left;
     int     period;
-    uint8_t activated : 1;
-    uint8_t in_motion : 1;
-    uint8_t dir : 1;
+    uint8_t activated : 1; // If sensor was activated during last transition.
+    uint8_t in_motion : 1; // If motor is in motion at the moment.
+    uint8_t dir : 1; // Dir pad level.
+    uint8_t high: 1; // Step pad level.
 } TMotor;
 
 static TMotor motor[4];
@@ -256,14 +259,11 @@ InputQueue  motor1_stop_queue;
 uint8_t     motor1_stop_queue_buffer[ MOTOR_QUEUE_SZ ];
 
 
-static WORKING_AREA( waMotor0, 2048 );
-static msg_t motor0Thread( void *arg );
-
-static WORKING_AREA( waMotor1, 2048 );
-static msg_t motor1Thread( void *arg );
+static WORKING_AREA( waMotor, 2048 );
+static msg_t motorThread( void *arg );
 
 
-static msg_t motor0Thread( void *arg )
+static msg_t motorThread( void *arg )
 {
     (void)arg;
     while ( 1 )
@@ -360,103 +360,6 @@ static msg_t motor0Thread( void *arg )
     return 0;
 }
 
-static msg_t motor1Thread( void *arg )
-{
-    (void)arg;
-    while ( 1 )
-    {
-        int dest;
-        uint8_t * args = (uint8_t *)( &dest );
-        args[0] = chIQGet( &motor1_queue );
-        args[1] = chIQGet( &motor1_queue );
-        args[2] = chIQGet( &motor1_queue );
-        args[3] = chIQGet( &motor1_queue );
-
-        // Choose direction and steps number.
-        TMotor * moto = &(motor[1]);
-        chSysLock();
-            int distance = dest - moto->pos;
-        chSysUnlock();
-        int dir = ( distance > 0 ) ? 1 : -1;
-        distance = ( distance > 0 ) ? distance : -distance;
-        // Set rotation direction.
-        setMoto1Dir( dir );
-        // Set high current.
-        setHighCurrent( 1 );
-        chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
-
-        // In loop control PWM speed.
-        int period = TMR_FREQ / moto_vmin;
-
-        int half_dist = distance / 2;
-        chSysLock();
-            moto->dir = ( dir > 0 ) ? 1 : 0;
-            moto->period = period;
-            moto->steps_left = distance;
-        chSysUnlock();
-        gptStartOneShot( &GPTD3, period );
-
-        // Acceleration.
-        //int min_period = TMR_FREQ;
-        int steps_left;
-        do {
-            //chThdSleepMilliseconds( 1 );
-            chSysLock();
-                steps_left = moto->steps_left;
-            chSysUnlock();
-            int current_dist = distance - steps_left;
-
-            int d = current_dist;
-            d = (d > half_dist ) ? (distance - d) : d;
-            int speed = nsqrt( moto_vmin * moto_vmin + 2 * moto_acc * d );
-            //int speed = moto_vmin;
-            speed = ( speed > moto_vmax ) ? moto_vmax : speed;
-            period = TMR_FREQ / speed;
-            period = ( period > 2 ) ? period : 2; // Just limin minimum period to the one which makes sense.
-            //min_period = ( min_period > period ) ? period : min_period;
-            // Apply period.
-            chSysLock();
-                moto->period = period;
-            chSysUnlock();
-
-            msg_t msg = chIQGetTimeout( &motor0_stop_queue, 0 );
-
-            // Check for stop condition.
-            if ( msg != Q_TIMEOUT )
-            {
-                gptStop( &GPTD3 );
-                gptStop( &GPTD4 );
-                if ( palReadPad( STEP_1_PORT, STEP_1_PAD ) )
-                {
-                    palClearPad( STEP_1_PORT, STEP_1_PAD );
-                    moto->steps_left -= 1;
-                    moto->pos += ( moto->dir > 0 ) ? 1 : -1;
-                }
-                break;
-            }
-
-        } while ( steps_left > 0 );
-
-        // In the very end set low current.
-        chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
-        // In the other motor doesn't work turn high current off.
-        chSysLock();
-            int sz = chQSpaceI( &motor0_queue ) + chQSpaceI( &motor1_queue );
-            if ( ( !motor[0].in_motion ) && ( sz == 0 ) )
-            {
-                setHighCurrent( -1 );
-                saveEmergencyData();
-            }
-        chSysUnlock();
-
-        chSysLock();
-            moto->in_motion = 0;
-            adjustPosition( moto );
-        chSysUnlock();
-    }
-    return 0;
-}
-
 static void timerMotor0( GPTDriver *gptp )
 {
     (void)gptp;
@@ -548,6 +451,8 @@ void motorInit( void )
     // Initialize external interrupt input here.
     palSetPadMode( HALL_0_PORT,  HALL_0_PAD, PAL_MODE_INPUT );
     palSetPadMode( HALL_1_PORT,  HALL_1_PAD, PAL_MODE_INPUT );
+    palSetPadMode( HALL_2_PORT,  HALL_2_PAD, PAL_MODE_INPUT );
+    palSetPadMode( HALL_3_PORT,  HALL_3_PAD, PAL_MODE_INPUT );
     palSetPadMode( PWR_OFF_PORT, PWR_OFF_PAD, PAL_MODE_INPUT );
     extStart(&EXTD1, &extcfg);
 
@@ -556,11 +461,21 @@ void motorInit( void )
     gptStart( &GPTD2, &gpt2cfg );
     gptStart( &GPTD3, &gpt3cfg );
     gptStart( &GPTD4, &gpt4cfg );
+
+    // Step pads.
     palClearPad( STEP_0_PORT,  STEP_0_PAD );
     palSetPadMode( STEP_0_PORT, STEP_0_PAD, PAL_MODE_OUTPUT_PUSHPULL );
     palClearPad( STEP_1_PORT,  STEP_1_PAD );
     palSetPadMode( STEP_1_PORT, STEP_1_PAD, PAL_MODE_OUTPUT_PUSHPULL );
-
+    palClearPad( STEP_2_PORT,  STEP_2_PAD );
+    palSetPadMode( STEP_2_PORT, STEP_2_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+    palClearPad( STEP_3_PORT,  STEP_3_PAD );
+    palSetPadMode( STEP_3_PORT, STEP_3_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+    // Dir0 and Dir1.
+    palSetPadMode( DIR_0_PORT, DIR_0_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+    palSetPadMode( DIR_1_PORT, DIR_1_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+    palSetPadMode( DIR_2_PORT, DIR_2_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+    palSetPadMode( DIR_3_PORT, DIR_3_PAD, PAL_MODE_OUTPUT_PUSHPULL );
     // Init GPIO ~sleep~, ~enable~, ~reset~, ~high_current~.
     palClearPad( ENABLE_PORT, ENABLE_PAD );
     palClearPad( SLEEP_PORT,  SLEEP_PAD );
@@ -571,12 +486,8 @@ void motorInit( void )
     palSetPadMode( RESET_PORT,  RESET_PAD, PAL_MODE_OUTPUT_PUSHPULL );
     palSetPadMode( HIGH_CURRENT_PORT, HIGH_CURRENT_PAD, PAL_MODE_OUTPUT_PUSHPULL );
 
-    // Dir0 and Dir1.
-    palSetPadMode( DIR_0_PORT, DIR_0_PAD, PAL_MODE_OUTPUT_PUSHPULL );
-    palSetPadMode( DIR_1_PORT, DIR_1_PAD, PAL_MODE_OUTPUT_PUSHPULL );
 
-    chThdCreateStatic( waMotor0, sizeof(waMotor0), NORMALPRIO, motor0Thread, NULL );
-    chThdCreateStatic( waMotor1, sizeof(waMotor1), NORMALPRIO, motor1Thread, NULL );
+    chThdCreateStatic( waMotor, sizeof(waMotor), NORMALPRIO, motorThread, NULL );
 
     // Turn drivers on.
     setMotoReset( 1 );
@@ -713,6 +624,22 @@ static void setMoto1Dir( int dir )
         palClearPad( DIR_1_PORT, DIR_1_PAD );
 }
 
+static void setMoto2Dir( int dir )
+{
+    if ( dir > 0 )
+        palSetPad( DIR_2_PORT, DIR_2_PAD );
+    else
+        palClearPad( DIR_2_PORT, DIR_2_PAD );
+}
+
+static void setMoto3Dir( int dir )
+{
+    if ( dir > 0 )
+        palSetPad( DIR_3_PORT, DIR_3_PAD );
+    else
+        palClearPad( DIR_3_PORT, DIR_3_PAD );
+}
+
 static void setHighCurrent( int en )
 {
     if ( en > 0 )
@@ -725,7 +652,7 @@ static void setHighCurrent( int en )
         setMotoReset( 1 );
         palSetPad( HIGH_CURRENT_PORT, HIGH_CURRENT_PAD );
     }
-
+    // Also signal high current via I2C.
 }
 
 static void saveEmergencyData( void )
