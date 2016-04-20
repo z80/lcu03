@@ -12,7 +12,7 @@ void motorSetRevSteps( int cnt );
 void motorSensorData( int index, int * activated, int * pos );
 int motorInMotion( int index, int * pos );
 int motorPos( int index );
-void motorStop( int index );
+void motorStop( void );
 void motorMove( int8_t * s );
 
 

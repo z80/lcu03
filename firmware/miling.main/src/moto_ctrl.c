@@ -88,6 +88,7 @@ typedef struct
     uint8_t in_motion : 1; // If motor is in motion at the moment.
     uint8_t dir : 1; // Dir pad level.
     uint8_t high: 1; // Step pad level.
+    BinarySemaphore sem; // Finished indication.
 } TMotor;
 
 static TMotor motor[4];
@@ -216,9 +217,9 @@ static const EXTConfig extcfg = {
 
 
 static void timerMotor0( GPTDriver *gptp );
-static void offMotor0( GPTDriver *gptp );
 static void timerMotor1( GPTDriver *gptp );
-static void offMotor1( GPTDriver *gptp );
+static void timerMotor2( GPTDriver *gptp );
+static void timerMotor3( GPTDriver *gptp );
 
 static const GPTConfig gpt1cfg = {
   TMR_FREQ,
@@ -227,17 +228,17 @@ static const GPTConfig gpt1cfg = {
 
 static const GPTConfig gpt2cfg = {
   TMR_FREQ,
-  offMotor0
+  timerMotor1
 };
 
 static const GPTConfig gpt3cfg = {
   TMR_FREQ,
-  timerMotor1
+  timerMotor2
 };
 
 static const GPTConfig gpt4cfg = {
   TMR_FREQ,
-  offMotor1
+  timerMotor3
 };
 
 
@@ -270,11 +271,12 @@ static msg_t motorThread( void *arg )
         args[3] = chIQGet( &motor_queue );
 
         // Choose direction and steps number.
-        TMotor * moto = motor;
         int i;
         for ( i=0; i<4; i++ )
+        {
         	motor[i].dir = (dist[i] > 0) ? 1 : 0;
         	motor[i].steps_left = (dist[i]>0) ? dist[i] : (-dist[i]);
+        	motor[i].high = 1; // It will be activated for the first time lower in the code but not in timer ISR.
         	// Set rotation direction.
         	setMoto0Dir( motor[i].dir );
         }
@@ -286,86 +288,66 @@ static msg_t motorThread( void *arg )
     	L = nsqrt( L );
     	// For each motor calculate period.
     	// Total movement time is.
-    	int T = L / moto_vmin;
+    	int T = (int)( (uint64_t)L * (uint64_t)TMR_FREQ / (uint64_t)moto_vmin );
     	// Each period is.
     	for (i=0; i<4; i++)
     	{
     		// t[i] = T / dist[i] / 2; // Over 2 is because I hold step pad high half time.
     		motor[i].period = T/motor[i].steps_left/2;
+    		// Just limit it to a reasonable value.
+    		motor[i].period = (motor[i].period > 2) ? motor[i].period : 2;
     	}
 
         // Set high current.
         setHighCurrent( 1 );
         chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
 
-        // In loop control PWM speed.
-        int period = TMR_FREQ / moto_vmin;
+        // Make steps for the first time outside of timers.
+      	if ( motor[0].steps_left > 0 )
+      		palSetPad( STEP_0_PORT, STEP_0_PAD );
+      	if ( motor[1].steps_left > 0 )
+      		palSetPad( STEP_1_PORT, STEP_1_PAD );
+      	if ( motor[2].steps_left > 0 )
+      		palSetPad( STEP_2_PORT, STEP_2_PAD );
+      	if ( motor[3].steps_left > 0 )
+      		palSetPad( STEP_3_PORT, STEP_3_PAD );
 
-        int half_dist = distance / 2;
+      	// Timers will change steps quantity.
+      	// So remember steps number to use them later.
+      	int steps[4];
+      	for ( i=0; i<4; i++ )
+      		steps[i] = motor[i].steps_left;
+
+        // Turn timers on.
+      	if ( motor[0].steps_left > 0 )
+      		gptStartOneShot( &GPTD1, motor[0].period );
+      	if ( motor[1].steps_left > 0 )
+      		gptStartOneShot( &GPTD2, motor[1].period );
+      	if ( motor[2].steps_left > 0 )
+      		gptStartOneShot( &GPTD3, motor[2].period );
+      	if ( motor[3].steps_left > 0 )
+      		gptStartOneShot( &GPTD4, motor[3].period );
+
+       	// Engage waiting in binary semaphores.
+      	if ( steps[0] > 0 )
+      		chBSemWait( &(motor[0].sem) );
+      	if ( steps[1] > 0 )
+      		chBSemWait( &(motor[1].sem) );
+      	if ( steps[2] > 0 )
+      		chBSemWait( &(motor[2].sem) );
+      	if ( steps[3] > 0 )
+      		chBSemWait( &(motor[3].sem) );
+
+      	// Go idle if there are no more commands.
         chSysLock();
-            moto->dir = ( dir > 0 ) ? 1 : 0;
-            moto->period = period;
-            moto->steps_left = distance;
-        chSysUnlock();
-       	gptStartOneShot( &GPTD1, period );
-
-        // Acceleration.
-        //int min_period = TMR_FREQ;
-        int steps_left;
-        do {
-            //chThdSleepMilliseconds( 1 );
-            chSysLock();
-            	steps_left = moto->steps_left;
-            chSysUnlock();
-            int current_dist = distance - steps_left;
-
-            int d = current_dist;
-            d = (d > half_dist ) ? (distance - d) : d;
-            int speed = nsqrt( moto_vmin * moto_vmin + 2 * moto_acc * d );
-            //int speed = moto_vmin;
-            speed = ( speed > moto_vmax ) ? moto_vmax : speed;
-            period = TMR_FREQ / speed;
-            period = ( period > 2 ) ? period : 2; // Just limin minimum period to the one which makes sense.
-            //min_period = ( min_period > period ) ? period : min_period;
-            // Apply period.
-            chSysLock();
-                moto->period = period;
-            chSysUnlock();
-
-            msg_t msg = chIQGetTimeout( &motor0_stop_queue, 0 );
-
-			// Check for stop condition.
-			if ( msg != Q_TIMEOUT )
-			{
-				gptStop( &GPTD1 );
-				gptStop( &GPTD2 );
-				if ( palReadPad( STEP_0_PORT, STEP_0_PAD ) )
-				{
-					palClearPad( STEP_0_PORT, STEP_0_PAD );
-					moto->steps_left -= 1;
-					moto->pos += ( moto->dir > 0 ) ? 1 : -1;
-				}
-				break;
-			}
-
-        } while ( steps_left > 0 );
-
-        // In the very end set low current.
-        chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
-        // In the other motor doesn't work turn high current off.
-        chSysLock();
-            int sz = chQSpaceI( &motor0_queue ) + chQSpaceI( &motor1_queue );
-            if ( ( !motor[1].in_motion ) && ( sz == 0 ) )
+            int sz = chQSpaceI( &motor_queue );
+            if ( sz < 4 )
             {
-                setHighCurrent( -1 );
-                saveEmergencyData();
+            	setHighCurrent( -1 );
+            	saveEmergencyData();
             }
         chSysUnlock();
 
-        chSysLock();
-        	moto->in_motion = 0;
-        	adjustPosition( moto );
-        chSysUnlock();
     }
     return 0;
 }
@@ -374,56 +356,139 @@ static void timerMotor0( GPTDriver *gptp )
 {
     (void)gptp;
     TMotor * moto = &(motor[0]);
-    if ( moto->steps_left > 0 )
+    if ( moto->high )
     {
-        palSetPad( STEP_0_PORT, STEP_0_PAD );
-        chSysLockFromIsr();
-            if ( GPTD2.state == GPT_READY )
-            {
-                int period2 = moto->period/2;
-                gptStartOneShotI( &GPTD2, period2 );
-            }
-            gptStartOneShotI( &GPTD1, moto->period );
-        chSysUnlockFromIsr();
+    	// Start timer.
+    	chSysLockFromIsr();
+    		gptStartOneShotI( &GPTD1, moto->period );
+    	chSysUnlockFromIsr();
+    	// Clear pad.
+    	palClearPad( STEP_0_PORT, STEP_0_PAD );
+    	moto->high = 0;
+    	moto->steps_left -= 1;
+    }
+    else
+    {
+		if ( moto->steps_left > 0 )
+		{
+			chSysLockFromIsr();
+				gptStartOneShotI( &GPTD1, moto->period );
+			chSysUnlockFromIsr();
+			palSetPad( STEP_0_PORT, STEP_0_PAD );
+			moto->high = 1;
+		}
+		else
+		{
+			chSysLockFromIsr();
+				chBSemSignalI( &(moto->sem) );
+			chSysUnlockFromIsr();
+		}
     }
 }
-
-static void offMotor0( GPTDriver *gptp )
-{
-    (void)gptp;
-    TMotor * moto = &(motor[0]);
-    palClearPad( STEP_0_PORT, STEP_0_PAD );
-    moto->steps_left -= 1;
-    moto->pos += ( moto->dir > 0 ) ? 1 : -1;
-}
-
 
 static void timerMotor1( GPTDriver *gptp )
 {
     (void)gptp;
     TMotor * moto = &(motor[1]);
-    if ( moto->steps_left > 0 )
+    if ( moto->high )
     {
-        palSetPad( STEP_1_PORT, STEP_1_PAD );
-        chSysLockFromIsr();
-            if ( GPTD4.state == GPT_READY )
-            {
-                int period2 = moto->period/2;
-                gptStartOneShotI( &GPTD4, period2 );
-            }
-            gptStartOneShotI( &GPTD3, moto->period );
-        chSysUnlockFromIsr();
+    	// Start timer.
+    	chSysLockFromIsr();
+    		gptStartOneShotI( &GPTD2, moto->period );
+    	chSysUnlockFromIsr();
+    	// Clear pad.
+    	palClearPad( STEP_1_PORT, STEP_1_PAD );
+    	moto->high = 0;
+    	moto->steps_left -= 1;
+    }
+    else
+    {
+		if ( moto->steps_left > 0 )
+		{
+			chSysLockFromIsr();
+				gptStartOneShotI( &GPTD2, moto->period );
+			chSysUnlockFromIsr();
+			palSetPad( STEP_1_PORT, STEP_1_PAD );
+			moto->high = 1;
+		}
+		else
+		{
+			chSysLockFromIsr();
+				chBSemSignalI( &(moto->sem) );
+			chSysUnlockFromIsr();
+		}
     }
 }
 
-static void offMotor1( GPTDriver *gptp )
+static void timerMotor2( GPTDriver *gptp )
 {
     (void)gptp;
-    TMotor * moto = &(motor[1]);
-    palClearPad( STEP_1_PORT, STEP_1_PAD );
-    moto->steps_left -= 1;
-    moto->pos += ( moto->dir > 0 ) ? 1 : -1;
+    TMotor * moto = &(motor[2]);
+    if ( moto->high )
+    {
+    	// Start timer.
+    	chSysLockFromIsr();
+    		gptStartOneShotI( &GPTD3, moto->period );
+    	chSysUnlockFromIsr();
+    	// Clear pad.
+    	palClearPad( STEP_2_PORT, STEP_2_PAD );
+    	moto->high = 0;
+    	moto->steps_left -= 1;
+    }
+    else
+    {
+		if ( moto->steps_left > 0 )
+		{
+			chSysLockFromIsr();
+				gptStartOneShotI( &GPTD3, moto->period );
+			chSysUnlockFromIsr();
+			palSetPad( STEP_2_PORT, STEP_2_PAD );
+			moto->high = 1;
+		}
+		else
+		{
+			chSysLockFromIsr();
+				chBSemSignalI( &(moto->sem) );
+			chSysUnlockFromIsr();
+		}
+    }
 }
+
+static void timerMotor3( GPTDriver *gptp )
+{
+    (void)gptp;
+    TMotor * moto = &(motor[3]);
+    if ( moto->high )
+    {
+    	// Start timer.
+    	chSysLockFromIsr();
+    		gptStartOneShotI( &GPTD4, moto->period );
+    	chSysUnlockFromIsr();
+    	// Clear pad.
+    	palClearPad( STEP_3_PORT, STEP_3_PAD );
+    	moto->high = 0;
+    	moto->steps_left -= 1;
+    }
+    else
+    {
+		if ( moto->steps_left > 0 )
+		{
+			chSysLockFromIsr();
+				gptStartOneShotI( &GPTD4, moto->period );
+			chSysUnlockFromIsr();
+			palSetPad( STEP_3_PORT, STEP_3_PAD );
+			moto->high = 1;
+		}
+		else
+		{
+			chSysLockFromIsr();
+				chBSemSignalI( &(moto->sem) );
+			chSysUnlockFromIsr();
+		}
+    }
+}
+
+
 
 
 /*
@@ -454,10 +519,8 @@ void motorInit( void )
     // Hall_1.
     palSetPadMode( GPIOB, 12, PAL_MODE_INPUT );
 
-    chIQInit( &motor0_queue,      motor0_queue_buffer,      MOTOR_BUFFER_SZ, 0 );
-    chIQInit( &motor0_stop_queue, motor0_stop_queue_buffer, MOTOR_QUEUE_SZ, 0 );
-    chIQInit( &motor1_queue,      motor1_queue_buffer,      MOTOR_BUFFER_SZ, 0 );
-    chIQInit( &motor1_stop_queue, motor1_stop_queue_buffer, MOTOR_QUEUE_SZ, 0 );
+    chIQInit( &motor_queue,      motor_queue_buffer,      MOTOR_BUFFER_SZ, 0 );
+    chIQInit( &motor_stop_queue, motor_stop_queue_buffer, MOTOR_QUEUE_SZ, 0 );
 
     // Initialize external interrupt input here.
     palSetPadMode( HALL_0_PORT,  HALL_0_PAD, PAL_MODE_INPUT );
@@ -515,6 +578,7 @@ void motorInit( void )
 		motor[i].activated   = 0;
 		motor[i].in_motion   = 0;
 		motor[i].dir         = 0;
+		chBSemInit( &(motor[i].sem), FALSE );
     }
 
     //eepromReadMotorPos( &(motor[0].pos), &(motor[1].pos) );
@@ -576,7 +640,7 @@ int motorPos( int index )
     return res;
 }
 
-void motorStop( int index )
+void motorStop( void )
 {
     InputQueue * motor_queue = &motor_stop_queue;
     chSysLock();
@@ -587,19 +651,19 @@ void motorStop( int index )
 void motorMove( int8_t * s )
 {
 	chSysLock();
-		int sz = chIQSpaceI( &motor_queue );
+		int sz = chQSpaceI( &motor_queue );
 		if ( sz >= 4 )
 		{
-			uint8_t v = *(uint8_t *)s[0];
+			uint8_t v = *(uint8_t *)(&s[0]);
 			chIQPutI( &motor_queue, v );
 
-			v = *(uint8_t *)s[1];
+			v = *(uint8_t *)(&s[1]);
 			chIQPutI( &motor_queue, v );
 
-			v = *(uint8_t *)s[2];
+			v = *(uint8_t *)(&s[2]);
 			chIQPutI( &motor_queue, v );
 
-			v = *(uint8_t *)s[3];
+			v = *(uint8_t *)(&s[3]);
 			chIQPutI( &motor_queue, v );
 
 	    	motor[0].activated = 0;

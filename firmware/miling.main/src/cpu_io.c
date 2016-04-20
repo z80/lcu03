@@ -354,20 +354,13 @@ static void set_shutter( uint8_t * args )
 
 static void move_motor( uint8_t * args )
 {
-    int32_t pos;
-    //uint8_t * ppos = (uint8_t *)(&pos);
-    int ind = (args[0] > 0) ? 1 : 0;
-    pos = (int32_t)args[1];
-    pos |= ((int32_t)args[2] << 8);
-    pos |= ((int32_t)args[3] << 16);
-    pos |= ((int32_t)args[4] << 24);
-    motorMove( ind, pos );
+    motorMove( (int8_t *)args );
 }
 
 static void stop_motor( uint8_t * args )
 {
-    int ind = (args[0] > 0) ? 1 : 0;
-    motorStop( ind );
+    (void)args;
+    motorStop();
 }
 
 static void motor_in_motion( uint8_t * args )
