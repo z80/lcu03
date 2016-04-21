@@ -203,21 +203,12 @@ bool VoltampIo::setShutter( int state )
     return true;
 }
 
-bool VoltampIo::moveMotor( int index, int pos )
+bool VoltampIo::moveMotor( int8_t * pos )
 {
     QMutexLocker lock( &pd->mutex );
     
-    quint8 data[5];
-    data[0] = (index > 0) ? 1 : 0;
-
-    pos *= 8;
-
-    data[1] = static_cast<quint8>( pos & 0xFF );
-    data[2] = static_cast<quint8>( (pos >> 8) & 0xFF );
-    data[3] = static_cast<quint8>( (pos >> 16) & 0xFF );
-    data[4] = static_cast<quint8>( (pos >> 24) & 0xFF );
     bool res;
-    res = setArgs( reinterpret_cast<quint8 *>(data), 5 );
+    res = setArgs( reinterpret_cast<quint8 *>(pos), 4 );
     if ( !res )
         return false;
 

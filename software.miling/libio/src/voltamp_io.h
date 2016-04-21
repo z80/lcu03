@@ -22,7 +22,7 @@ public:
     bool setLed( int leds );
 
     bool setShutter( int state );
-    bool moveMotor( int index, int pos );
+    bool moveMotor( int8_t * pos );
     bool stopMotor( int index );
     bool motorInMotion( int index, bool & running, int & pos );
     bool sensor( int index, bool & triggered, int & pos );
