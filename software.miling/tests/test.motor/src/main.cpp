@@ -14,7 +14,7 @@ int main( int argc, char * argv[] )
     if ( !io->open( 0 ) )
         return false;
 
-    int8_t pos[4] = { 100, -100, 100, -100 };
+    qint8 pos[4] = { 100, -100, 100, -100 };
     io->moveMotor( pos );
     io->moveMotor( pos );
     io->moveMotor( pos );

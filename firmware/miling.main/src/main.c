@@ -28,8 +28,8 @@ int main(void)
 
     initLed();
     initCpuIo();
-    eepromInit();  // This one should be initialized before motors to read motor positions data address.
-    shutterInit();
+    //eepromInit();  // This one should be initialized before motors to read motor positions data address.
+    //shutterInit();
     motorInit();
     setLeds( 0 ); //setLeds( 3 ); // Make LEDs 0 to prevent blinking.
 

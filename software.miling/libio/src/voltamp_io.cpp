@@ -203,7 +203,7 @@ bool VoltampIo::setShutter( int state )
     return true;
 }
 
-bool VoltampIo::moveMotor( int8_t * pos )
+bool VoltampIo::moveMotor( qint8 * pos )
 {
     QMutexLocker lock( &pd->mutex );
     

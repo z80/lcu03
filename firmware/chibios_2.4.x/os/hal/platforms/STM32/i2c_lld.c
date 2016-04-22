@@ -1119,7 +1119,7 @@ msg_t i2c_lld_queue_io( I2CDriver * i2cp, i2caddr_t addr,
     // is completed, alternatively for a timeout condition.
 
     // This lock will be released in high level driver.
-    chSysLock();
+    //chSysLock();
 
     if ( (dp->SR2 & I2C_SR2_BUSY) || ( dp->CR1 & I2C_CR1_STOP ) )
         return RDY_TIMEOUT;

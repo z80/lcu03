@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+environment/project/0.1407825044/PATH/delimiter=;
+environment/project/0.1407825044/PATH/operation=replace
+environment/project/0.1407825044/PATH/value=C\:\\Programs\\chibios-gcc\\bin;${Path};
+environment/project/0.1407825044/append=true
+environment/project/0.1407825044/appendContributed=true

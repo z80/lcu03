@@ -257,6 +257,81 @@ uint8_t     motor_stop_queue_buffer[ MOTOR_QUEUE_SZ ];
 static WORKING_AREA( waMotor, 2048 );
 static msg_t motorThread( void *arg );
 
+void motorInit( void )
+{
+    // Init timers for step control.
+    gptStart( &GPTD1, &gpt1cfg );
+    gptStart( &GPTD2, &gpt2cfg );
+    gptStart( &GPTD3, &gpt3cfg );
+    gptStart( &GPTD4, &gpt4cfg );
+
+    // Step pads.
+    palClearPad( STEP_0_PORT,  STEP_0_PAD );
+    palSetPadMode( STEP_0_PORT, STEP_0_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+    palClearPad( STEP_1_PORT,  STEP_1_PAD );
+    palSetPadMode( STEP_1_PORT, STEP_1_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+    palClearPad( STEP_2_PORT,  STEP_2_PAD );
+    palSetPadMode( STEP_2_PORT, STEP_2_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+    palClearPad( STEP_3_PORT,  STEP_3_PAD );
+    palSetPadMode( STEP_3_PORT, STEP_3_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+    // Dir0 and Dir1.
+    palSetPadMode( DIR_0_PORT, DIR_0_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+    palSetPadMode( DIR_1_PORT, DIR_1_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+    palSetPadMode( DIR_2_PORT, DIR_2_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+    palSetPadMode( DIR_3_PORT, DIR_3_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+    // Init GPIO ~sleep~, ~enable~, ~reset~, ~high_current~.
+    palClearPad( ENABLE_PORT, ENABLE_PAD );
+    palClearPad( SLEEP_PORT,  SLEEP_PAD );
+    palClearPad( RESET_PORT,  RESET_PAD );
+    palSetPad(  HIGH_CURRENT_PORT, HIGH_CURRENT_PAD );
+    palSetPadMode( ENABLE_PORT, ENABLE_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+    palSetPadMode( SLEEP_PORT,  SLEEP_PAD,  PAL_MODE_OUTPUT_PUSHPULL );
+    palSetPadMode( RESET_PORT,  RESET_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+    palSetPadMode( HIGH_CURRENT_PORT, HIGH_CURRENT_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+
+    // Init external interrupts.
+    // Hall_0.
+    palSetPadMode( GPIOA, 5, PAL_MODE_INPUT );
+    // Power off.
+    palSetPadMode( GPIOB, 8, PAL_MODE_INPUT );
+    // Hall_1.
+    palSetPadMode( GPIOB, 12, PAL_MODE_INPUT );
+
+    chIQInit( &motor_queue,      motor_queue_buffer,      MOTOR_BUFFER_SZ, 0 );
+    chIQInit( &motor_stop_queue, motor_stop_queue_buffer, MOTOR_QUEUE_SZ, 0 );
+
+    // Initialize external interrupt input here.
+    palSetPadMode( HALL_0_PORT,  HALL_0_PAD, PAL_MODE_INPUT );
+    palSetPadMode( HALL_1_PORT,  HALL_1_PAD, PAL_MODE_INPUT );
+    palSetPadMode( HALL_2_PORT,  HALL_2_PAD, PAL_MODE_INPUT );
+    palSetPadMode( HALL_3_PORT,  HALL_3_PAD, PAL_MODE_INPUT );
+    palSetPadMode( PWR_OFF_PORT, PWR_OFF_PAD, PAL_MODE_INPUT );
+    extStart(&EXTD1, &extcfg);
+
+
+
+    chThdCreateStatic( waMotor, sizeof(waMotor), NORMALPRIO, motorThread, NULL );
+
+    // Turn drivers on.
+    setMotoReset( 1 );
+    setMotoSleep( -1 );
+    setMotoEnable( 1 );
+
+    int i;
+    for ( i=0; i<4; i++ )
+    {
+        motor[i].pos         = 0;
+        motor[i].sensorPos   = 0;
+        motor[i].steps_left  = 0;
+        motor[i].period      = 0;
+        motor[i].activated   = 0;
+        motor[i].in_motion   = 0;
+        motor[i].dir         = 0;
+        chBSemInit( &(motor[i].sem), FALSE );
+    }
+
+    //eepromReadMotorPos( &(motor[0].pos), &(motor[1].pos) );
+}
 
 static msg_t motorThread( void *arg )
 {
@@ -509,80 +584,7 @@ void motorMove( int index, int pos )
 */
 
 
-void motorInit( void )
-{
-    // Init external interrupts.
-    // Hall_0.
-    palSetPadMode( GPIOA, 5, PAL_MODE_INPUT );
-    // Power off.
-    palSetPadMode( GPIOB, 8, PAL_MODE_INPUT );
-    // Hall_1.
-    palSetPadMode( GPIOB, 12, PAL_MODE_INPUT );
 
-    chIQInit( &motor_queue,      motor_queue_buffer,      MOTOR_BUFFER_SZ, 0 );
-    chIQInit( &motor_stop_queue, motor_stop_queue_buffer, MOTOR_QUEUE_SZ, 0 );
-
-    // Initialize external interrupt input here.
-    palSetPadMode( HALL_0_PORT,  HALL_0_PAD, PAL_MODE_INPUT );
-    palSetPadMode( HALL_1_PORT,  HALL_1_PAD, PAL_MODE_INPUT );
-    palSetPadMode( HALL_2_PORT,  HALL_2_PAD, PAL_MODE_INPUT );
-    palSetPadMode( HALL_3_PORT,  HALL_3_PAD, PAL_MODE_INPUT );
-    palSetPadMode( PWR_OFF_PORT, PWR_OFF_PAD, PAL_MODE_INPUT );
-    extStart(&EXTD1, &extcfg);
-
-    // Init PWM for step control.
-    gptStart( &GPTD1, &gpt1cfg );
-    gptStart( &GPTD2, &gpt2cfg );
-    gptStart( &GPTD3, &gpt3cfg );
-    gptStart( &GPTD4, &gpt4cfg );
-
-    // Step pads.
-    palClearPad( STEP_0_PORT,  STEP_0_PAD );
-    palSetPadMode( STEP_0_PORT, STEP_0_PAD, PAL_MODE_OUTPUT_PUSHPULL );
-    palClearPad( STEP_1_PORT,  STEP_1_PAD );
-    palSetPadMode( STEP_1_PORT, STEP_1_PAD, PAL_MODE_OUTPUT_PUSHPULL );
-    palClearPad( STEP_2_PORT,  STEP_2_PAD );
-    palSetPadMode( STEP_2_PORT, STEP_2_PAD, PAL_MODE_OUTPUT_PUSHPULL );
-    palClearPad( STEP_3_PORT,  STEP_3_PAD );
-    palSetPadMode( STEP_3_PORT, STEP_3_PAD, PAL_MODE_OUTPUT_PUSHPULL );
-    // Dir0 and Dir1.
-    palSetPadMode( DIR_0_PORT, DIR_0_PAD, PAL_MODE_OUTPUT_PUSHPULL );
-    palSetPadMode( DIR_1_PORT, DIR_1_PAD, PAL_MODE_OUTPUT_PUSHPULL );
-    palSetPadMode( DIR_2_PORT, DIR_2_PAD, PAL_MODE_OUTPUT_PUSHPULL );
-    palSetPadMode( DIR_3_PORT, DIR_3_PAD, PAL_MODE_OUTPUT_PUSHPULL );
-    // Init GPIO ~sleep~, ~enable~, ~reset~, ~high_current~.
-    palClearPad( ENABLE_PORT, ENABLE_PAD );
-    palClearPad( SLEEP_PORT,  SLEEP_PAD );
-    palClearPad( RESET_PORT,  RESET_PAD );
-    palSetPad(  HIGH_CURRENT_PORT, HIGH_CURRENT_PAD );
-    palSetPadMode( ENABLE_PORT, ENABLE_PAD, PAL_MODE_OUTPUT_PUSHPULL );
-    palSetPadMode( SLEEP_PORT,  SLEEP_PAD,  PAL_MODE_OUTPUT_PUSHPULL );
-    palSetPadMode( RESET_PORT,  RESET_PAD, PAL_MODE_OUTPUT_PUSHPULL );
-    palSetPadMode( HIGH_CURRENT_PORT, HIGH_CURRENT_PAD, PAL_MODE_OUTPUT_PUSHPULL );
-
-
-    chThdCreateStatic( waMotor, sizeof(waMotor), NORMALPRIO, motorThread, NULL );
-
-    // Turn drivers on.
-    setMotoReset( 1 );
-    setMotoSleep( -1 );
-    setMotoEnable( 1 );
-
-    int i;
-    for ( i=0; i<4; i++ )
-    {
-		motor[i].pos         = 0;
-		motor[i].sensorPos   = 0;
-		motor[i].steps_left  = 0;
-		motor[i].period      = 0;
-		motor[i].activated   = 0;
-		motor[i].in_motion   = 0;
-		motor[i].dir         = 0;
-		chBSemInit( &(motor[i].sem), FALSE );
-    }
-
-    //eepromReadMotorPos( &(motor[0].pos), &(motor[1].pos) );
-}
 
 void motorSetPos( int index, int pos )
 {
