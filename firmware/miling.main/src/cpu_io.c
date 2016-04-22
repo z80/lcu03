@@ -150,7 +150,7 @@ void initCpuIo( void )
 	#endif
 
 	// Init I2C bus.
-	i2cStart( &I2CD1, &i2ccfg );
+	//i2cStart( &I2CD1, &i2ccfg );
 
 	// Tune ports for I2C1.
 	palSetPadMode( GPIOB, 6, PAL_MODE_STM32_ALTERNATE_OPENDRAIN );
@@ -158,7 +158,7 @@ void initCpuIo( void )
 
 	// Only in slave mode initialize queued data exchange.
 	#ifdef SLAVE_ADDR
-		i2cSlaveQueueIo( &I2CD1, SLAVE_ADDR, &i2cInQueue, &i2cOutQueue, 0, 0 );
+		//i2cSlaveQueueIo( &I2CD1, SLAVE_ADDR, &i2cInQueue, &i2cOutQueue, 0, 0 );
 	#endif
 }
 

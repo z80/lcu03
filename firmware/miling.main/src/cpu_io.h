@@ -4,7 +4,7 @@
 
 #include "ch.h"
 
-#define SLAVE_ADDR 1
+//#define SLAVE_ADDR 1
 
 void initCpuIo( void );
 void processCpuIo( void );

@@ -26,7 +26,7 @@ int main(void)
     halInit();
     chSysInit();
 
-    initLed();
+    //initLed();
     initCpuIo();
     eepromInit();  // This one should be initialized before motors to read motor positions data address.
     shutterInit();

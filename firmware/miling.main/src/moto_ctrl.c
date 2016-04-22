@@ -3,6 +3,61 @@
 #include "hal.h"
 #include "eeprom_ctrl.h"
 
+typedef struct
+{
+    int     pos;
+    int     sensorPos;
+
+    int     steps_left;
+    int     period;
+    uint8_t activated : 1; // If sensor was activated during last transition.
+    uint8_t in_motion : 1; // If motor is in motion at the moment.
+    uint8_t dir : 1; // Dir pad level.
+    uint8_t high: 1; // Step pad level.
+    BinarySemaphore sem; // Finished indication.
+} TMotor;
+
+static TMotor motor[4];
+
+#define MOTOR_QUEUE_SZ 32
+#define MOTOR_BUFFER_SZ ( MOTOR_QUEUE_SZ * sizeof( int8_t ) * 4 ) // 4 motors, from (-128) to (+127) steps.
+
+InputQueue  motor_queue;
+uint8_t     motor_queue_buffer[ MOTOR_BUFFER_SZ ];
+
+InputQueue  motor_stop_queue;
+uint8_t     motor_stop_queue_buffer[ MOTOR_QUEUE_SZ ];
+
+void motorMove( int8_t * s )
+{
+    chSysLock();
+        int sz = chQSpaceI( &motor_queue );
+        if ( sz >= 4 )
+        {
+            uint8_t v = *(uint8_t *)(&s[0]);
+            chIQPutI( &motor_queue, v );
+            motor[0].activated = 0;
+            motor[0].in_motion = (v!=0) ? 1 : 0;
+
+            v = *(uint8_t *)(&s[1]);
+            chIQPutI( &motor_queue, v );
+            motor[1].activated = 0;
+            motor[1].in_motion = (v!=0) ? 1 : 0;
+
+            v = *(uint8_t *)(&s[2]);
+            chIQPutI( &motor_queue, v );
+            motor[2].activated = 0;
+            motor[2].in_motion = (v!=0) ? 1 : 0;
+
+            v = *(uint8_t *)(&s[3]);
+            chIQPutI( &motor_queue, v );
+            motor[3].activated = 0;
+            motor[3].in_motion = (v!=0) ? 1 : 0;
+        }
+    chSysUnlock();
+}
+
+
 #define TMR_FREQ 100000 //140625
 #define HIGH_CURRENT_WAIT 50
 
@@ -63,6 +118,8 @@
 #define HALL_3_PORT GPIOA
 #define HALL_3_PAD  3
 
+
+
 static int nsqrt( int arg );
 
 
@@ -77,21 +134,7 @@ static void setHighCurrent( int en );
 
 static void saveEmergencyData( void );
 
-typedef struct
-{
-    int     pos;
-    int     sensorPos;
 
-    int     steps_left;
-    int     period;
-    uint8_t activated : 1; // If sensor was activated during last transition.
-    uint8_t in_motion : 1; // If motor is in motion at the moment.
-    uint8_t dir : 1; // Dir pad level.
-    uint8_t high: 1; // Step pad level.
-    BinarySemaphore sem; // Finished indication.
-} TMotor;
-
-static TMotor motor[4];
 
 static void adjustPosition( TMotor * moto );
 
@@ -243,28 +286,44 @@ static const GPTConfig gpt4cfg = {
 
 
 
-#define MOTOR_QUEUE_SZ 3
 
-#define MOTOR_BUFFER_SZ ( MOTOR_QUEUE_SZ * sizeof( int8_t ) * 4 ) // 4 motors, up to 127 steps each in each direction.
-
-
-InputQueue  motor_queue;
-uint8_t     motor_queue_buffer[ MOTOR_BUFFER_SZ ];
-
-InputQueue  motor_stop_queue;
-uint8_t     motor_stop_queue_buffer[ MOTOR_QUEUE_SZ ];
 
 static WORKING_AREA( waMotor, 2048 );
 static msg_t motorThread( void *arg );
 
+static void initPads( void );
+static void initData( void );
+
 void motorInit( void )
 {
+    initPads();
+
+    chIQInit( &motor_queue,      motor_queue_buffer,      MOTOR_BUFFER_SZ, 0 );
+    chIQInit( &motor_stop_queue, motor_stop_queue_buffer, MOTOR_QUEUE_SZ, 0 );
+
     // Init timers for step control.
     gptStart( &GPTD1, &gpt1cfg );
     gptStart( &GPTD2, &gpt2cfg );
     gptStart( &GPTD3, &gpt3cfg );
     gptStart( &GPTD4, &gpt4cfg );
 
+    // Initialize external interrupt input here.
+    //extStart(&EXTD1, &extcfg);
+
+    // Turn drivers on.
+    setMotoReset( 1 );
+    setMotoSleep( -1 );
+    setMotoEnable( 1 );
+
+    initData();
+
+    chThdCreateStatic( waMotor, sizeof(waMotor), NORMALPRIO, motorThread, NULL );
+
+    //eepromReadMotorPos( &(motor[0].pos), &(motor[1].pos) );
+}
+
+static void initPads( void )
+{
     // Step pads.
     palClearPad( STEP_0_PORT,  STEP_0_PAD );
     palSetPadMode( STEP_0_PORT, STEP_0_PAD, PAL_MODE_OUTPUT_PUSHPULL );
@@ -297,26 +356,17 @@ void motorInit( void )
     // Hall_1.
     palSetPadMode( GPIOB, 12, PAL_MODE_INPUT );
 
-    chIQInit( &motor_queue,      motor_queue_buffer,      MOTOR_BUFFER_SZ, 0 );
-    chIQInit( &motor_stop_queue, motor_stop_queue_buffer, MOTOR_QUEUE_SZ, 0 );
-
-    // Initialize external interrupt input here.
+    // External interrupt pads.
     palSetPadMode( HALL_0_PORT,  HALL_0_PAD, PAL_MODE_INPUT );
     palSetPadMode( HALL_1_PORT,  HALL_1_PAD, PAL_MODE_INPUT );
     palSetPadMode( HALL_2_PORT,  HALL_2_PAD, PAL_MODE_INPUT );
     palSetPadMode( HALL_3_PORT,  HALL_3_PAD, PAL_MODE_INPUT );
     palSetPadMode( PWR_OFF_PORT, PWR_OFF_PAD, PAL_MODE_INPUT );
-    extStart(&EXTD1, &extcfg);
 
+}
 
-
-    chThdCreateStatic( waMotor, sizeof(waMotor), NORMALPRIO, motorThread, NULL );
-
-    // Turn drivers on.
-    setMotoReset( 1 );
-    setMotoSleep( -1 );
-    setMotoEnable( 1 );
-
+static void initData( void )
+{
     int i;
     for ( i=0; i<4; i++ )
     {
@@ -330,7 +380,6 @@ void motorInit( void )
         chBSemInit( &(motor[i].sem), FALSE );
     }
 
-    //eepromReadMotorPos( &(motor[0].pos), &(motor[1].pos) );
 }
 
 static msg_t motorThread( void *arg )
@@ -352,9 +401,13 @@ static msg_t motorThread( void *arg )
         	motor[i].dir = (dist[i] > 0) ? 1 : 0;
         	motor[i].steps_left = (dist[i]>0) ? dist[i] : (-dist[i]);
         	motor[i].high = 1; // It will be activated for the first time lower in the code but not in timer ISR.
-        	// Set rotation direction.
-        	setMoto0Dir( motor[i].dir );
         }
+        // Set rotation direction.
+        setMoto0Dir( motor[0].dir );
+        setMoto1Dir( motor[1].dir );
+        setMoto2Dir( motor[2].dir );
+        setMoto3Dir( motor[3].dir );
+
     	// Calculate distance in steps.
     	int L = motor[0].steps_left * motor[0].steps_left +
     			motor[1].steps_left * motor[1].steps_left +
@@ -650,38 +703,6 @@ void motorStop( void )
     chSysUnlock();
 }
 
-void motorMove( int8_t * s )
-{
-	chSysLock();
-		int sz = chQSpaceI( &motor_queue );
-		if ( sz >= 4 )
-		{
-			uint8_t v = *(uint8_t *)(&s[0]);
-			chIQPutI( &motor_queue, v );
-
-			v = *(uint8_t *)(&s[1]);
-			chIQPutI( &motor_queue, v );
-
-			v = *(uint8_t *)(&s[2]);
-			chIQPutI( &motor_queue, v );
-
-			v = *(uint8_t *)(&s[3]);
-			chIQPutI( &motor_queue, v );
-
-	    	motor[0].activated = 0;
-	    	motor[0].in_motion = 1;
-
-	    	motor[1].activated = 0;
-	    	motor[1].in_motion = 1;
-
-	    	motor[2].activated = 0;
-	    	motor[2].in_motion = 1;
-
-	    	motor[3].activated = 0;
-	    	motor[3].in_motion = 1;
-		}
-	chSysUnlock();
-}
 
 
 

@@ -91,8 +91,7 @@
 #if !defined(HAL_USE_I2C) || defined(__DOXYGEN__)
 #define HAL_USE_I2C                 TRUE
 #endif
-#define I2C_USE_SLAVE_MODE TRUE
-#define I2C_USE_QUEUES     TRUE
+#define I2C_USE_SLAVE_MODE FALSE
 
 /**
  * @brief   Enables the ICU subsystem.
