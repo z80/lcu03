@@ -26,9 +26,11 @@ static msg_t ledsThread( void *arg )
     (void)arg;
     chRegSetThreadName( "ld" );
 
+    /*
     iwdgInit();
     iwdgStart( &IWDGD, &iwdgCfg );
     iwdgReset( &IWDGD );
+    */
     while ( 1 )
     {
         static uint32_t arg;
@@ -45,7 +47,7 @@ static msg_t ledsThread( void *arg )
             	palClearPad( LED_1_PORT, LED_1_PIN );
         chMtxUnlock();
         chThdSleepMilliseconds( 500 );
-        iwdgReset( &IWDGD );
+        //iwdgReset( &IWDGD );
     }
 
     return 0;

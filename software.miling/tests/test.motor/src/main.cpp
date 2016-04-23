@@ -11,8 +11,14 @@ int main( int argc, char * argv[] )
     QStringList l = io->enumDevices();
     qDebug() << l;
 
-    if ( !io->open( 4 ) )
-        return false;
+    if ( !io->open( 32 ) )
+    {
+        qDebug() << "ERROR: Failed to open serial port!";
+        return 1;
+    }
+
+    qDebug() << "SUCCESS: Opened port successfully!";
+    //return 0;
 
     QString stri;
     io->firmware_version( stri );
@@ -22,6 +28,11 @@ int main( int argc, char * argv[] )
     io->moveMotor( pos );
     io->firmware_version( stri );
     qDebug() << stri;
+
+    qDebug() << "Here!";
+    return 0;
+
+
 
     io->moveMotor( pos );
     io->firmware_version( stri );
