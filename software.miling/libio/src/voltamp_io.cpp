@@ -507,10 +507,34 @@ bool VoltampIo::eepromSetSdAddr( quint8 addr )
     if ( !res )
         return false;
 
-    quint8 funcInd = 14;
+    quint8 funcInd = 15;
     res = execFunc( funcInd );
     if ( !res )
         return false;
+
+    return true;
+}
+
+bool VoltampIo::motorQueueSpace( int & sz )
+{
+    QMutexLocker lock( &pd->mutex );
+
+    quint8 funcInd = 16;
+    res = execFunc( funcInd );
+    if ( !res )
+        return false;
+
+    // Getting result.
+    QByteArray & arr = pd->buffer;
+    arr.resize( PD::IN_BUFFER_SZ );
+    bool eom;
+    int cnt = read( reinterpret_cast<quint8 *>( arr.data() ), arr.size(), eom );
+    if ( ( !eom ) || ( cnt < 1 ) )
+        return false;
+
+    quint8 * dat = reinterpret_cast<quint8 *>( arr.data() );
+
+    sz = static_cast<int>( *dat );
 
     return true;
 }

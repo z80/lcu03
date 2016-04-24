@@ -35,6 +35,8 @@ public:
     bool eepromRead( quint8 addr, quint8 * data, quint8 & size );
     bool eepromSetSdAddr( quint8 addr );
 
+    bool motorQueueSpace( int & sz );
+
     // EEPROM high level functions.
     // Serial number.
     bool setSerialNumber( quint16 sn, bool overwrite = false );

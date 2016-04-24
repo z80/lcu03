@@ -119,6 +119,14 @@ static void eeprom_setSdAddr( uint8_t * args )
     eepromSetSdAddr( addr );
 }
 
+static void motor_queue_space( uint8_t * args )
+{
+	(void)args;
+	int sz = motorQueueFreeSpace();
+	writeResult( (uint8_t)sz );
+	writeEom();
+}
+
 
 static const I2CConfig i2ccfg =
 {
@@ -247,6 +255,8 @@ static void eeprom_read( uint8_t * args );
 static void eeprom_clrSdData( uint8_t * args );
 static void eeprom_setSdAddr( uint8_t * args );
 
+static void motor_queue_space( uint8_t * args );
+
 
 /*
 static void set_dac1( uint8_t * args );
@@ -272,24 +282,26 @@ static void set_output( uint8_t * args );
 
 static TFunc funcs[] =
 {
-	hardware_version,
-	firmware_version,
-    firmware_upgrade,
+	hardware_version,	// 0
+	firmware_version,   // 1
+    firmware_upgrade,   // 2
 
-    set_led,
-    set_shutter,
-    move_motor,
-    stop_motor,
-    motor_in_motion,
-    sensor,
-    motor_set_pos,
-    motor_set_params,
-    motor_pos,
+    set_led,			// 3
+    set_shutter,		// 4
+    move_motor,			// 5
+    stop_motor,			// 6
+    motor_in_motion,	// 7
+    sensor,				// 8
+    motor_set_pos,		// 9
+    motor_set_params, 	// 10
+    motor_pos,			// 11
 
-    eeprom_write,
-    eeprom_read,
-    eeprom_clrSdData,
-    eeprom_setSdAddr
+    eeprom_write, 		// 12
+    eeprom_read, 		// 13
+    eeprom_clrSdData, 	// 14
+    eeprom_setSdAddr,  	// 15
+
+	motor_queue_space 	// 16
 };
 
 static void exec_func( void )
