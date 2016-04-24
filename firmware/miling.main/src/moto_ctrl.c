@@ -28,6 +28,9 @@ uint8_t     motor_queue_buffer[ MOTOR_BUFFER_SZ ];
 InputQueue  motor_stop_queue;
 uint8_t     motor_stop_queue_buffer[ MOTOR_QUEUE_SZ ];
 
+InputQueue motor_synch_queue;
+uint8_t    motor_synch_queue_buffer[ 4 ];
+
 void motorMove( int8_t * s )
 {
 	chSysLock();
@@ -47,6 +50,14 @@ void motorMove( int8_t * s )
 		chIQPutI( &motor_queue, v );
 	}
 	chSysUnlock();
+}
+
+int  motorQueueFreeSpace( void )
+{
+	chSysLock();
+		int sz = chIQGetEmptyI( &motor_queue );
+	chSysUnlock();
+	return sz / 4;
 }
 
 
@@ -292,6 +303,7 @@ void motorInit( void )
 
 	chIQInit( &motor_queue,      motor_queue_buffer,      MOTOR_BUFFER_SZ, 0 );
 	chIQInit( &motor_stop_queue, motor_stop_queue_buffer, MOTOR_QUEUE_SZ, 0 );
+	chIQInit( &motor_synch_queue, motor_synch_queue_buffer, 4, 0 );
 
 	// Init timers for step control.
 	gptStart( &GPTD1, &gpt1cfg );
@@ -436,25 +448,26 @@ static msg_t motorThread( void *arg )
 
 		// Timers will change steps quantity.
 		// So remember steps number to use them later.
-		int lockCnt = 0;
+		int motorsCnt = 0;
 		for ( i=0; i<4; i++ )
-			lockCnt += motor[i].in_motion;
-		lockCnt = 1 - lockCnt;
-
-		chSemReset( &sem, lockCnt );
+			motorsCnt += motor[i].in_motion;
 
 		// Turn timers on.
-		if ( motor[0].steps_left > 0 )
+		if ( motor[0].in_motion )
 			gptStartOneShot( &GPTD1, motor[0].period );
-		if ( motor[1].steps_left > 0 )
+		if ( motor[1].in_motion )
 			gptStartOneShot( &GPTD2, motor[1].period );
-		if ( motor[2].steps_left > 0 )
+		if ( motor[2].in_motion )
 			gptStartOneShot( &GPTD3, motor[2].period );
-		if ( motor[3].steps_left > 0 )
+		if ( motor[3].in_motion )
 			gptStartOneShot( &GPTD4, motor[3].period );
 
-		// Engage waiting in binary semaphores.
-		chSemWait( &sem );
+		// Engage waiting by getting from synch queue.
+		for ( i=0; i<motorsCnt; i++ )
+			chIQGet( &motor_synch_queue );
+
+		for (i=0; i<4; i++)
+			motor[i].in_motion = 0;
 
 		// Go idle if there are no more commands.
 		chSysLock();
@@ -465,6 +478,19 @@ static msg_t motorThread( void *arg )
 			saveEmergencyData();
 		}
 		chSysUnlock();
+
+		// Check if stop was generated.
+		msg_t msg;
+		msg = chIQGetTimeout( &motor_stop_queue, 0 );
+		if ( msg != Q_TIMEOUT )
+		{
+			// Clean commang queue;
+			chSysLock();
+				sz = chQSpaceI( &motor_queue );
+			chSysUnlock();
+			for ( i=0; i<sz; i++ )
+				chIQGetTimeout( &motor_queue, 0 );
+		}
 
 	}
 	return 0;
@@ -478,7 +504,10 @@ static void timerMotor0( GPTDriver *gptp )
 	{
 		// Start timer.
 		chSysLockFromIsr();
-		gptStartOneShotI( &GPTD1, moto->period );
+			if ( moto->in_motion )
+				gptStartOneShotI( &GPTD1, moto->period );
+			else
+				chIQPutI( &motor_synch_queue, 0 );
 		chSysUnlockFromIsr();
 		// Clear pad.
 		palClearPad( STEP_0_PORT, STEP_0_PAD );
@@ -490,7 +519,10 @@ static void timerMotor0( GPTDriver *gptp )
 		if ( moto->steps_left > 0 )
 		{
 			chSysLockFromIsr();
-			gptStartOneShotI( &GPTD1, moto->period );
+			if ( moto->in_motion )
+				gptStartOneShotI( &GPTD1, moto->period );
+			else
+				chIQPutI( &motor_synch_queue, 0 );
 			chSysUnlockFromIsr();
 			palSetPad( STEP_0_PORT, STEP_0_PAD );
 			moto->high = 1;
@@ -498,7 +530,7 @@ static void timerMotor0( GPTDriver *gptp )
 		else
 		{
 			chSysLockFromIsr();
-			chSemSignalI( &sem );
+				chIQPutI( &motor_synch_queue, 0 );
 			chSysUnlockFromIsr();
 		}
 	}
@@ -512,7 +544,10 @@ static void timerMotor1( GPTDriver *gptp )
 	{
 		// Start timer.
 		chSysLockFromIsr();
-		gptStartOneShotI( &GPTD2, moto->period );
+		if ( moto->in_motion )
+			gptStartOneShotI( &GPTD2, moto->period );
+		else
+			chIQPutI( &motor_synch_queue, 0 );
 		chSysUnlockFromIsr();
 		// Clear pad.
 		palClearPad( STEP_1_PORT, STEP_1_PAD );
@@ -524,7 +559,10 @@ static void timerMotor1( GPTDriver *gptp )
 		if ( moto->steps_left > 0 )
 		{
 			chSysLockFromIsr();
-			gptStartOneShotI( &GPTD2, moto->period );
+			if ( moto->in_motion )
+				gptStartOneShotI( &GPTD2, moto->period );
+			else
+				chIQPutI( &motor_synch_queue, 0 );
 			chSysUnlockFromIsr();
 			palSetPad( STEP_1_PORT, STEP_1_PAD );
 			moto->high = 1;
@@ -532,7 +570,7 @@ static void timerMotor1( GPTDriver *gptp )
 		else
 		{
 			chSysLockFromIsr();
-			chSemSignalI( &sem );
+				chIQPutI( &motor_synch_queue, 0 );
 			chSysUnlockFromIsr();
 		}
 	}
@@ -546,7 +584,10 @@ static void timerMotor2( GPTDriver *gptp )
 	{
 		// Start timer.
 		chSysLockFromIsr();
-		gptStartOneShotI( &GPTD3, moto->period );
+		if ( moto->in_motion )
+			gptStartOneShotI( &GPTD3, moto->period );
+		else
+			chIQPutI( &motor_synch_queue, 0 );
 		chSysUnlockFromIsr();
 		// Clear pad.
 		palClearPad( STEP_2_PORT, STEP_2_PAD );
@@ -558,7 +599,10 @@ static void timerMotor2( GPTDriver *gptp )
 		if ( moto->steps_left > 0 )
 		{
 			chSysLockFromIsr();
-			gptStartOneShotI( &GPTD3, moto->period );
+			if ( moto->in_motion )
+				gptStartOneShotI( &GPTD3, moto->period );
+			else
+				chIQPutI( &motor_synch_queue, 0 );
 			chSysUnlockFromIsr();
 			palSetPad( STEP_2_PORT, STEP_2_PAD );
 			moto->high = 1;
@@ -566,7 +610,7 @@ static void timerMotor2( GPTDriver *gptp )
 		else
 		{
 			chSysLockFromIsr();
-			chSemSignalI( &sem );
+				chIQPutI( &motor_synch_queue, 0 );
 			chSysUnlockFromIsr();
 		}
 	}
@@ -580,7 +624,10 @@ static void timerMotor3( GPTDriver *gptp )
 	{
 		// Start timer.
 		chSysLockFromIsr();
-		gptStartOneShotI( &GPTD4, moto->period );
+		if ( moto->in_motion )
+			gptStartOneShotI( &GPTD4, moto->period );
+		else
+			chIQPutI( &motor_synch_queue, 0 );
 		chSysUnlockFromIsr();
 		// Clear pad.
 		palClearPad( STEP_3_PORT, STEP_3_PAD );
@@ -592,7 +639,10 @@ static void timerMotor3( GPTDriver *gptp )
 		if ( moto->steps_left > 0 )
 		{
 			chSysLockFromIsr();
-			gptStartOneShotI( &GPTD4, moto->period );
+			if ( moto->in_motion )
+				gptStartOneShotI( &GPTD4, moto->period );
+			else
+				chIQPutI( &motor_synch_queue, 0 );
 			chSysUnlockFromIsr();
 			palSetPad( STEP_3_PORT, STEP_3_PAD );
 			moto->high = 1;
@@ -600,7 +650,7 @@ static void timerMotor3( GPTDriver *gptp )
 		else
 		{
 			chSysLockFromIsr();
-			chSemSignalI( &sem );
+				chIQPutI( &motor_synch_queue, 0 );
 			chSysUnlockFromIsr();
 		}
 	}
@@ -687,9 +737,11 @@ int motorPos( int index )
 
 void motorStop( void )
 {
-	InputQueue * motor_queue = &motor_stop_queue;
 	chSysLock();
-	chIQPutI( motor_queue, 0 );
+		chIQPutI( &motor_stop_queue, 0 );
+		int i;
+		for ( i=0; i<4; i++ )
+			motor[i].in_motion = 0;
 	chSysUnlock();
 }
 

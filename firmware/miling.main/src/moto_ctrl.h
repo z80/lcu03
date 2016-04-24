@@ -14,6 +14,7 @@ int motorInMotion( int index, int * pos );
 int motorPos( int index );
 void motorStop( void );
 void motorMove( int8_t * s );
+int  motorQueueFreeSpace( void );
 
 
 #endif
