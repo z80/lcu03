@@ -390,6 +390,7 @@ static void initData( void )
 static msg_t motorThread( void *arg )
 {
 	(void)arg;
+	uint8_t highCurrent = 0;
 	while ( 1 )
 	{
 		int8_t dist[4];
@@ -436,8 +437,12 @@ static msg_t motorThread( void *arg )
 		}
 
 		// Set high current.
-		setHighCurrent( 1 );
-		chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
+		if ( !highCurrent )
+		{
+			setHighCurrent( 1 );
+			chThdSleepMilliseconds( HIGH_CURRENT_WAIT );
+			highCurrent = 1;
+		}
 
 		// Make steps for the first time outside of timers.
 		if ( motor[0].steps_left > 0 )
@@ -477,8 +482,11 @@ static msg_t motorThread( void *arg )
 		int sz = chQSpaceI( &motor_queue );
 		if ( sz < 4 )
 		{
+			// No checking is needed. If there was motor spinning
+			// then current was supposed to be set into high state.
 			setHighCurrent( -1 );
 			saveEmergencyData();
+			highCurrent = 0;
 		}
 		chSysUnlock();
 
