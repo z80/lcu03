@@ -1127,7 +1127,7 @@ destructors     0x080000ec        0x0
  *(SORT(.fini_array.*))
                 0x080000ec                PROVIDE (__fini_array_end, .)
 
-.text           0x080000f0     0x6518
+.text           0x080000f0     0x6528
  *(.text.startup.*)
  *(.text)
  .text          0x080000f0       0x2c /home/z80/programs/code-sourcery/2011.03-42/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2/libgcc.a(_aeabi_uldivmod.o)
@@ -1582,211 +1582,211 @@ destructors     0x080000ec        0x0
  .text.initData
                 0x08004160      0x100 build/obj/moto_ctrl.o
  .text.motorThread
-                0x08004260      0x4c0 build/obj/moto_ctrl.o
+                0x08004260      0x4d0 build/obj/moto_ctrl.o
  .text.timerMotor0
-                0x08004720      0x110 build/obj/moto_ctrl.o
+                0x08004730      0x110 build/obj/moto_ctrl.o
  .text.timerMotor1
-                0x08004830      0x110 build/obj/moto_ctrl.o
+                0x08004840      0x110 build/obj/moto_ctrl.o
  .text.timerMotor2
-                0x08004940      0x110 build/obj/moto_ctrl.o
+                0x08004950      0x110 build/obj/moto_ctrl.o
  .text.timerMotor3
-                0x08004a50      0x110 build/obj/moto_ctrl.o
+                0x08004a60      0x110 build/obj/moto_ctrl.o
  .text.motorSetPos
-                0x08004b60       0x50 build/obj/moto_ctrl.o
-                0x08004b60                motorSetPos
+                0x08004b70       0x50 build/obj/moto_ctrl.o
+                0x08004b70                motorSetPos
  .text.motorSetParams
-                0x08004bb0       0x50 build/obj/moto_ctrl.o
-                0x08004bb0                motorSetParams
+                0x08004bc0       0x50 build/obj/moto_ctrl.o
+                0x08004bc0                motorSetParams
  .text.motorSensorData
-                0x08004c00       0x70 build/obj/moto_ctrl.o
-                0x08004c00                motorSensorData
+                0x08004c10       0x70 build/obj/moto_ctrl.o
+                0x08004c10                motorSensorData
  .text.motorInMotion
-                0x08004c70       0x70 build/obj/moto_ctrl.o
-                0x08004c70                motorInMotion
+                0x08004c80       0x70 build/obj/moto_ctrl.o
+                0x08004c80                motorInMotion
  .text.motorPos
-                0x08004ce0       0x60 build/obj/moto_ctrl.o
-                0x08004ce0                motorPos
+                0x08004cf0       0x60 build/obj/moto_ctrl.o
+                0x08004cf0                motorPos
  .text.motorStop
-                0x08004d40       0x70 build/obj/moto_ctrl.o
-                0x08004d40                motorStop
+                0x08004d50       0x70 build/obj/moto_ctrl.o
+                0x08004d50                motorStop
  .text.setMotoSleep
-                0x08004db0       0x30 build/obj/moto_ctrl.o
+                0x08004dc0       0x30 build/obj/moto_ctrl.o
  .text.setMotoReset
-                0x08004de0       0x30 build/obj/moto_ctrl.o
+                0x08004df0       0x30 build/obj/moto_ctrl.o
  .text.setMotoEnable
-                0x08004e10       0x30 build/obj/moto_ctrl.o
+                0x08004e20       0x30 build/obj/moto_ctrl.o
  .text.setMoto0Dir
-                0x08004e40       0x30 build/obj/moto_ctrl.o
+                0x08004e50       0x30 build/obj/moto_ctrl.o
  .text.setMoto1Dir
-                0x08004e70       0x30 build/obj/moto_ctrl.o
+                0x08004e80       0x30 build/obj/moto_ctrl.o
  .text.setMoto2Dir
-                0x08004ea0       0x30 build/obj/moto_ctrl.o
+                0x08004eb0       0x30 build/obj/moto_ctrl.o
  .text.setMoto3Dir
-                0x08004ed0       0x30 build/obj/moto_ctrl.o
+                0x08004ee0       0x30 build/obj/moto_ctrl.o
  .text.setHighCurrent
-                0x08004f00       0x40 build/obj/moto_ctrl.o
+                0x08004f10       0x40 build/obj/moto_ctrl.o
  .text.saveEmergencyData
-                0x08004f40       0x90 build/obj/moto_ctrl.o
- .text.nsqrt    0x08004fd0       0x90 build/obj/moto_ctrl.o
- .text.main     0x08005060       0x30 build/obj/main.o
-                0x08005060                main
+                0x08004f50       0x90 build/obj/moto_ctrl.o
+ .text.nsqrt    0x08004fe0       0x90 build/obj/moto_ctrl.o
+ .text.main     0x08005070       0x30 build/obj/main.o
+                0x08005070                main
  .text.serialThread
-                0x08005090       0x50 build/obj/cpu_io.o
+                0x080050a0       0x50 build/obj/cpu_io.o
  .text.motor_pos
-                0x080050e0       0x60 build/obj/cpu_io.o
+                0x080050f0       0x60 build/obj/cpu_io.o
  .text.eeprom_write
-                0x08005140       0x60 build/obj/cpu_io.o
+                0x08005150       0x60 build/obj/cpu_io.o
  .text.eeprom_read
-                0x080051a0       0x90 build/obj/cpu_io.o
+                0x080051b0       0x90 build/obj/cpu_io.o
  .text.eeprom_clrSdData
-                0x08005230       0x10 build/obj/cpu_io.o
+                0x08005240       0x10 build/obj/cpu_io.o
  .text.eeprom_setSdAddr
-                0x08005240       0x20 build/obj/cpu_io.o
+                0x08005250       0x20 build/obj/cpu_io.o
  .text.motor_queue_space
-                0x08005260       0x20 build/obj/cpu_io.o
+                0x08005270       0x20 build/obj/cpu_io.o
  .text.initCpuIo
-                0x08005280       0xc0 build/obj/cpu_io.o
-                0x08005280                initCpuIo
+                0x08005290       0xc0 build/obj/cpu_io.o
+                0x08005290                initCpuIo
  .text.processCpuIo
-                0x08005340       0xb0 build/obj/cpu_io.o
-                0x08005340                processCpuIo
+                0x08005350       0xb0 build/obj/cpu_io.o
+                0x08005350                processCpuIo
  .text.process_command
-                0x080053f0       0x70 build/obj/cpu_io.o
+                0x08005400       0x70 build/obj/cpu_io.o
  .text.exec_func
-                0x08005460       0x40 build/obj/cpu_io.o
+                0x08005470       0x40 build/obj/cpu_io.o
  .text.hardware_version
-                0x080054a0       0x50 build/obj/cpu_io.o
+                0x080054b0       0x50 build/obj/cpu_io.o
  .text.firmware_version
-                0x080054f0       0x50 build/obj/cpu_io.o
+                0x08005500       0x50 build/obj/cpu_io.o
  .text.firmware_upgrade
-                0x08005540       0x50 build/obj/cpu_io.o
- .text.set_led  0x08005590       0x20 build/obj/cpu_io.o
+                0x08005550       0x50 build/obj/cpu_io.o
+ .text.set_led  0x080055a0       0x20 build/obj/cpu_io.o
  .text.set_shutter
-                0x080055b0       0x20 build/obj/cpu_io.o
+                0x080055c0       0x20 build/obj/cpu_io.o
  .text.move_motor
-                0x080055d0       0x20 build/obj/cpu_io.o
+                0x080055e0       0x20 build/obj/cpu_io.o
  .text.stop_motor
-                0x080055f0       0x10 build/obj/cpu_io.o
+                0x08005600       0x10 build/obj/cpu_io.o
  .text.motor_in_motion
-                0x08005600       0x70 build/obj/cpu_io.o
- .text.sensor   0x08005670       0x70 build/obj/cpu_io.o
+                0x08005610       0x70 build/obj/cpu_io.o
+ .text.sensor   0x08005680       0x70 build/obj/cpu_io.o
  .text.motor_set_pos
-                0x080056e0       0x70 build/obj/cpu_io.o
+                0x080056f0       0x70 build/obj/cpu_io.o
  .text.motor_set_params
-                0x08005750       0xf0 build/obj/cpu_io.o
+                0x08005760       0xf0 build/obj/cpu_io.o
  .text.writeResult
-                0x08005840       0x40 build/obj/cpu_io.o
+                0x08005850       0x40 build/obj/cpu_io.o
  .text.writeEom
-                0x08005880       0x20 build/obj/cpu_io.o
+                0x08005890       0x20 build/obj/cpu_io.o
  .text.ledsThread
-                0x080058a0       0x90 build/obj/led_ctrl.o
- .text.initLed  0x08005930       0x60 build/obj/led_ctrl.o
-                0x08005930                initLed
- .text.setLeds  0x08005990       0x30 build/obj/led_ctrl.o
-                0x08005990                setLeds
+                0x080058b0       0x90 build/obj/led_ctrl.o
+ .text.initLed  0x08005940       0x60 build/obj/led_ctrl.o
+                0x08005940                initLed
+ .text.setLeds  0x080059a0       0x30 build/obj/led_ctrl.o
+                0x080059a0                setLeds
  .text.NVIC_SystemReset
-                0x080059c0       0x30 build/obj/dfu_ctrl.o
+                0x080059d0       0x30 build/obj/dfu_ctrl.o
  .text.firmwareUpgrade
-                0x080059f0       0x10 build/obj/dfu_ctrl.o
-                0x080059f0                firmwareUpgrade
+                0x08005a00       0x10 build/obj/dfu_ctrl.o
+                0x08005a00                firmwareUpgrade
  .text.setShutter
-                0x08005a00       0x50 build/obj/shutter_ctrl.o
-                0x08005a00                setShutter
+                0x08005a10       0x50 build/obj/shutter_ctrl.o
+                0x08005a10                setShutter
  .text.eepromWrite
-                0x08005a50       0xb0 build/obj/eeprom_ctrl.o
-                0x08005a50                eepromWrite
+                0x08005a60       0xb0 build/obj/eeprom_ctrl.o
+                0x08005a60                eepromWrite
  .text.eepromRead
-                0x08005b00       0x50 build/obj/eeprom_ctrl.o
-                0x08005b00                eepromRead
+                0x08005b10       0x50 build/obj/eeprom_ctrl.o
+                0x08005b10                eepromRead
  .text.eepromAddSdData
-                0x08005b50       0x80 build/obj/eeprom_ctrl.o
-                0x08005b50                eepromAddSdData
+                0x08005b60       0x80 build/obj/eeprom_ctrl.o
+                0x08005b60                eepromAddSdData
  .text.eepromClrSdData
-                0x08005bd0       0x10 build/obj/eeprom_ctrl.o
-                0x08005bd0                eepromClrSdData
+                0x08005be0       0x10 build/obj/eeprom_ctrl.o
+                0x08005be0                eepromClrSdData
  .text.eepromSetSdAddr
-                0x08005be0       0x60 build/obj/eeprom_ctrl.o
-                0x08005be0                eepromSetSdAddr
- .text.crc      0x08005c40       0xb0 build/obj/eeprom_ctrl.o
+                0x08005bf0       0x60 build/obj/eeprom_ctrl.o
+                0x08005bf0                eepromSetSdAddr
+ .text.crc      0x08005c50       0xb0 build/obj/eeprom_ctrl.o
  *(.rodata)
- .rodata        0x08005cf0       0x10 build/obj/chsys.o
- .rodata        0x08005d00       0x58 build/obj/chdebug.o
- *fill*         0x08005d58        0x8 00
- .rodata        0x08005d60       0x34 build/obj/chvt.o
- *fill*         0x08005d94        0xc 00
- .rodata        0x08005da0       0x24 build/obj/chschd.o
- *fill*         0x08005dc4        0xc 00
- .rodata        0x08005dd0       0x84 build/obj/chthreads.o
- *fill*         0x08005e54        0xc 00
- .rodata        0x08005e60      0x148 build/obj/chsem.o
- *fill*         0x08005fa8        0x8 00
- .rodata        0x08005fb0       0xac build/obj/chmtx.o
- *fill*         0x0800605c        0x4 00
- .rodata        0x08006060       0x90 build/obj/chevents.o
- .rodata        0x080060f0       0x2c build/obj/chqueues.o
- *fill*         0x0800611c        0x4 00
- .rodata        0x08006120       0xdc build/obj/gpt.o
- *fill*         0x080061fc        0x4 00
- .rodata        0x08006200       0xc4 build/obj/i2c.o
- *fill*         0x080062c4        0xc 00
- .rodata        0x080062d0       0x60 build/obj/serial.o
- .rodata        0x08006330       0x14 build/obj/gpt_lld.o
- *fill*         0x08006344        0xc 00
- .rodata        0x08006350      0x148 build/obj/i2c_lld.o
- *fill*         0x08006498        0x8 00
- .rodata        0x080064a0       0x20 build/obj/cpu_io.o
- .rodata        0x080064c0        0x4 build/obj/led_ctrl.o
+ .rodata        0x08005d00       0x10 build/obj/chsys.o
+ .rodata        0x08005d10       0x58 build/obj/chdebug.o
+ *fill*         0x08005d68        0x8 00
+ .rodata        0x08005d70       0x34 build/obj/chvt.o
+ *fill*         0x08005da4        0xc 00
+ .rodata        0x08005db0       0x24 build/obj/chschd.o
+ *fill*         0x08005dd4        0xc 00
+ .rodata        0x08005de0       0x84 build/obj/chthreads.o
+ *fill*         0x08005e64        0xc 00
+ .rodata        0x08005e70      0x148 build/obj/chsem.o
+ *fill*         0x08005fb8        0x8 00
+ .rodata        0x08005fc0       0xac build/obj/chmtx.o
+ *fill*         0x0800606c        0x4 00
+ .rodata        0x08006070       0x90 build/obj/chevents.o
+ .rodata        0x08006100       0x2c build/obj/chqueues.o
+ *fill*         0x0800612c        0x4 00
+ .rodata        0x08006130       0xdc build/obj/gpt.o
+ *fill*         0x0800620c        0x4 00
+ .rodata        0x08006210       0xc4 build/obj/i2c.o
+ *fill*         0x080062d4        0xc 00
+ .rodata        0x080062e0       0x60 build/obj/serial.o
+ .rodata        0x08006340       0x14 build/obj/gpt_lld.o
+ *fill*         0x08006354        0xc 00
+ .rodata        0x08006360      0x148 build/obj/i2c_lld.o
+ *fill*         0x080064a8        0x8 00
+ .rodata        0x080064b0       0x20 build/obj/cpu_io.o
+ .rodata        0x080064d0        0x4 build/obj/led_ctrl.o
  *(.rodata.*)
- *fill*         0x080064c4        0xc 00
- .rodata.vmt    0x080064d0       0x24 build/obj/serial.o
- *fill*         0x080064f4        0xc 00
+ *fill*         0x080064d4        0xc 00
+ .rodata.vmt    0x080064e0       0x24 build/obj/serial.o
+ *fill*         0x08006504        0xc 00
  .rodata._stm32_dma_streams
-                0x08006500       0x54 build/obj/stm32_dma.o
-                0x08006500                _stm32_dma_streams
- *fill*         0x08006554        0xc 00
+                0x08006510       0x54 build/obj/stm32_dma.o
+                0x08006510                _stm32_dma_streams
+ *fill*         0x08006564        0xc 00
  .rodata.default_config
-                0x08006560        0xc build/obj/serial_lld.o
- *fill*         0x0800656c        0x4 00
+                0x08006570        0xc build/obj/serial_lld.o
+ *fill*         0x0800657c        0x4 00
  .rodata.cfgtab.5942
-                0x08006570       0x14 build/obj/pal_lld.o
- *fill*         0x08006584        0xc 00
+                0x08006580       0x14 build/obj/pal_lld.o
+ *fill*         0x08006594        0xc 00
  .rodata.pal_default_config
-                0x08006590       0x3c build/obj/board.o
-                0x08006590                pal_default_config
- *fill*         0x080065cc        0x4 00
+                0x080065a0       0x3c build/obj/board.o
+                0x080065a0                pal_default_config
+ *fill*         0x080065dc        0x4 00
  .rodata.gpt1cfg
-                0x080065d0        0x8 build/obj/moto_ctrl.o
- *fill*         0x080065d8        0x8 00
- .rodata.gpt2cfg
                 0x080065e0        0x8 build/obj/moto_ctrl.o
  *fill*         0x080065e8        0x8 00
- .rodata.gpt3cfg
+ .rodata.gpt2cfg
                 0x080065f0        0x8 build/obj/moto_ctrl.o
  *fill*         0x080065f8        0x8 00
- .rodata.gpt4cfg
+ .rodata.gpt3cfg
                 0x08006600        0x8 build/obj/moto_ctrl.o
+ *fill*         0x08006608        0x8 00
+ .rodata.gpt4cfg
+                0x08006610        0x8 build/obj/moto_ctrl.o
  *(.glue_7t)
  .glue_7t       0x00000000        0x0 linker stubs
  *(.glue_7)
  .glue_7        0x00000000        0x0 linker stubs
  *(.gcc*)
 
-.vfp11_veneer   0x08006608        0x0
+.vfp11_veneer   0x08006618        0x0
  .vfp11_veneer  0x00000000        0x0 linker stubs
 
-.v4_bx          0x08006608        0x0
+.v4_bx          0x08006618        0x0
  .v4_bx         0x00000000        0x0 linker stubs
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
 
-.ARM.exidx      0x08006608        0x8
-                0x08006608                PROVIDE (__exidx_start, .)
+.ARM.exidx      0x08006618        0x8
+                0x08006618                PROVIDE (__exidx_start, .)
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
- .ARM.exidx     0x08006608        0x8 /home/z80/programs/code-sourcery/2011.03-42/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2/libgcc.a(_divdi3.o)
- .ARM.exidx     0x08006610        0x0 /home/z80/programs/code-sourcery/2011.03-42/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2/libgcc.a(_udivdi3.o)
+ .ARM.exidx     0x08006618        0x8 /home/z80/programs/code-sourcery/2011.03-42/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2/libgcc.a(_divdi3.o)
+ .ARM.exidx     0x08006620        0x0 /home/z80/programs/code-sourcery/2011.03-42/bin/../lib/gcc/arm-none-eabi/4.5.2/thumb2/libgcc.a(_udivdi3.o)
                                   0x8 (size before relaxing)
-                0x08006610                PROVIDE (__exidx_end, .)
+                0x08006620                PROVIDE (__exidx_end, .)
 
 .eh_frame_hdr
  *(.eh_frame_hdr)
@@ -1794,11 +1794,11 @@ destructors     0x080000ec        0x0
 .eh_frame
  *(.eh_frame)
 
-.textalign      0x08006610        0x0
-                0x08006610                . = ALIGN (0x8)
-                0x08006610                . = ALIGN (0x4)
-                0x08006610                _etext = .
-                0x08006610                _textdata = _etext
+.textalign      0x08006620        0x0
+                0x08006620                . = ALIGN (0x8)
+                0x08006620                . = ALIGN (0x4)
+                0x08006620                _etext = .
+                0x08006620                _textdata = _etext
 
 .stacks         0x20000000      0x800
                 0x20000000                . = ALIGN (0x8)
@@ -1815,7 +1815,7 @@ destructors     0x080000ec        0x0
                 0x20000800                __process_stack_end__ = .
                 0x20000800                __main_thread_stack_end__ = .
 
-.data           0x20000800       0x50 load address 0x08006610
+.data           0x20000800       0x50 load address 0x08006620
                 0x20000800                . = ALIGN (0x4)
                 0x20000800                PROVIDE (_data, .)
  *(.data)
@@ -1833,7 +1833,7 @@ destructors     0x080000ec        0x0
                 0x20000850                . = ALIGN (0x4)
                 0x20000850                PROVIDE (_edata, .)
 
-.bss            0x20000850     0x1908 load address 0x08006660
+.bss            0x20000850     0x1908 load address 0x08006670
                 0x20000850                . = ALIGN (0x4)
                 0x20000850                PROVIDE (_bss_start, .)
  *(.bss)
@@ -2121,7 +2121,7 @@ OUTPUT(build/miling.main.elf elf32-littlearm)
  .debug_info    0x0001ac5b      0x6f6 build/obj/shutter_ctrl.o
  .debug_info    0x0001b351      0xdd7 build/obj/eeprom_ctrl.o
 
-.debug_line     0x00000000     0xac89
+.debug_line     0x00000000     0xac8c
  .debug_line    0x00000000      0x15e build/obj/crt0.o
  .debug_line    0x0000015e       0x6e build/obj/vectors.o
  .debug_line    0x000001cc       0x63 build/obj/chcore.o
@@ -2198,15 +2198,15 @@ OUTPUT(build/miling.main.elf elf32-littlearm)
  .debug_line    0x0000881d      0x1e6 build/obj/syscalls.o
  .debug_line    0x00008a03      0x375 build/obj/shell.o
  .debug_line    0x00008d78      0x28f build/obj/chprintf.o
- .debug_line    0x00009007      0x733 build/obj/moto_ctrl.o
- .debug_line    0x0000973a      0x196 build/obj/iwdg.o
- .debug_line    0x000098d0      0x1a3 build/obj/iwdg_lld.o
- .debug_line    0x00009a73      0x111 build/obj/main.o
- .debug_line    0x00009b84      0x5da build/obj/cpu_io.o
- .debug_line    0x0000a15e      0x2a1 build/obj/led_ctrl.o
- .debug_line    0x0000a3ff      0x145 build/obj/dfu_ctrl.o
- .debug_line    0x0000a544      0x2f3 build/obj/shutter_ctrl.o
- .debug_line    0x0000a837      0x452 build/obj/eeprom_ctrl.o
+ .debug_line    0x00009007      0x736 build/obj/moto_ctrl.o
+ .debug_line    0x0000973d      0x196 build/obj/iwdg.o
+ .debug_line    0x000098d3      0x1a3 build/obj/iwdg_lld.o
+ .debug_line    0x00009a76      0x111 build/obj/main.o
+ .debug_line    0x00009b87      0x5da build/obj/cpu_io.o
+ .debug_line    0x0000a161      0x2a1 build/obj/led_ctrl.o
+ .debug_line    0x0000a402      0x145 build/obj/dfu_ctrl.o
+ .debug_line    0x0000a547      0x2f3 build/obj/shutter_ctrl.o
+ .debug_line    0x0000a83a      0x452 build/obj/eeprom_ctrl.o
 
 .debug_pubnames
                 0x00000000     0x1ca6
@@ -4121,6 +4121,7 @@ sem                                               build/obj/moto_ctrl.o
 setLeds                                           build/obj/led_ctrl.o
                                                   build/obj/cpu_io.o
                                                   build/obj/main.o
+                                                  build/obj/moto_ctrl.o
 setShutter                                        build/obj/shutter_ctrl.o
                                                   build/obj/cpu_io.o
 sh_queue                                          build/obj/shutter_ctrl.o

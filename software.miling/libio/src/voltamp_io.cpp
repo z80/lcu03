@@ -520,7 +520,7 @@ bool VoltampIo::motorQueueSpace( int & sz )
     QMutexLocker lock( &pd->mutex );
 
     quint8 funcInd = 16;
-    res = execFunc( funcInd );
+    bool res = execFunc( funcInd );
     if ( !res )
         return false;
 

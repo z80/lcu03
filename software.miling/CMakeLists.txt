@@ -1,7 +1,7 @@
 
 set( SOFTWARE_VERSION "\"1.0.3\"" )
 
-project( lcu03 )
+project( miling )
 cmake_minimum_required(VERSION 2.8)
 
 set( ROOT ${CMAKE_CURRENT_SOURCE_DIR} )

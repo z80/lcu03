@@ -2,6 +2,7 @@
 #include "moto_ctrl.h"
 #include "hal.h"
 #include "eeprom_ctrl.h"
+#include "led_ctrl.h"
 
 typedef struct
 {
@@ -148,9 +149,9 @@ static int moto_vmin = 300,
 static int steps_per_rev = 5120;
  */
 
-static int moto_vmin = 300*8,
-		moto_vmax = 1000*8,
-		moto_acc = 700*8;
+static int moto_vmin = 100,
+		moto_vmax = 500,
+		moto_acc = 500;
 static int steps_per_rev = 5120*8;
 
 
@@ -398,6 +399,8 @@ static msg_t motorThread( void *arg )
 		args[2] = chIQGet( &motor_queue );
 		args[3] = chIQGet( &motor_queue );
 
+		setLeds( 3 );
+
 		// Choose direction and steps number.
 		int i;
 		for ( i=0; i<4; i++ )
@@ -478,6 +481,10 @@ static msg_t motorThread( void *arg )
 			saveEmergencyData();
 		}
 		chSysUnlock();
+
+		// Just outside system lock.
+		if ( sz < 4 )
+			setLeds( 1 );
 
 		// Check if stop was generated.
 		msg_t msg;

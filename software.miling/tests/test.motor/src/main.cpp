@@ -25,7 +25,20 @@ int main( int argc, char * argv[] )
     qDebug() << stri;
     stri = "";
     qint8 pos[4] = { 100, -100, 100, -100 };
+    int sz;
+    io->motorQueueSpace( sz );
+    qDebug() << "Space: " << sz;
+
     io->moveMotor( pos );
+    io->moveMotor( pos );
+    io->moveMotor( pos );
+    io->moveMotor( pos );
+    io->moveMotor( pos );
+    io->moveMotor( pos );
+
+    io->motorQueueSpace( sz );
+    qDebug() << "Space: " << sz;
+
     io->firmware_version( stri );
     qDebug() << stri;
 
