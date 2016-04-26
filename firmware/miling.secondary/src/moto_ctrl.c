@@ -61,45 +61,85 @@
 #define HALL_3_PORT GPIOA
 #define HALL_3_PAD  3
 
+/*
+So here is EXT interrupts mapping.
+14-B - step 0
+1-B  - step 1
+8-A  - dir 0
+15-B - dir 1
+12-B - hall 0
+5-A  - hall 1
+*/
 
 
 
 
+
+static void extStep0( EXTDriver * extp, expchannel_t channel );
+static void extStep1( EXTDriver * extp, expchannel_t channel );
+static void extDir0(  EXTDriver * extp, expchannel_t channel );
+static void extDir1(  EXTDriver * extp, expchannel_t channel );
 static void extHall0( EXTDriver * extp, expchannel_t channel );
 static void extHall1( EXTDriver * extp, expchannel_t channel );
-static void extHall2( EXTDriver * extp, expchannel_t channel );
-static void extHall3( EXTDriver * extp, expchannel_t channel );
+
+static void extStep0( EXTDriver * extp, expchannel_t channel )
+{
+	(void)extp;
+	(void)channel;
+	if ( palReadPad( STEP_2_PORT, STEP_2_PAD ) )
+		palSetPad( STEP_0_PORT, STEP_0_PAD );
+	else
+		palClearPad( STEP_0_PORT, STEP_0_PAD );
+}
+
+static void extStep1( EXTDriver * extp, expchannel_t channel )
+{
+	(void)extp;
+	(void)channel;
+	if ( palReadPad( STEP_3_PORT, STEP_3_PAD ) )
+		palSetPad( STEP_1_PORT, STEP_1_PAD );
+	else
+		palClearPad( STEP_1_PORT, STEP_1_PAD );
+}
+
+static void extDir0(  EXTDriver * extp, expchannel_t channel )
+{
+	(void)extp;
+	(void)channel;
+	if ( palReadPad( DIR_2_PORT, DIR_2_PAD ) )
+		palSetPad( DIR_0_PORT, DIR_0_PAD );
+	else
+		palClearPad( DIR_0_PORT, DIR_0_PAD );
+}
+
+static void extDir1(  EXTDriver * extp, expchannel_t channel )
+{
+	(void)extp;
+	(void)channel;
+	if ( palReadPad( DIR_3_PORT, DIR_3_PAD ) )
+		palSetPad( DIR_1_PORT, DIR_1_PAD );
+	else
+		palClearPad( DIR_1_PORT, DIR_1_PAD );
+}
 
 static void extHall0( EXTDriver * extp, expchannel_t channel )
 {
 	(void)extp;
 	(void)channel;
-	motor[0].activated = 1;
-	motor[0].sensorPos = motor[0].pos;
+	if ( palReadPad( HALL_0_PORT, HALL_0_PAD ) )
+		palSetPad( HALL_2_PORT, HALL_2_PAD );
+	else
+		palClearPad( HALL_2_PORT, HALL_2_PAD );
 }
 
 static void extHall1( EXTDriver * extp, expchannel_t channel )
 {
 	(void)extp;
 	(void)channel;
-	motor[1].activated = 1;
-	motor[1].sensorPos = motor[1].pos;
-}
-
-static void extHall2( EXTDriver * extp, expchannel_t channel )
-{
-	(void)extp;
-	(void)channel;
-	motor[2].activated = 1;
-	motor[2].sensorPos = motor[2].pos;
-}
-
-static void extHall3( EXTDriver * extp, expchannel_t channel )
-{
-	(void)extp;
-	(void)channel;
-	motor[3].activated = 1;
-	motor[3].sensorPos = motor[3].pos;
+	if ( palReadPad( HALL_1_PORT, HALL_1_PAD ) )
+		palSetPad( HALL_3_PORT, HALL_3_PAD );
+	else
+		palClearPad( HALL_3_PORT, HALL_3_PAD );
 }
 
 
@@ -107,38 +147,38 @@ static void extHall3( EXTDriver * extp, expchannel_t channel )
 static const EXTConfig extcfg = {
 		{
 				{EXT_CH_MODE_DISABLED, NULL},
+				{EXT_CH_MODE_RISING_EDGE | EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, extStep1},
 				{EXT_CH_MODE_DISABLED, NULL},
 				{EXT_CH_MODE_DISABLED, NULL},
 				{EXT_CH_MODE_DISABLED, NULL},
-				{EXT_CH_MODE_DISABLED, NULL},
-				{EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, extHall1 },
-				{EXT_CH_MODE_DISABLED, NULL},
-				{EXT_CH_MODE_DISABLED, NULL},
-				{EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, extPowerOff },
+				{EXT_CH_MODE_RISING_EDGE | EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, extHall1},
 				{EXT_CH_MODE_DISABLED, NULL},
 				{EXT_CH_MODE_DISABLED, NULL},
-				{EXT_CH_MODE_DISABLED, NULL},
-				{EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, extHall0 },
+				{EXT_CH_MODE_RISING_EDGE | EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, extDir0},
 				{EXT_CH_MODE_DISABLED, NULL},
 				{EXT_CH_MODE_DISABLED, NULL},
 				{EXT_CH_MODE_DISABLED, NULL},
+				{EXT_CH_MODE_RISING_EDGE | EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, extHall0},
+				{EXT_CH_MODE_DISABLED, NULL},
+				{EXT_CH_MODE_RISING_EDGE | EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, extStep0},
+				{EXT_CH_MODE_RISING_EDGE | EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, extDir1},
 		},
 		EXT_MODE_EXTI(0,
 				0,
-				0,
+				EXT_MODE_GPIOB,
 				0,
 				0,
 				EXT_MODE_GPIOA,
 				0,
 				0,
-				EXT_MODE_GPIOB,
+				EXT_MODE_GPIOA,
 				0,
 				0,
 				0,
 				EXT_MODE_GPIOB,
 				0,
-				0,
-				0)
+				EXT_MODE_GPIOB,
+				EXT_MODE_GPIOB)
 };
 
 
@@ -168,14 +208,14 @@ static void initPads( void )
 	palClearPad( STEP_1_PORT,  STEP_1_PAD );
 	palSetPadMode( STEP_1_PORT, STEP_1_PAD, PAL_MODE_OUTPUT_PUSHPULL );
 	palClearPad( STEP_2_PORT,  STEP_2_PAD );
-	palSetPadMode( STEP_2_PORT, STEP_2_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+	palSetPadMode( STEP_2_PORT, STEP_2_PAD, PAL_MODE_INPUT );
 	palClearPad( STEP_3_PORT,  STEP_3_PAD );
-	palSetPadMode( STEP_3_PORT, STEP_3_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+	palSetPadMode( STEP_3_PORT, STEP_3_PAD, PAL_MODE_INPUT );
 	// Dir0 and Dir1.
 	palSetPadMode( DIR_0_PORT, DIR_0_PAD, PAL_MODE_OUTPUT_PUSHPULL );
 	palSetPadMode( DIR_1_PORT, DIR_1_PAD, PAL_MODE_OUTPUT_PUSHPULL );
-	palSetPadMode( DIR_2_PORT, DIR_2_PAD, PAL_MODE_OUTPUT_PUSHPULL );
-	palSetPadMode( DIR_3_PORT, DIR_3_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+	palSetPadMode( DIR_2_PORT, DIR_2_PAD, PAL_MODE_INPUT );
+	palSetPadMode( DIR_3_PORT, DIR_3_PAD, PAL_MODE_INPUT );
 	// Init GPIO ~sleep~, ~enable~, ~reset~, ~high_current~.
 	palClearPad( ENABLE_PORT, ENABLE_PAD );
 	palClearPad( SLEEP_PORT,  SLEEP_PAD );
@@ -197,8 +237,8 @@ static void initPads( void )
 	// External interrupt pads.
 	palSetPadMode( HALL_0_PORT,  HALL_0_PAD, PAL_MODE_INPUT );
 	palSetPadMode( HALL_1_PORT,  HALL_1_PAD, PAL_MODE_INPUT );
-	palSetPadMode( HALL_2_PORT,  HALL_2_PAD, PAL_MODE_INPUT );
-	palSetPadMode( HALL_3_PORT,  HALL_3_PAD, PAL_MODE_INPUT );
+	palSetPadMode( HALL_2_PORT,  HALL_2_PAD, PAL_MODE_OUTPUT_PUSHPULL );
+	palSetPadMode( HALL_3_PORT,  HALL_3_PAD, PAL_MODE_OUTPUT_PUSHPULL );
 	palSetPadMode( PWR_OFF_PORT, PWR_OFF_PAD, PAL_MODE_INPUT );
 
 }

@@ -197,7 +197,7 @@ static void exec_func( void )
 	funcs[func_index]( args );
 }
 
-static void set_current( uint8_t * args )
+static void set_leds( uint8_t * args )
 {
 	uint8_t leds = args[0];
 	setLeds( leds );
