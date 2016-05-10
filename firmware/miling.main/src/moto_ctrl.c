@@ -228,8 +228,8 @@ static const EXTConfig extcfg = {
 		{
 				{EXT_CH_MODE_DISABLED, NULL},
 				{EXT_CH_MODE_DISABLED, NULL},
-				{EXT_CH_MODE_DISABLED, NULL},
-				{EXT_CH_MODE_DISABLED, NULL},
+				{EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, extHall2 },
+				{EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, extHall3 },
 				{EXT_CH_MODE_DISABLED, NULL},
 				{EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, extHall1 },
 				{EXT_CH_MODE_DISABLED, NULL},
@@ -245,8 +245,8 @@ static const EXTConfig extcfg = {
 		},
 		EXT_MODE_EXTI(0,
 				0,
-				0,
-				0,
+				EXT_MODE_GPIOA,
+				EXT_MODE_GPIOA,
 				0,
 				EXT_MODE_GPIOA,
 				0,
@@ -289,6 +289,12 @@ static const GPTConfig gpt4cfg = {
 };
 
 
+static const I2CConfig i2ccfg =
+{
+    OPMODE_I2C,
+    100000,
+    STD_DUTY_CYCLE,
+};
 
 
 
@@ -300,6 +306,13 @@ static void initData( void );
 
 void motorInit( void )
 {
+	// Tune ports for I2C1.
+	palSetPadMode( GPIOB, 6, PAL_MODE_STM32_ALTERNATE_OPENDRAIN );
+	palSetPadMode( GPIOB, 7, PAL_MODE_STM32_ALTERNATE_OPENDRAIN );
+
+	// Init I2C bus.
+	i2cStart( &I2CD1, &i2ccfg );
+
 	initPads();
 
 	chIQInit( &motor_queue,      motor_queue_buffer,      MOTOR_BUFFER_SZ, 0 );
@@ -313,10 +326,10 @@ void motorInit( void )
 	gptStart( &GPTD4, &gpt4cfg );
 
 	// Initialize external interrupt input here.
-	//extStart(&EXTD1, &extcfg);
+	extStart(&EXTD1, &extcfg);
 
 	// Turn drivers on.
-	setMotoReset( 1 );
+	setMotoReset( -1 );
 	setMotoSleep( -1 );
 	setMotoEnable( 1 );
 
@@ -826,17 +839,23 @@ static void setMoto3Dir( int dir )
 
 static void setHighCurrent( int en )
 {
+
 	if ( en > 0 )
 	{
+		// Send command to slave device to turn current on.
+		//uint8_t data[] = { 1, 1, 0, 2, 1, 0 };
+		//i2cMasterTransmit( &I2CD1, 1, data, sizeof(data), 0, 0 );
+		// Tuen own current on.
 		palClearPad( HIGH_CURRENT_PORT, HIGH_CURRENT_PAD );
-		setMotoReset( -1 );
 	}
 	else
 	{
-		setMotoReset( 1 );
+		// Send command to slave to turn current off.
+		//uint8_t data[] = { 1, '\\', 0, 0, 2, 1, 0 };
+		//i2cMasterTransmit( &I2CD1, 1, data, sizeof(data), 0, 0 );
+		// Turn own current off.
 		palSetPad( HIGH_CURRENT_PORT, HIGH_CURRENT_PAD );
 	}
-	// Also signal high current via I2C.
 }
 
 static void saveEmergencyData( void )

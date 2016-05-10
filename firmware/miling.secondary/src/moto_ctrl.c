@@ -71,8 +71,9 @@ So here is EXT interrupts mapping.
 5-A  - hall 1
 */
 
-
-
+static void setMotoSleep( int en );
+static void setMotoReset( int en );
+static void setMotoEnable( int en );
 
 
 static void extStep0( EXTDriver * extp, expchannel_t channel );

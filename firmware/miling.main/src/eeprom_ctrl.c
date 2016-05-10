@@ -117,8 +117,8 @@ static msg_t eepromThread( void *arg )
     chRegSetThreadName( "sh" );
     while ( 1 )
     {
-        msg_t msg;
-        msg = chIQGet( &eeprom_queue );
+        /*msg_t msg;
+        msg = */chIQGet( &eeprom_queue );
 
         // If anything is received it means
         // immediate write is needed.

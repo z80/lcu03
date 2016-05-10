@@ -6,7 +6,7 @@
 #include "moto_ctrl.h"
 #include "led_ctrl.h"
 #include "shutter_ctrl.h"
-#include "eeprom_ctrl.h"
+//#include "eeprom_ctrl.h"
 //#include "adc_ctrl.h"
 //#include "timer_ctrl.h"
 //#include "temp_ctrl.h"
