@@ -5,6 +5,7 @@ specSz <- length( doff[1,] )
 sampleSz <- length( doff[,1] )
 wl <- t( doff[1, 5:specSz] )[, 1]
 off <- apply( doff[3:sampleSz, 5:specSz], 2, mean )
+sdOff <- apply( doff[3:sampleSz, 5:specSz], 2, sd )
 
 don <- read.csv( './on3m-init.csv', header=F, sep="\t", dec=".", skip=5 )
 sampleSz <- length( don[,1] )
@@ -63,9 +64,89 @@ grid( col="grey", lty="dotted" )
 
 
 
+
+dsonc <- read.csv( './shielded-on3m-init-no-usb-canned.csv', header=F, sep="\t", dec=".", skip=5 )
+sampleSz <- length( dsonc[,1] )
+sonc <- apply( dsonc[3:sampleSz, 5:specSz], 2, mean )
+
+
 par(mfrow=c(1, 1))
-plot( x=wl, y=off, type="b", col="black", ylim=c(-120, -60) )
+plot( x=wl, y=off, type="b", col="grey", ylim=c(-120, -60), main="\n\n\ngrey-environment, all off\nblue-environment RMS\nred-regular controller\nmagenta-improved controller\nblack-shielded initialized and canned" )
 grid( col="grey", lty="dotted" )
 
-lines( x=wl, y=shieldedOnNoUsb-off-108, type="b", col="red" )
+#lines( x=wl, y=off+sdOff, type="l", col="blue" )
+#lines( x=wl, y=off-sdOff, type="l", col="blue" )
 
+lines( x=wl, y=onNoUsb-off-108, type="b", col="red" )
+lines( x=wl, y=shieldedOnNoUsb-off-108, type="b", col="magenta" )
+lines( x=wl, y=sonc-off-108, type="b", col="black" )
+lines( x=wl, y=-108-sdOff, type="l", col="blue" )
+lines( x=wl, y=-108+sdOff, type="l", col="blue" )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Near field examinations
+doff <- read.csv( './off.csv', header=F, sep="\t", dec=".", skip=5 )
+specSz <- length( doff[1,] )
+sampleSz <- length( doff[,1] )
+wl <- t( doff[1, 5:specSz] )[, 1]
+off <- apply( doff[3:sampleSz, 5:specSz], 2, mean )
+sdOff <- apply( doff[3:sampleSz, 5:specSz], 2, sd )
+
+don <- read.csv( './on.csv', header=F, sep="\t", dec=".", skip=5 )
+sampleSz <- length( don[,1] )
+on <- apply( don[3:sampleSz, 5:specSz], 2, mean )
+
+dson <- read.csv( './shielded-on.csv', header=F, sep="\t", dec=".", skip=5 )
+sampleSz <- length( dson[,1] )
+son <- apply( dson[3:sampleSz, 5:specSz], 2, mean )
+
+par(mfrow=c(1, 1))
+plot( x=wl, y=off, type="b", col="grey", ylim=c(-120, -60), main="\n\n\ngrey-environment, all off\nblue-environment RMS\nred-regular controller\nmagenta-improved controller" )
+grid( col="grey", lty="dotted" )
+
+#lines( x=wl, y=off+sdOff, type="l", col="blue" )
+#lines( x=wl, y=off-sdOff, type="l", col="blue" )
+
+lines( x=wl, y=on-off-108, type="b", col="red" )
+lines( x=wl, y=son-off-108, type="b", col="magenta" )
+lines( x=wl, y=-108-sdOff, type="l", col="blue" )
+lines( x=wl, y=-108+sdOff, type="l", col="blue" )
+
+
+
+
+doff <- read.csv( './off-canned.csv', header=F, sep="\t", dec=".", skip=5 )
+specSz <- length( doff[1,] )
+sampleSz <- length( doff[,1] )
+wl <- t( doff[1, 5:specSz] )[, 1]
+off <- apply( doff[3:sampleSz, 5:specSz], 2, mean )
+sdOff <- apply( doff[3:sampleSz, 5:specSz], 2, sd )
+
+dsonc <- read.csv( './shielded-on3m-init-no-usb-canned.csv', header=F, sep="\t", dec=".", skip=5 )
+sampleSz <- length( dsonc[,1] )
+sonc <- apply( dsonc[3:sampleSz, 5:specSz], 2, mean )
+
+par(mfrow=c(1, 1))
+plot( x=wl, y=off, type="b", col="grey", ylim=c(-120, -60), main="\n\n\ngrey-environment, all off\nblue-environment RMS\nblack-canned on shielded controller no USB cable" )
+grid( col="grey", lty="dotted" )
+
+lines( x=wl, y=sonc-off-108, type="b", col="black" )
+lines( x=wl, y=-108-sdOff, type="l", col="blue" )
+lines( x=wl, y=-108+sdOff, type="l", col="blue" )
