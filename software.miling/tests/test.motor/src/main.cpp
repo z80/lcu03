@@ -12,7 +12,7 @@ int main( int argc, char * argv[] )
     qDebug() << l;
 
     //if ( !io->open( 32 ) )
-    if ( !io->open( 3 ) )
+    if ( !io->open( 4 ) )
     {
         qDebug() << "ERROR: Failed to open serial port!";
         return 1;

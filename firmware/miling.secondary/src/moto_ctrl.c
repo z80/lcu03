@@ -165,8 +165,8 @@ static const EXTConfig extcfg = {
 				{EXT_CH_MODE_RISING_EDGE | EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, extDir1},
 		},
 		EXT_MODE_EXTI(0,
+		        EXT_MODE_GPIOB,
 				0,
-				EXT_MODE_GPIOB,
 				0,
 				0,
 				EXT_MODE_GPIOA,
@@ -195,10 +195,11 @@ void motorInit( void )
 	extStart(&EXTD1, &extcfg);
 
 	// Turn drivers on.
-	setMotoReset( 1 );
+	setMotoReset( -1 );
 	setMotoSleep( -1 );
 	setMotoEnable( 1 );
 
+	setHighCurrent( 1 );
 }
 
 static void initPads( void )

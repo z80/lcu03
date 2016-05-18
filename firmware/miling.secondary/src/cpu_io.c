@@ -108,7 +108,7 @@ void initCpuIo( void )
 
 	// Only in slave mode initialize queued data exchange.
 	#ifdef SLAVE_ADDR
-		i2cSlaveQueueIo( &I2CD1, SLAVE_ADDR, &i2cInQueue, &i2cOutQueue, 0, 0 );
+		//i2cSlaveQueueIo( &I2CD1, SLAVE_ADDR, &i2cInQueue, &i2cOutQueue, 0, 0 );
 	#endif
 }
 
