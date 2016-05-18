@@ -154,27 +154,26 @@ void initCpuIo( void )
 		//sdStart( &SERIAL, &serial_cfg );
 		sdStart( &SERIAL, 0 );
 
-		chThdCreateStatic( waSerial, sizeof(waSerial), NORMALPRIO, serialThread, NULL );
+		//chThdCreateStatic( waSerial, sizeof(waSerial), NORMALPRIO, serialThread, NULL );
 	#endif
 
 	// Init I2C bus.
 	//i2cStart( &I2CD1, &i2ccfg );
 
 	// Tune ports for I2C1.
-	palSetPadMode( GPIOB, 6, PAL_MODE_STM32_ALTERNATE_OPENDRAIN );
-	palSetPadMode( GPIOB, 7, PAL_MODE_STM32_ALTERNATE_OPENDRAIN );
+	//palSetPadMode( GPIOB, 6, PAL_MODE_STM32_ALTERNATE_OPENDRAIN );
+	//palSetPadMode( GPIOB, 7, PAL_MODE_STM32_ALTERNATE_OPENDRAIN );
 
 	// Only in slave mode initialize queued data exchange.
-	#ifdef SLAVE_ADDR
+	//#ifdef SLAVE_ADDR
 		//i2cSlaveQueueIo( &I2CD1, SLAVE_ADDR, &i2cInQueue, &i2cOutQueue, 0, 0 );
-	#endif
+	//#endif
 }
 
 void processCpuIo( void )
 {
 	static uint8_t slash = 0;
 	static int out_index = 0;
-	msg_t msg;
 
 	/*
 	// Try reading serial.
@@ -184,7 +183,9 @@ void processCpuIo( void )
 	*/
 
 
-	msg = chIQGet( &i2cInQueue );
+	//msg = chIQGet( &i2cInQueue );
+    msg_t msg = sdGet( &SERIAL );
+
 
 	uint8_t v = (uint8_t)msg;
 	//shift = serial_decode_byte( msg, &(buffer[out_index]), &eom );

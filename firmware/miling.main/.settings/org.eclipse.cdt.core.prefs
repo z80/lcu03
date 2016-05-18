@@ -1,6 +1,6 @@
 eclipse.preferences.version=1
 environment/project/0.1407825044/PATH/delimiter=;
 environment/project/0.1407825044/PATH/operation=replace
-environment/project/0.1407825044/PATH/value=/home/z80/programs/sw4stm32/plugins/fr.ac6.mcu.externaltools.arm-none.linux32_1.7.0.201602291259/tools/compiler/bin\:/home/z80/programs/sw4stm32/plugins/fr.ac6.mcu.externaltools.linux32_1.3.0.201507241119/tools/make\:/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/usr/games\:/usr/local/games\:/home/z80/.rvm/bin
+environment/project/0.1407825044/PATH/value=C\:\\Programs\\chibios-gcc\\bin;${Path};
 environment/project/0.1407825044/append=true
 environment/project/0.1407825044/appendContributed=true

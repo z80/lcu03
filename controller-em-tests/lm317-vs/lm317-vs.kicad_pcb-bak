@@ -3,7 +3,7 @@
   (general
     (links 20)
     (no_connects 0)
-    (area 141.924999 96.924999 189.075001 116.075001)
+    (area 141.924999 96.924999 189.417858 116.075001)
     (thickness 1.6)
     (drawings 4)
     (tracks 48)
@@ -91,7 +91,7 @@
       (mirror false)
       (drillshape 1)
       (scaleselection 1)
-      (outputdirectory ""))
+      (outputdirectory plot/))
   )
 
   (net 0 "")

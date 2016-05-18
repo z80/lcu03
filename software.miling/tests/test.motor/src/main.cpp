@@ -11,7 +11,8 @@ int main( int argc, char * argv[] )
     QStringList l = io->enumDevices();
     qDebug() << l;
 
-    if ( !io->open( 32 ) )
+    //if ( !io->open( 32 ) )
+    if ( !io->open( 3 ) )
     {
         qDebug() << "ERROR: Failed to open serial port!";
         return 1;

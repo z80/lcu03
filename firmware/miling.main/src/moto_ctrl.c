@@ -234,7 +234,7 @@ static const EXTConfig extcfg = {
 				{EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, extHall1 },
 				{EXT_CH_MODE_DISABLED, NULL},
 				{EXT_CH_MODE_DISABLED, NULL},
-				{EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, extPowerOff },
+				{EXT_CH_MODE_DISABLED, NULL}, //{EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, extPowerOff },
 				{EXT_CH_MODE_DISABLED, NULL},
 				{EXT_CH_MODE_DISABLED, NULL},
 				{EXT_CH_MODE_DISABLED, NULL},
@@ -315,8 +315,8 @@ void motorInit( void )
 
 	initPads();
 
-	chIQInit( &motor_queue,      motor_queue_buffer,      MOTOR_BUFFER_SZ, 0 );
-	chIQInit( &motor_stop_queue, motor_stop_queue_buffer, MOTOR_QUEUE_SZ, 0 );
+	chIQInit( &motor_queue,       motor_queue_buffer,       MOTOR_BUFFER_SZ, 0 );
+	chIQInit( &motor_stop_queue,  motor_stop_queue_buffer,  MOTOR_QUEUE_SZ,  0 );
 	chIQInit( &motor_synch_queue, motor_synch_queue_buffer, 4, 0 );
 
 	// Init timers for step control.
