@@ -55,8 +55,8 @@ OutputQueue i2cOutQueue;
 
 
 static void process_command( uint8_t * buf, int sz );
-static void writeResult( uint8_t v );
-static void writeEom( void );
+//static void writeResult( uint8_t v );
+//static void writeEom( void );
 
 static const SerialConfig serial_cfg =
 {
@@ -108,7 +108,7 @@ void initCpuIo( void )
 
 	// Only in slave mode initialize queued data exchange.
 	#ifdef SLAVE_ADDR
-		//i2cSlaveQueueIo( &I2CD1, SLAVE_ADDR, &i2cInQueue, &i2cOutQueue, 0, 0 );
+		i2cSlaveQueueIo( &I2CD1, SLAVE_ADDR, &i2cInQueue, &i2cOutQueue, 0, 0 );
 	#endif
 }
 
@@ -228,7 +228,7 @@ static void set_current( uint8_t * args )
 
 
 
-
+/*
 static void writeResult( uint8_t v )
 {
 	if ( ( v == '\0' ) || ( v == '\\') )
@@ -240,7 +240,7 @@ static void writeEom( void )
 {
 	sdPut( &SERIAL, '\0' );
 }
-
+*/
 
 
 

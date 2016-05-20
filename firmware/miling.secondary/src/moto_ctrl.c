@@ -302,11 +302,11 @@ void setHighCurrent( int en )
 	if ( en > 0 )
 	{
 		palClearPad( HIGH_CURRENT_PORT, HIGH_CURRENT_PAD );
-		setMotoReset( -1 );
+		//setMotoReset( -1 );
 	}
 	else
 	{
-		setMotoReset( 1 );
+		//setMotoReset( 1 );
 		palSetPad( HIGH_CURRENT_PORT, HIGH_CURRENT_PAD );
 	}
 }

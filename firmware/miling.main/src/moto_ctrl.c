@@ -140,7 +140,7 @@ static void saveEmergencyData( void );
 
 
 
-static void adjustPosition( TMotor * moto );
+//static void adjustPosition( TMotor * moto );
 
 /*
 static int moto_vmin = 300,
@@ -149,9 +149,9 @@ static int moto_vmin = 300,
 static int steps_per_rev = 5120;
  */
 
-static int moto_vmin = 100,
-		moto_vmax = 500,
-		moto_acc = 500;
+static int moto_vmin = 800,
+		moto_vmax = 4000,
+		moto_acc = 4000;
 static int steps_per_rev = 5120*8;
 
 
@@ -160,8 +160,9 @@ static void extHall0( EXTDriver * extp, expchannel_t channel );
 static void extHall1( EXTDriver * extp, expchannel_t channel );
 static void extHall2( EXTDriver * extp, expchannel_t channel );
 static void extHall3( EXTDriver * extp, expchannel_t channel );
-static void extPowerOff( EXTDriver * extp, expchannel_t channel );
+//static void extPowerOff( EXTDriver * extp, expchannel_t channel );
 
+/*
 static void adjustPosition( TMotor * moto )
 {
 	// Choose dir as well because sensor profile has the following shape: ---|_|---. E.i. falling edge position depends on motion direction.
@@ -171,6 +172,7 @@ static void adjustPosition( TMotor * moto )
 		moto->sensorPos = 0;
 	}
 }
+*/
 
 
 static void extHall0( EXTDriver * extp, expchannel_t channel )
@@ -205,6 +207,7 @@ static void extHall3( EXTDriver * extp, expchannel_t channel )
 	motor[3].sensorPos = motor[3].pos;
 }
 
+/*
 static void extPowerOff( EXTDriver * extp, expchannel_t channel )
 {
 	(void)extp;
@@ -222,6 +225,7 @@ static void extPowerOff( EXTDriver * extp, expchannel_t channel )
 	gptStopTimerI( &GPTD4 );
 	chSysUnlockFromIsr();
 }
+*/
 
 
 static const EXTConfig extcfg = {
@@ -492,7 +496,8 @@ static msg_t motorThread( void *arg )
 
 		// Go idle if there are no more commands.
 		chSysLock();
-		int sz = chQSpaceI( &motor_queue );
+		    int sz = chQSpaceI( &motor_queue );
+        chSysUnlock();
 		if ( sz < 4 )
 		{
 			// No checking is needed. If there was motor spinning
@@ -501,7 +506,6 @@ static msg_t motorThread( void *arg )
 			saveEmergencyData();
 			highCurrent = 0;
 		}
-		chSysUnlock();
 
 		// Just outside system lock.
 		if ( sz < 4 )
@@ -839,20 +843,21 @@ static void setMoto3Dir( int dir )
 
 static void setHighCurrent( int en )
 {
+    systime_t tmo = MS2ST(4);
 
 	if ( en > 0 )
 	{
 		// Send command to slave device to turn current on.
-		//uint8_t data[] = { 1, 1, 0, 2, 1, 0 };
-		//i2cMasterTransmit( &I2CD1, 1, data, sizeof(data), 0, 0 );
+		uint8_t data[] = { 1, 1, 0, 2, 1, 0 };
+		i2cMasterTransmitTimeout( &I2CD1, 1, data, sizeof(uint8_t)*6, 0, 0, tmo );
 		// Tuen own current on.
 		palClearPad( HIGH_CURRENT_PORT, HIGH_CURRENT_PAD );
 	}
 	else
 	{
 		// Send command to slave to turn current off.
-		//uint8_t data[] = { 1, '\\', 0, 0, 2, 1, 0 };
-		//i2cMasterTransmit( &I2CD1, 1, data, sizeof(data), 0, 0 );
+		uint8_t data[] = { 1, '\\', 0, 0, 2, 1, 0 };
+		i2cMasterTransmitTimeout( &I2CD1, 1, data, sizeof(uint8_t)*7, 0, 0, tmo );
 		// Turn own current off.
 		palSetPad( HIGH_CURRENT_PORT, HIGH_CURRENT_PAD );
 	}

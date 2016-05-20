@@ -6,11 +6,11 @@ EXEC_P, HAS_SYMS, D_PAGED
 start address 0x08000441
 
 Program Header:
-0x70000001 off    0x0001666c vaddr 0x0800666c paddr 0x0800666c align 2**2
+0x70000001 off    0x000166dc vaddr 0x080066dc paddr 0x080066dc align 2**2
          filesz 0x00000008 memsz 0x00000008 flags r--
     LOAD off    0x00010000 vaddr 0x08000000 paddr 0x08000000 align 2**16
-         filesz 0x00006674 memsz 0x00006678 flags rwx
-    LOAD off    0x00020800 vaddr 0x20000800 paddr 0x08006678 align 2**16
+         filesz 0x000066e4 memsz 0x000066e8 flags rwx
+    LOAD off    0x00020800 vaddr 0x20000800 paddr 0x080066e8 align 2**16
          filesz 0x00000050 memsz 0x000017a8 flags rw-
     LOAD off    0x00030000 vaddr 0x20000000 paddr 0x20000000 align 2**16
          filesz 0x00000000 memsz 0x00000800 flags rw-
@@ -20,41 +20,41 @@ Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
   0 startup       000000ec  08000000  08000000  00010000  2**4
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         0000657c  080000f0  080000f0  000100f0  2**4
+  1 .text         000065ec  080000f0  080000f0  000100f0  2**4
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .ARM.exidx    00000008  0800666c  0800666c  0001666c  2**2
+  2 .ARM.exidx    00000008  080066dc  080066dc  000166dc  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .textalign    00000004  08006674  08006674  00016674  2**0
+  3 .textalign    00000004  080066e4  080066e4  000166e4  2**0
                   ALLOC
   4 .stacks       00000800  20000000  20000000  00030000  2**0
                   ALLOC
-  5 .data         00000050  20000800  08006678  00020800  2**2
+  5 .data         00000050  20000800  080066e8  00020800  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  6 .bss          00001758  20000850  080066c8  00020850  2**3
+  6 .bss          00001758  20000850  08006738  00020850  2**3
                   ALLOC
-  7 .debug_info   0000fb18  00000000  00000000  00020850  2**0
+  7 .debug_info   0000faf5  00000000  00000000  00020850  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_abbrev 00003871  00000000  00000000  00030368  2**0
+  8 .debug_abbrev 00003859  00000000  00000000  00030345  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_aranges 00000d00  00000000  00000000  00033bd9  2**0
+  9 .debug_aranges 00000cf0  00000000  00000000  00033b9e  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_ranges 00000ad0  00000000  00000000  000348d9  2**0
+ 10 .debug_ranges 00000ac0  00000000  00000000  0003488e  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_line   00006134  00000000  00000000  000353a9  2**0
+ 11 .debug_line   00006105  00000000  00000000  0003534e  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_str    0000297b  00000000  00000000  0003b4dd  2**0
+ 12 .debug_str    00002960  00000000  00000000  0003b453  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .comment      0000006e  00000000  00000000  0003de58  2**0
+ 13 .comment      0000006e  00000000  00000000  0003ddb3  2**0
                   CONTENTS, READONLY
- 14 .ARM.attributes 00000033  00000000  00000000  0003dec6  2**0
+ 14 .ARM.attributes 00000033  00000000  00000000  0003de21  2**0
                   CONTENTS, READONLY
- 15 .debug_frame  000023b0  00000000  00000000  0003defc  2**2
+ 15 .debug_frame  00002380  00000000  00000000  0003de54  2**2
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 08000000 l    d  startup	00000000 startup
 080000f0 l    d  .text	00000000 .text
-0800666c l    d  .ARM.exidx	00000000 .ARM.exidx
-08006674 l    d  .textalign	00000000 .textalign
+080066dc l    d  .ARM.exidx	00000000 .ARM.exidx
+080066e4 l    d  .textalign	00000000 .textalign
 20000000 l    d  .stacks	00000000 .stacks
 20000800 l    d  .data	00000000 .data
 20000850 l    d  .bss	00000000 .bss
@@ -113,7 +113,7 @@ SYMBOL TABLE:
 08001fd0 l     F .text	00000026 writet
 08002000 l     F .text	00000026 readt
 08002030 l     F .text	00000030 getflags
-08006480 l     O .text	00000024 vmt
+080064f0 l     O .text	00000024 vmt
 00000000 l    df *ABS*	00000000 stm32_dma.c
 20000da4 l     O .bss	00000004 dma_streams_mask
 20000da8 l     O .bss	00000038 dma_isr_redir
@@ -132,13 +132,13 @@ SYMBOL TABLE:
 08003370 l     F .text	0000005c i2c_lld_serve_tx_end_irq
 080033d0 l     F .text	000001e8 i2c_lld_serve_error_interrupt
 00000000 l    df *ABS*	00000000 serial_lld.c
-08006510 l     O .text	0000000c default_config
+08006580 l     O .text	0000000c default_config
 080038b0 l     F .text	00000088 usart_init
 08003940 l     F .text	00000094 set_error
 080039e0 l     F .text	00000188 serve_interrupt
 08003b70 l     F .text	00000020 notify1
 00000000 l    df *ABS*	00000000 pal_lld.c
-08006520 l     O .text	00000012 cfgtab.6204
+08006590 l     O .text	00000012 cfgtab.6204
 00000000 l    df *ABS*	00000000 board.c
 00000000 l    df *ABS*	00000000 moto_ctrl.c
 200012a0 l     O .bss	00000050 motor
@@ -149,73 +149,73 @@ SYMBOL TABLE:
 08003f00 l     F .text	00000028 extHall1
 08003f30 l     F .text	00000028 extHall2
 08003f60 l     F .text	00000028 extHall3
-08004dc0 l     F .text	00000028 setMotoEnable
-08006580 l     O .text	000000a0 extcfg
-08006620 l     O .text	00000008 gpt1cfg
+080065f0 l     O .text	000000a0 extcfg
+08006690 l     O .text	00000008 gpt1cfg
 08004730 l     F .text	000000f8 timerMotor0
-08006630 l     O .text	00000008 gpt2cfg
+080066a0 l     O .text	00000008 gpt2cfg
 08004830 l     F .text	000000f8 timerMotor1
-08006640 l     O .text	00000008 gpt3cfg
+080066b0 l     O .text	00000008 gpt3cfg
 08004930 l     F .text	000000fc timerMotor2
-08006650 l     O .text	00000008 gpt4cfg
+080066c0 l     O .text	00000008 gpt4cfg
 08004a30 l     F .text	000000f8 timerMotor3
-08006660 l     O .text	0000000c i2ccfg
+080066d0 l     O .text	0000000c i2ccfg
 20001400 l     O .bss	000008b0 waMotor
 08004090 l     F .text	00000120 initPads
 08004d90 l     F .text	00000024 setMotoReset
 08004d60 l     F .text	00000024 setMotoSleep
+08004dc0 l     F .text	00000028 setMotoEnable
 080041b0 l     F .text	000000cc initData
 08004280 l     F .text	000004ac motorThread
 08004df0 l     F .text	00000028 setMoto0Dir
 08004e20 l     F .text	00000024 setMoto1Dir
 08004e50 l     F .text	00000028 setMoto2Dir
 08004e80 l     F .text	00000028 setMoto3Dir
-08004f60 l     F .text	00000080 nsqrt
-08004eb0 l     F .text	00000028 setHighCurrent
-08004ee0 l     F .text	0000007c saveEmergencyData
+08004fc0 l     F .text	00000080 nsqrt
+08004eb0 l     F .text	00000088 setHighCurrent
+08004f40 l     F .text	0000007c saveEmergencyData
 00000000 l    df *ABS*	00000000 main.c
 00000000 l    df *ABS*	00000000 cpu_io.c
 20001cb0 l     O .bss	00000020 buffer
 20001cd0 l     O .bss	00000020 args
 20001cf0 l     O .bss	00000020 i2cInBuffer
 20001d10 l     O .bss	00000020 i2cOutBuffer
-08005010 l     F .text	00000058 motor_pos
-080056e0 l     F .text	00000044 writeResult
-08005730 l     F .text	00000018 writeEom
-08005070 l     F .text	00000058 eeprom_write
-080050d0 l     F .text	00000084 eeprom_read
-08005160 l     F .text	00000012 eeprom_clrSdData
-08005180 l     F .text	00000020 eeprom_setSdAddr
-080051a0 l     F .text	00000022 motor_queue_space
-080052e0 l     F .text	00000060 process_command
+08005070 l     F .text	00000058 motor_pos
+08005740 l     F .text	00000044 writeResult
+08005790 l     F .text	00000018 writeEom
+080050d0 l     F .text	00000058 eeprom_write
+08005130 l     F .text	00000084 eeprom_read
+080051c0 l     F .text	00000012 eeprom_clrSdData
+080051e0 l     F .text	00000020 eeprom_setSdAddr
+08005200 l     F .text	00000022 motor_queue_space
+08005340 l     F .text	00000060 process_command
 20001d70 l     O .bss	00000001 slash.6654
 20001d74 l     O .bss	00000004 out_index.6655
-08005340 l     F .text	00000040 exec_func
+080053a0 l     F .text	00000040 exec_func
 2000080c l     O .data	00000044 funcs
-08005380 l     F .text	00000050 hardware_version
-080053d0 l     F .text	00000050 firmware_version
-08005420 l     F .text	00000044 firmware_upgrade
-08005470 l     F .text	00000018 set_led
-08005490 l     F .text	0000001e set_shutter
-080054b0 l     F .text	00000014 move_motor
-080054d0 l     F .text	00000012 stop_motor
-080054f0 l     F .text	00000066 motor_in_motion
-08005560 l     F .text	00000066 sensor
-080055d0 l     F .text	00000058 motor_set_pos
-08005630 l     F .text	000000ac motor_set_params
+080053e0 l     F .text	00000050 hardware_version
+08005430 l     F .text	00000050 firmware_version
+08005480 l     F .text	00000044 firmware_upgrade
+080054d0 l     F .text	00000018 set_led
+080054f0 l     F .text	0000001e set_shutter
+08005510 l     F .text	00000014 move_motor
+08005530 l     F .text	00000012 stop_motor
+08005550 l     F .text	00000066 motor_in_motion
+080055c0 l     F .text	00000066 sensor
+08005630 l     F .text	00000058 motor_set_pos
+08005690 l     F .text	000000ac motor_set_params
 00000000 l    df *ABS*	00000000 led_ctrl.c
 20001d78 l     O .bss	00000010 mutex
 20001d88 l     O .bss	00000004 value
 20001d90 l     O .bss	000001b0 waLeds
-08005750 l     F .text	00000084 ledsThread
+080057b0 l     F .text	00000084 ledsThread
 20001f40 l     O .bss	00000004 arg.6241
 00000000 l    df *ABS*	00000000 dfu_ctrl.c
-08005870 l     F .text	00000024 NVIC_SystemReset
+080058d0 l     F .text	00000024 NVIC_SystemReset
 00000000 l    df *ABS*	00000000 shutter_ctrl.c
 00000000 l    df *ABS*	00000000 eeprom_ctrl.c
-08005ac0 l     F .text	00000098 crc
+08005b20 l     F .text	00000098 crc
 00000000 l    df *ABS*	00000000 strlen-stub.c
-08006540 g     O .text	0000003c pal_default_config
+080065b0 g     O .text	0000003c pal_default_config
 080026e0 g     F .text	0000002c Vector58
 08002960 g     F .text	00000030 VectorE8
 080027d0 g     F .text	000000a0 Vector9C
@@ -234,7 +234,7 @@ SYMBOL TABLE:
 08002710 g     F .text	0000002c Vector5C
 08000510  w    F .text	00000002 NMIVector
 08001050 g     F .text	00000028 _thread_memfill
-080057e0 g     F .text	0000005c initLed
+08005840 g     F .text	0000005c initLed
 08001c60 g     F .text	00000016 gptObjectInit
 080023e0 g     F .text	00000058 dmaInit
 200012f0 g     O .bss	0000000c sem
@@ -244,12 +244,12 @@ SYMBOL TABLE:
 20001f84 g     O .bss	00000001 eeprom_sd_size
 08000510  w    F .text	00000002 VectorDC
 08000000 g     O startup	000000ec _vectors
-08005240 g     F .text	0000009c processCpuIo
+080052a0 g     F .text	0000009c processCpuIo
 08000d60 g     F .text	00000070 chSchGoSleepS
 20000de0 g     O .bss	00000008 EXTD1
 20000e28 g     O .bss	00000024 I2CD1
 20001fa8 g       *ABS*	00000000 __heap_base__
-08006678 g       .stacks	00000000 _etext
+080066e8 g       .stacks	00000000 _etext
 08001080 g     F .text	00000070 chThdCreateI
 080008b0 g     F .text	00000028 dbg_check_enable
 08000510  w    F .text	00000002 VectorC8
@@ -275,9 +275,9 @@ SYMBOL TABLE:
 08002250 g     F .text	0000004c Vector74
 08001b80 g     F .text	00000028 halInit
 20000850 g       .bss	00000000 _bss_start
-08005a60 g     F .text	00000010 eepromClrSdData
+08005ac0 g     F .text	00000010 eepromClrSdData
 08000510  w    F .text	00000002 UsageFaultVector
-08005990 g     F .text	0000004c eepromRead
+080059f0 g     F .text	0000004c eepromRead
 20005000 g       *ABS*	00000000 __heap_end__
 08000510  w    F .text	00000002 DebugMonitorVector
 20000e18 g     O .bss	00000010 GPTD4
@@ -306,7 +306,7 @@ SYMBOL TABLE:
 08000430  w    F .text	00000002 _default_exit
 08003cf0 g     F .text	000000d0 _pal_lld_setgroupmode
 08000510  w    F .text	00000002 VectorCC
-080058f0 g     F .text	00000098 eepromWrite
+08005950 g     F .text	00000098 eepromWrite
 20001f44 g     O .bss	00000020 sh_queue
 08003bb0 g     F .text	00000024 sd_lld_init
 08001230 g     F .text	0000003c chSemInit
@@ -321,7 +321,7 @@ SYMBOL TABLE:
 080007a0 g     F .text	0000007c chSysInit
 08001160 g     F .text	0000003c chThdSleep
 080016d0 g     F .text	0000004a chIQInit
-080064b0 g     O .text	00000054 _stm32_dma_streams
+08006520 g     O .text	00000054 _stm32_dma_streams
 08002390 g     F .text	0000004c Vector84
 08001bb0 g     F .text	0000000a extInit
 08003de0 g     F .text	00000094 motorMove
@@ -336,10 +336,10 @@ SYMBOL TABLE:
 20000e08 g     O .bss	00000010 GPTD3
 080020d0 g     F .text	0000005c sdStart
 08002990 g     F .text	00000010 ext_lld_init
-08005a70 g     F .text	0000004c eepromSetSdAddr
+08005ad0 g     F .text	0000004c eepromSetSdAddr
 08000510  w    F .text	00000002 VectorE4
 080035e0 g     F .text	0000001c VectorC0
-080058a0 g     F .text	0000000a firmwareUpgrade
+08005900 g     F .text	0000000a firmwareUpgrade
 08002d90 g     F .text	00000044 gpt_lld_start_timer
 08000670 g     F .text	00000016 _port_switch
 200013fc g     O .bss	00000004 motor_synch_queue_buffer
@@ -357,12 +357,12 @@ SYMBOL TABLE:
 08002bd0 g     F .text	00000054 gpt_lld_init
 08000410  w    F .text	00000002 .hidden __aeabi_ldiv0
 080009e0 g     F .text	00000040 dbg_check_leave_isr
-08006678 g       *ABS*	00000000 _textdata
+080066e8 g       *ABS*	00000000 _textdata
 08002870 g     F .text	000000b4 VectorE0
 00000000 g       startup	00000000 _text
 08000510  w    F .text	00000002 MemManageVector
 080000ec g       startup	00000000 __fini_array_start
-08004fe0 g     F .text	00000022 main
+08005040 g     F .text	00000022 main
 080021b0 g     F .text	00000048 Vector6C
 08001c80 g     F .text	00000068 gptStart
 20000d7c g     O .bss	00000020 rlist
@@ -396,8 +396,8 @@ SYMBOL TABLE:
 08000730 g     F .text	0000004c nvicSetSystemHandlerPriority
 08001d90 g     F .text	00000016 i2cObjectInit
 08001d30 g     F .text	0000004c gptStartOneShotI
-080059e0 g     F .text	00000074 eepromAddSdData
-080058b0 g     F .text	00000040 setShutter
+08005a40 g     F .text	00000074 eepromAddSdData
+08005910 g     F .text	00000040 setShutter
 20000850 g     O .bss	000000c0 _idle_thread_wa
 08001910 g     F .text	0000004a chOQInit
 080017b0 g     F .text	0000008e chIQGetTimeout
@@ -428,7 +428,7 @@ SYMBOL TABLE:
 08000fc0 g     F .text	0000008c _thread_init
 08000510  w    F .text	00000002 Vector50
 200013dc g     O .bss	00000020 motor_synch_queue
-08005b60 g     F .text	0000005c strlen
+08005bc0 g     F .text	0000005c strlen
 08002440 g     F .text	000000d8 dmaStreamAllocate
 2000139c g     O .bss	00000020 motor_stop_queue
 08001960 g     F .text	00000092 chOQPutTimeout
@@ -442,11 +442,11 @@ SYMBOL TABLE:
 08000970 g     F .text	00000030 dbg_check_unlock_from_isr
 20000800 g       .stacks	00000000 __process_stack_end__
 08000510  w    F .text	00000002 Vector34
-08005840 g     F .text	00000028 setLeds
+080058a0 g     F .text	00000028 setLeds
 08003dc0 g     F .text	0000000a __early_init
 08002b50 g     F .text	0000001c VectorA4
 00000400 g       *ABS*	00000000 __process_stack_size__
 08000510  w    F .text	00000002 Vector20
-080051d0 g     F .text	00000070 initCpuIo
+08005230 g     F .text	00000070 initCpuIo
 
 
