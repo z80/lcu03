@@ -1,0 +1,3 @@
+New PCB design. But added 2.4nF capacitor on ground shoulder of 
+voltage divider which drives MOSFET. It is supposed to remove high 
+frequency components. And it does. At least partially.
