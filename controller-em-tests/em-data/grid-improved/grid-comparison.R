@@ -128,5 +128,36 @@ lines( x=wl, y=on5-off, type="b", col="green" )
 
 
 
+setwd( "c:/projects/lcu03.git/controller-em-tests/em-data/" )
+
+dPOff <- read.csv( './RFExplorer_MultipleSweepData_2016_06_29_11_58_33-panelled-off.csv', header=F, sep="\t", dec=".", skip=5 )
+specSz <- length( dPOff[1,] )
+sampleSz <- length( dPOff[,1] )
+wl <- t( dPOff[1, 5:specSz] )[, 1]
+pbg <- apply( dPOff[3:sampleSz, 5:specSz], 2, mean )
+
+dPOn <- read.csv( './RFExplorer_MultipleSweepData_2016_06_29_11_14_06-panelled-on.csv', header=F, sep="\t", dec=".", skip=5 )
+sampleSz <- length( dPOn[,1] )
+pon <- apply( dPOn[3:sampleSz, 5:specSz], 2, mean )
 
 
+dROn <- read.csv( './RFExplorer_MultipleSweepData_2016_06_29_12_29_23-reg-on.csv', header=F, sep="\t", dec=".", skip=5 )
+sampleSz <- length( dROn[,1] )
+ron <- apply( dROn[3:sampleSz, 5:specSz], 2, mean )
+
+dROff <- read.csv( './RFExplorer_MultipleSweepData_2016_06_29_12_29_23-reg-off.csv', header=F, sep="\t", dec=".", skip=5 )
+sampleSz <- length( dROff[,1] )
+roff <- apply( dROff[3:sampleSz, 5:specSz], 2, mean )
+
+
+par(mfrow=c(3, 1))
+plot( x=wl, y=pon-pbg-ron+roff, type="b", col="black", main="Improved - regular" )
+grid( col="grey", lty="dotted" )
+
+#par(mfrow=c(1, 1))
+plot( x=wl, y=pon-pbg, type="b", col="black", main="Improved" )
+grid( col="grey", lty="dotted" )
+
+#par(mfrow=c(1, 1))
+plot( x=wl, y=ron-roff, type="b", col="black", main="Regular" )
+grid( col="grey", lty="dotted" )
