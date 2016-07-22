@@ -39,6 +39,8 @@ public:
     // Serial number.
     bool setSerialNumber( quint16 sn, bool overwrite = false );
     bool serialNumber( quint16 & sn );
+    bool setWlPwr( qreal wl, qreal pwr );
+    bool wlPwr( qreal & wl, qreal & pwr );
     // End positions.
     bool writeEndPositions( int * pos );
     bool readEndPositions( int * pos, bool & valid );

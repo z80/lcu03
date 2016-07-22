@@ -5,6 +5,7 @@
 #define SN_ADDR      0
 #define END_POS_ADDR 16 // To start form another page.
 #define CUR_POS_ADDR (256 - 16)
+#define WL_PWR_ADDR  2
 
 static quint8 crc( quint8 * data, quint8 cnt );
 
@@ -553,6 +554,60 @@ bool VoltampIo::serialNumber( quint16 & sn )
         return false;
     sn = static_cast<quint16>( snRead[0] ) + 
          ( static_cast<quint16>( snRead[1] ) << 8 );
+    return true;
+}
+
+bool VoltampIo::setWlPwr( qreal wl, qreal pwr )
+{
+    const int SZ = 9;
+    quint8 data[SZ];
+    float * fdata = reinterpret_cast<float *>( data );
+    fdata[0] = static_cast<float>( wl );
+    fdata[1] = static_cast<float>( pwr );
+    data[8] = crc( data, 8 );
+
+    bool res = eepromWrite( WL_PWR_ADDR, data, 4 );
+    if ( !res )
+        return false;
+    res = eepromWrite( WL_PWR_ADDR+4, data+4, 4 );
+    if ( !res )
+        return false;
+    res = eepromWrite( WL_PWR_ADDR+4, data+8, 1 );
+    if ( !res )
+        return false;
+    return true;
+}
+
+bool VoltampIo::wlPwr( qreal & wl, qreal & pwr )
+{
+    const int SZ = 10; // Not 9 bevause MCU can't read just 1 byte over I2C.
+    quint8 data[SZ];
+    for ( int i=0; i<2; i++ )
+    {
+        quint8 size = 4;
+        bool res = eepromRead( WL_PWR_ADDR + i*4, &data[i*4], size );
+        if ( !res )
+            return false;
+    }
+    quint8 size = 2;
+    bool res = eepromRead( WL_PWR_ADDR + 8, &data[8], size );
+    if ( !res )
+        return false;
+
+    quint8 crc8 = crc( data, 8 );
+    bool valid = (data[8] == crc8);
+    if ( valid )
+    {
+        float * fdata = reinterpret_cast<float *>( data );
+        wl  = static_cast<qreal>( fdata[0] );
+        pwr = static_cast<qreal>( fdata[1] );
+    }
+    else
+    {
+        wl = -1.0;
+        pwr = -1.0;
+    }
+
     return true;
 }
 

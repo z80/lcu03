@@ -323,6 +323,7 @@ void MainWnd::slotAbout()
 {
     QString fmwVer;
     quint16 sn;
+    qreal wl, pwr;
     if ( io->isOpen() )
     {
         bool res = io->firmware_version( fmwVer );
@@ -331,6 +332,7 @@ void MainWnd::slotAbout()
         res = io->serialNumber( sn );
         if ( !res )
             sn = 0xFFFF;
+        res = io->wlPwr( wl, pwr );
     }
     else
     {
@@ -338,6 +340,8 @@ void MainWnd::slotAbout()
         sn = 0xFFFF;
     }
     QString stri = QString( "LCU03 control software version: \"<b>%1</b>\".<br>Firmware version: \"<b>%2</b>\".<br>Serial number: \"<b>%3</b>\"." ).arg( SOFTWARE_VERSION ).arg( fmwVer ).arg( sn );
+    if ( (wl > 0.0) && (pwr > 0.0) )
+        stri = stri.sprintf( "%s\nLaser wavelength <b>%3.1f</b>nm, laser power: <b>%4.0</b>mW." );
     QMessageBox::about( this, "About", stri );
 }
 
