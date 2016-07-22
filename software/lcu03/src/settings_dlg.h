@@ -32,12 +32,17 @@ public slots:
     void slotOk();
     void slotOkNo();
     void slotCancel();
+
+    // Laser setup.
+    void slotUnlock();
+    void slotSave();
 protected:
     void closeEvent( QCloseEvent * e );
 private:
     void bindSlots();
     void updateLabels();
     void sleep();
+    void loadLaser();
 
     Ui_SettingsDlg ui;
     MainWnd * mainWnd;

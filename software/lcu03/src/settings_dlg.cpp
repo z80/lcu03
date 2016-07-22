@@ -17,6 +17,7 @@ SettingsDlg::SettingsDlg( MainWnd * mainWnd )
     ui.shutterClosed->setChecked( !mainWnd->shutter );
 
     updateLabels();
+    loadLaser();
 
     m_save = false;
 }
@@ -311,6 +312,39 @@ void SettingsDlg::slotCancel()
     reject();
 }
 
+void SettingsDlg::slotUnlock()
+{
+    QString stri = QString( "Press \'Ok\' button to unlock laser controls.\nWARNING: you are supposed to know exactly what you are doing it for.\nPreceed anyway?" );
+    int choise =QMessageBox::warning( this, "Unlock laser controls", stri, "Preceed anyway!", "Cancel" );
+    if ( choise == 0 )
+        ui.laserSetup->setEnabled( true );
+}
+
+void SettingsDlg::slotSave()
+{
+    bool res = mainWnd->ensureOpen();
+    if ( !res )
+    {
+        QString stri = QString( "Failed to save laser settings. Please, make sure device is connected to your computer and chosen in <b>\"Device\"</b> menu." );
+        QMessageBox::critical( this, "Error", stri );            
+        return;
+    }
+    VoltampIo * io = mainWnd->io;
+
+    qreal wavelength, power;
+    wavelength = ui.wl->value();
+    power      = ui.pwr->value();
+    res = io->setWlPwr( wavelength, power );
+    if ( !res )
+    {
+        QString stri = QString( "Failed to save laser settings. Please, make sure device is connected to your computer and chosen in <b>\"Device\"</b> menu." );
+        QMessageBox::critical( this, "Error", stri );            
+        return;
+    }
+
+    ui.laserSetup->setEnabled( false );
+}
+
 void SettingsDlg::closeEvent( QCloseEvent * e )
 {
     //e->ignore();
@@ -366,6 +400,9 @@ void SettingsDlg::bindSlots()
     connect( ui.ok,     SIGNAL(clicked()), this, SLOT(slotOk()) );
     connect( ui.ok_no,  SIGNAL(clicked()), this, SLOT(slotOkNo()) );
     connect( ui.cancel, SIGNAL(clicked()), this, SLOT(slotCancel()) );
+
+    connect( ui.unlock, SIGNAL(clicked()), this, SLOT(slotUnlock()) );
+    connect( ui.save,   SIGNAL(clicked()), this, SLOT(slotSave()) );
 }
 
 void SettingsDlg::updateLabels()
@@ -383,6 +420,24 @@ void SettingsDlg::sleep()
     tsleep.start();
     while ( tsleep.elapsed() < DT )
         qApp->processEvents();
+}
+
+void SettingsDlg::loadLaser()
+{
+    ui.laserSetup->setEnabled( false );
+
+    bool res = mainWnd->ensureOpen();
+    if ( !res )
+        return;
+    VoltampIo * io = mainWnd->io;
+
+    qreal wavelength, power;
+    res = io->wlPwr( wavelength, power );
+    if ( res )
+    {
+        ui.wl->setValue( wavelength );
+        ui.pwr->setValue( power );
+    }
 }
 
 

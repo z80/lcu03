@@ -1,5 +1,5 @@
 
-set( SOFTWARE_VERSION "\"1.0.3\"" )
+set( SOFTWARE_VERSION "\"1.0.4\"" )
 
 project( lcu03 )
 cmake_minimum_required(VERSION 2.8)
