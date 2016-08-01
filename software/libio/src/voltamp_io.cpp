@@ -572,7 +572,7 @@ bool VoltampIo::setWlPwr( qreal wl, qreal pwr )
     res = eepromWrite( WL_PWR_ADDR+4, data+4, 4 );
     if ( !res )
         return false;
-    res = eepromWrite( WL_PWR_ADDR+4, data+8, 1 );
+    res = eepromWrite( WL_PWR_ADDR+8, data+8, 1 );
     if ( !res )
         return false;
     return true;

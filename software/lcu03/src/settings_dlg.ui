@@ -43,6 +43,9 @@
   <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
     <widget class="QTabWidget" name="tabWidget">
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
      <property name="currentIndex">
       <number>0</number>
      </property>
@@ -560,6 +563,9 @@
              <height>32</height>
             </size>
            </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
            <property name="text">
             <string>Unlock laser setup</string>
            </property>
@@ -714,6 +720,9 @@
                 <height>32</height>
                </size>
               </property>
+              <property name="focusPolicy">
+               <enum>Qt::NoFocus</enum>
+              </property>
               <property name="text">
                <string>Save</string>
               </property>
@@ -773,7 +782,4 @@
   <include location="images.qrc"/>
  </resources>
  <connections/>
- <buttongroups>
-  <buttongroup name="buttonGroup_2"/>
- </buttongroups>
 </ui>

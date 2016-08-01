@@ -314,7 +314,7 @@ void SettingsDlg::slotCancel()
 
 void SettingsDlg::slotUnlock()
 {
-    QString stri = QString( "Press \'Ok\' button to unlock laser controls.\nWARNING: you are supposed to know exactly what you are doing it for.\nPreceed anyway?" );
+    QString stri = QString( "WARNING: you are supposed to know exactly what you are doing it for!\nProceed anyway?" );
     int choise =QMessageBox::warning( this, "Unlock laser controls", stri, "Preceed anyway!", "Cancel" );
     if ( choise == 0 )
         ui.laserSetup->setEnabled( true );

@@ -341,7 +341,11 @@ void MainWnd::slotAbout()
     }
     QString stri = QString( "LCU03 control software version: \"<b>%1</b>\".<br>Firmware version: \"<b>%2</b>\".<br>Serial number: \"<b>%3</b>\"." ).arg( SOFTWARE_VERSION ).arg( fmwVer ).arg( sn );
     if ( (wl > 0.0) && (pwr > 0.0) )
-        stri = stri.sprintf( "%s\nLaser wavelength <b>%3.1f</b>nm, laser power: <b>%4.0</b>mW." );
+    {
+        QString data;
+        data.sprintf( "<br>Laser wavelength <b>%3.1f</b>nm, laser power: <b>%4.0f</b>mW.", wl, pwr );
+        stri += data;
+    }
     QMessageBox::about( this, "About", stri );
 }
 
