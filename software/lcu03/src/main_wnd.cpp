@@ -343,7 +343,7 @@ void MainWnd::slotAbout()
     if ( (wl > 0.0) && (pwr > 0.0) )
     {
         QString data;
-        data.sprintf( "<br>Laser wavelength <b>%3.1f</b>nm, laser power: <b>%4.0f</b>mW.", wl, pwr );
+        data.sprintf( "<br>Laser wavelength <b>%3.1f</b>nm, laser power: <b>%3.1f</b>mW.", wl, pwr );
         stri += data;
     }
     QMessageBox::about( this, "About", stri );
