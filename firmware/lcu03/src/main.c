@@ -26,7 +26,7 @@ int main(void)
     halInit();
     chSysInit();
 
-    //initLed();
+    initLed();
     initCpuIo();
     eepromInit();  // This one should be initialized before motors to read motor positions data address.
     shutterInit();
@@ -65,31 +65,43 @@ int main(void)
         /*
         chThdSleepSeconds( 5 );
 
+        
         while ( 1 )
         {
-            //setShutter( 1 );
-        	if ( !motorInMotion( 0 ) )
+            debugOutput();
+            setShutter( 1 );
+            debugOutput();
+        	if ( !motorInMotion( 0, 0 ) )
         		motorMove( 0, 10000 );
+            debugOutput();
             chThdSleepSeconds( 15 );
+            debugOutput();
 
-            if ( !motorInMotion( 1 ) )
+            if ( !motorInMotion( 1, 0 ) )
                 motorMove( 1, 10000 );
+            debugOutput();
             chThdSleepSeconds( 15 );
+            debugOutput();
 
 
 
 
-            //setShutter( 0 );
-        	if ( !motorInMotion( 0 ) )
+            setShutter( 0 );
+            debugOutput();
+        	if ( !motorInMotion( 0, 0 ) )
         		motorMove( 0, -10000 );
+            debugOutput();
             chThdSleepSeconds( 15 );
+            debugOutput();
 
-            if ( !motorInMotion( 1 ) )
+            if ( !motorInMotion( 1, 0 ) )
                 motorMove( 1, -10000 );
+            debugOutput();
             chThdSleepSeconds( 15 );
+            debugOutput();
 
-        }
-        */
+        }*/
+        
 
     }
     return 0;

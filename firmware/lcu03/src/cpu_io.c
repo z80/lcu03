@@ -32,6 +32,19 @@ static void process_command( uint8_t * buf, int sz );
 static void writeResult( uint8_t v );
 static void writeEom( void );
 
+void debugOutput( void )
+{
+    static const char stri[] = "ABCDEFGHIJKL";
+    const uint8_t * p = (uint8_t *)stri;
+    int i;
+    for ( i=0; i<12; i++ )
+        writeResult( p[i] );
+    writeEom();
+}
+
+
+
+
 static const SerialConfig serial_cfg =
 {
 	115200,

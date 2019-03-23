@@ -10,6 +10,7 @@ uint8_t * funcArgs( void );
 
 typedef void (* TFunc)( uint8_t * args );
 
+void debugOutput( void );
 
 
 
